@@ -2,6 +2,8 @@
 layout: post
 title: Añadir datos precargados en tus aplicaciones
 date: '2013-01-23 11:00:00'
+tags:
+  - Artículos
 ---
 
 Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.

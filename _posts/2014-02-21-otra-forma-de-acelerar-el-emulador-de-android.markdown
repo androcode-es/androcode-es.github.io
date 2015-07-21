@@ -2,6 +2,8 @@
 layout: post
 title: Otra forma de acelerar el emulador de Android
 date: '2014-02-21 11:00:00'
+tags:
+  - Tutoriales
 ---
 
 Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar [android-x86 y virtualbox para virtualizar un dispositivo android ](http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/ "Aumenta la velocidad del emulador de Android en un 400%")como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.

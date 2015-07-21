@@ -2,6 +2,8 @@
 layout: post
 title: ! 'Un ‘stack’ productivo para el desarrollador android #1, Arquitectura'
 date: '2015-02-03 11:00:00'
+tags:
+  - Artículos
 ---
 
 Este es el primero de una serie de artículos sobre como configurar un entorno para llevar a cabo un proyecto android escalable, _mantenible_ y t_esteable_, una serie de patrones y librerías usadas de una cierta manera para no volverse loco en el día día de un desarrollador android.

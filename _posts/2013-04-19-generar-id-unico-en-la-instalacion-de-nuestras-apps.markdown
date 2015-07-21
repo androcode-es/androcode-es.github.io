@@ -2,6 +2,8 @@
 layout: post
 title: Generar ID único en la instalación de nuestras apps
 date: '2013-04-19 10:00:00'
+tags:
+	- Snippets
 ---
 
 Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.

@@ -2,6 +2,8 @@
 layout: post
 title: Primeros pasos con ORMLite
 date: '2012-12-04 11:00:00'
+tags:
+  - Tutoriales
 ---
 
 ![](http://androcode.es/wp-content/uploads/2015/02/orm_cz4tqf.png)

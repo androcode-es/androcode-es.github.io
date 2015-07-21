@@ -2,6 +2,8 @@
 layout: post
 title: Un vistazo rápido al nuevo RecyclerView
 date: '2014-10-09 10:00:00'
+tags:
+  - Artículos
 ---
 
 [![lpreview](http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg)](http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg)

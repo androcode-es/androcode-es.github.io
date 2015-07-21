@@ -2,6 +2,8 @@
 layout: post
 title: Usar códigos secretos en tu aplicación
 date: '2013-11-27 11:00:00'
+tags:
+  - Snippets
 ---
 
 [![androcode_secret_code](http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png)](http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png)
