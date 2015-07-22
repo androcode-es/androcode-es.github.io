@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ¿Quiénes somos?
+title: La Androteca
 ---
 
 <p class="message">
