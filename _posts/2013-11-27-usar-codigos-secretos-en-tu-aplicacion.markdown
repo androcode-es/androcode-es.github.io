@@ -29,7 +29,7 @@ Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré y
             &lt;/intent-filter&gt;
             &lt;meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_build" /&gt;
         &lt;/receiver&gt;</pre>
-        
+
 Ese _android.provider.Telephony.SECRET_CODE_ es bastante llamativo, ¿no? Con el número 8477 (que corresponde al [_Phoneword_](http://es.wikipedia.org/wiki/Phonewords) de "TIPS") en los datos y la acción perteneciente al paquete Telephony, no hay que ser un genio para deducir que ese código se introduce en el marcador del teléfono. Lo hice y... Voilà! Los consejos del widget cambiaron por completo:
 
 [![protips__secret](http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png "Gracias por las capturas, mi viejo HTC Legend :)")](http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png)

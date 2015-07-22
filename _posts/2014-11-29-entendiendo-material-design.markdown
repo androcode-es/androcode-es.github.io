@@ -82,7 +82,7 @@ _Palette_ es una librería incluída en la librería de compatibilidad v7, que p
 });</pre>
 ![](https://camo.githubusercontent.com/2b430a3cc1181af701fbc920d32b46eada33867a/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d745376657a7157483553632f56476e707272316b3144492f4141414141414141784c632f55372d6a4e32416d35796f2f77313230302d68313036342d6e6f2f70616c657474655f616461707465722e676966)
 
-## 
+##
 
 ## Elevación
 
@@ -206,7 +206,7 @@ En este caso la vista compartida es un _floating action button_, el atributo im
 
 **Actividad 2**:
 <pre class="brush: java; gutter: true; first-line: 1">        ...
-        Intent i  = new Intent (TransitionFirstActivity.this, 
+        Intent i  = new Intent (TransitionFirstActivity.this,
             TransitionSecondActivity.class);
 
         ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(

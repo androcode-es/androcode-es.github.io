@@ -68,7 +68,7 @@ Si suponemos que el fichero se ha grabado en el directorio _assets_ con el nombr
                  db.setTransactionSuccessful();
              }
         } catch (Exception ex) {
-            // Muestra log             
+            // Muestra log
         } finally {
             db.endTransaction();
             if (is != null) {
@@ -76,7 +76,7 @@ Si suponemos que el fichero se ha grabado en el directorio _assets_ con el nombr
                     is.close();
                 } catch (IOException e) {
                     // Muestra log
-                }                
+                }
             }
         }
     }
@@ -120,7 +120,7 @@ El último paso consiste en modificar nuestra clase **SQLiteOpenHelper** para qu
 1.  <span style="line-height: 12px">Compruebe si la base de datos está inicializada</span>
 2.  Si no lo está, inicialice y la sobrescriba con la base de datos del directorio assets
 
-Como dijimos antes, existen varias páginas que explican cómo realizar esta tarea. A continuación podemos ver una posible implementación del **SQLiteOpenHelper**. 
+Como dijimos antes, existen varias páginas que explican cómo realizar esta tarea. A continuación podemos ver una posible implementación del **SQLiteOpenHelper**.
 
 <pre class="brush: java; gutter: true; first-line: 1">import java.io.File;
 import java.io.FileOutputStream;
@@ -147,41 +147,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void createDataBase() throws IOException {
         File pathFile = mContext.getDatabasePath(DATABASE_NAME);
-        boolean dbExist = checkDataBase(pathFile.getAbsolutePath()); 
+        boolean dbExist = checkDataBase(pathFile.getAbsolutePath());
         if(!dbExist) {
-            this.getReadableDatabase(); 
+            this.getReadableDatabase();
             try {
-                copyDataBase(pathFile); 
-            } catch (IOException e) { 
-                // Error copying database 
+                copyDataBase(pathFile);
+            } catch (IOException e) {
+                // Error copying database
             }
-        } 
+        }
     }
 
-    private boolean checkDataBase(String path) { 
-        SQLiteDatabase checkDB = null; 
-        try {            
-            checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY); 
+    private boolean checkDataBase(String path) {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         } catch(Exception e){
-             // Database doesn't exist 
-        } 
-        if(checkDB != null) { 
-            checkDB.close(); 
-        } 
+             // Database doesn't exist
+        }
+        if(checkDB != null) {
+            checkDB.close();
+        }
         return checkDB != null;
     }
 
-    private void copyDataBase(File pathFile) throws IOException { 
+    private void copyDataBase(File pathFile) throws IOException {
         InputStream myInput = mContext.getAssets().open("basededatos.db");
         OutputStream myOutput = new FileOutputStream(pathFile);
         byte[] buffer = new byte[1024];
         int length;
         while ((length = myInput.read(buffer)) &gt; 0) {
             myOutput.write(buffer, 0, length);
-        } 
+        }
         myOutput.flush();
         myOutput.close();
-        myInput.close(); 
+        myInput.close();
     }
 
     @Override

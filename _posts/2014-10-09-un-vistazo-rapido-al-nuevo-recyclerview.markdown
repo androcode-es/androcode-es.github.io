@@ -59,7 +59,7 @@ El método _onBindViewHolder(ViewHolder viewholder, int position)_ se usa para c
 <span style="font-size: medium">**ViewHolder**</span>
 
 Como venía diciendo, el patrón _ViewHolder_ no es nada nuevo, de hecho Google, lo lleva recomendando desde hace tiempo, se puede pensar en el como un _cache_ de las vistas, pudiendo reutilizarlas en vez de crearlas nuevamente.
-<pre class="brush: java; gutter: true; first-line: 39">    
+<pre class="brush: java; gutter: true; first-line: 39">
    @Override
    public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -75,7 +75,7 @@ Como venía diciendo, el patrón _ViewHolder_ no es nada nuevo, de hecho Google,
 <span style="font-size: medium">**LayoutManager**</span>
 
 El _LayoutManager_ se encarga del layout de todas las vistas dentro del _RecyclerView_, concretando con el _LinearLayoutManager_, permite entre otros acceder a elementos mostrados en la pantalla como el primer elemento, último, o por ejemplo, el último completamente visible, esto de forma horizontal o vertical, en el ejemplo se ha utilizado la disposición en vertical.
-<pre class="brush: java; gutter: true; first-line: 19">    
+<pre class="brush: java; gutter: true; first-line: 19">
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);</pre>
@@ -84,7 +84,7 @@ El _LayoutManager_ se encarga del layout de todas las vistas dentro del _Recycle
 Otro eslabón importante, son los llamados _ItemDecorator_, estos permiten modificar los elementos del RecycleView, este además, ofrece además ofrece un elemento llamado insets (márgenes) que pueden aplicarse a las vistas sin necesidad de modificar los parámetros del layout.
 
 En el ejemplo, se muestra como se usan los _ItemDecorators_ para dibujar un pequeño _Divider_ entre los elementos del _RecyclerView_:
-<pre class="brush: java; gutter: true; first-line: 19">    
+<pre class="brush: java; gutter: true; first-line: 19">
 package saulmm.com.recyclerviewproject;
 
 import android.content.Context;

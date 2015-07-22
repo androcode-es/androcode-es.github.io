@@ -30,7 +30,7 @@ Pongamos por caso que tenemos un activity definido así:
 </activity>
 ```
 En este caso hemos puesto una etiqueta** &lt;meta-data&gt;** en un activity, así que para leerlo nos referimos a la clase **ActivityInfo** que obtenemos a través del **PackageManager** así:
-<pre class="brush: java; gutter: true; first-line: 1">ActivityInfo ai = this.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET_ACTIVITIES|PackageManager.GET_META_DATA); 
+<pre class="brush: java; gutter: true; first-line: 1">ActivityInfo ai = this.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET_ACTIVITIES|PackageManager.GET_META_DATA);
 int stringReference = ai.metaData.getInt("com.miapp.usuario")</pre>
 Vemos en este caso que el atributo que hemos definido en los meta datos es un **android:resource**, por lo tanto lo tenemos que recuperar con un getInt que nos devolverá el id de la referencia, luego podemos recuperar el valor con **getString(stringReference)**.
 

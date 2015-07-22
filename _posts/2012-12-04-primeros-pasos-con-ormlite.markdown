@@ -7,7 +7,7 @@ tags:
 ---
 
 ![](http://androcode.es/wp-content/uploads/2015/02/orm_cz4tqf.png)
-  
+
 En este blog ya os hemos hablado de cómo facilitar el trabajo con bases de datos [SQLite](http://androcode.es/tag/sqlite/). En concreto hemos visto cómo trabajar con [Android DataFramework](http://androcode.es/tag/android-dataframework/) y [ADA Framework](http://androcode.es/tag/ada-framework/). Hoy os traemos una pequeña joya, una librería que en mis proyectos se ha convertido en una fija, ya no sólo por su facilidad de uso sino también por su potencia. Os estoy hablando de [ORMLite](http://ormlite.com/).   ORMLite es de esas librerías que al principio pueden resultar poco vistosas con una página poco cuidada y una documentación difícil de leer. Pero cuando trabajas con ella descubres lo fiable que es y la cantidad de posibilidades que ofrece. Sobra decir que ORMLite es una librería ORM clásica que nos permite mapear clases Java con tablas en la base de datos. En esta entrada veremos qué nos hace falta en nuestro proyecto para empezar a utilizar la librería, cómo modelar las clases, cómo crear nuestro _helper_ y por último algunos ejemplos sencillos.  
 
 #### Elementos necesarios
@@ -43,7 +43,7 @@ public class Usuario {
     @DatabaseField(columnName = NOMBRE)
     private String nombre;
     @DatabaseField(columnName = FECHA_NACIMIENTO)
-    private Date fechaNacimiento;    
+    private Date fechaNacimiento;
     @DatabaseField(foreign = true, columnName = GRUPO)
     private Grupo grupo;
 
@@ -82,9 +82,9 @@ public class Usuario {
 }
 ```
 
-Vamos a ir desgranando las principales partes importantes de este código. 
+Vamos a ir desgranando las principales partes importantes de este código.
 
-**Línea 8 - Anotación DatabaseTable:** 
+**Línea 8 - Anotación DatabaseTable:**
 Mediante esta anotación estamos indicando que esta clase tendrá su correspondiente tabla en la base de datos. Esta anotación acepta el atributo tableName que permite indicar un nombre concreto de la tabla.
 
 **Líneas 11 a 14:**
@@ -209,10 +209,10 @@ Declaramos los DAO. A través de estos objetos realizaremos todas las operacione
 El constructor recibe la versión de la base de datos y el nombre de la base de datos. Esta parte es común al resto de _helpers_. Existen formas de acelerar el proceso de creación de las tablas, pero es algo que veremos más adelante.
 
 **Líneas 25 a 33:**
-Es el método onCreate que se encarga de crear las tablas. En este caso hacemos del método TableUtils.createTable de la API de ORMLite. Recibe como parámetro la conexión y la clase del modelo para la que crear la tabla. Como vemos esto resulta muy cómodo, mucho más si lo comparamos con tener que crear las tablas a mano. 
+Es el método onCreate que se encarga de crear las tablas. En este caso hacemos del método TableUtils.createTable de la API de ORMLite. Recibe como parámetro la conexión y la clase del modelo para la que crear la tabla. Como vemos esto resulta muy cómodo, mucho más si lo comparamos con tener que crear las tablas a mano.
 
 **Líneas 35 a 38:**
-Método onUpgrade. En este caso al ser la primera versión de la base de datos no necesitamos actualizarla. Aquí tendríamos que poner el código encargado de actualizar la base de datos de una versión a otra tal y como lo hacemos con los helpers de android. 
+Método onUpgrade. En este caso al ser la primera versión de la base de datos no necesitamos actualizarla. Aquí tendríamos que poner el código encargado de actualizar la base de datos de una versión a otra tal y como lo hacemos con los helpers de android.
 
 **Líneas 40 a 52:**
 Son los métodos a través de los que podemos recuperar los DAO. Estos métodos crearán el DAO si no está inicializado o lo devolverán si ya está creado.
@@ -274,15 +274,15 @@ try {
     dao = getHelper().getUsuarioDao();
     Usuario usuario = dao.queryForId(1);
     if (usuario == null) {
-        Log.d(TAG, "Ningún usuario con id = 1");                
+        Log.d(TAG, "Ningún usuario con id = 1");
     } else {
         Log.d(TAG, "Recuperado usuario con id = 1: " + usuario.getNombre());
     }
     List usuarios = dao.queryForEq(Usuario.NOMBRE, "Fede");
     if (usuarios.isEmpty()) {
-        Log.d(TAG, "No se encontraron usuarios con nombre = Fede");                
+        Log.d(TAG, "No se encontraron usuarios con nombre = Fede");
     } else {
-        Log.d(TAG, "Recuperado usuarios con nombre = Fede " + usuarios);                
+        Log.d(TAG, "Recuperado usuarios con nombre = Fede " + usuarios);
     }
 } catch (SQLException e) {
     Log.e(TAG, "Error creando usuario");
@@ -299,9 +299,9 @@ try {
     queryBuilder.setWhere(queryBuilder.where().eq(Usuario.NOMBRE, "Fede"));
     List usuarios = dao.query(queryBuilder.prepare());
     if (usuarios.isEmpty()) {
-        Log.d(TAG, "No se encontraron usuarios con nombre = Fede");                
+        Log.d(TAG, "No se encontraron usuarios con nombre = Fede");
     } else {
-        Log.d(TAG, "Recuperado usuarios con nombre = Fede " + usuarios);                
+        Log.d(TAG, "Recuperado usuarios con nombre = Fede " + usuarios);
     }
 } catch (SQLException e) {
     Log.e(TAG, "Error creando usuario");
