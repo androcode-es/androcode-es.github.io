@@ -3,7 +3,7 @@ layout: post
 title: Hacer más cómodo el trabajo con Eclipse
 date: '2013-02-14 11:00:00'
 tags:
-  - Tutoriales
+- Tutoriales
 ---
 
 Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.

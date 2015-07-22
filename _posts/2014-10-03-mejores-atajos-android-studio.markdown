@@ -3,8 +3,8 @@ layout: post
 title: Los mejores atajos de teclado para Android Studio
 date: '2014-10-03 10:00:00'
 tags:
-  - Artículos
-  - Herramientas
+- Artículos
+- Herramientas
 ---
 
 Sin lugar a duda, [android studio](https://developer.android.com/sdk/installing/studio.html "android studio") se ha convertido en la herramienta principal para el desarrollador android actual. A veces, uno no es consciente de las grandes características que este entorno de desarrollo ofrece, _live templates_, _code inspection_… entre muchas otras .

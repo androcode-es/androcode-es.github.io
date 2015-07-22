@@ -3,7 +3,7 @@ layout: post
 title: Trabajando con Parcelables
 date: '2012-12-17 11:00:00'
 tags:
-	- Tutoriales
+- Tutoriales
 ---
 
 Hola a todos! hoy me estreno en androcode.es con un artículo sobre tipos parcelables, si no sabes lo que son, hoy aprenderás para qué sirven y cómo implementarlos.

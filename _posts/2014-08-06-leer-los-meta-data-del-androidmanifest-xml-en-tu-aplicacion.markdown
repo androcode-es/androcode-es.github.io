@@ -3,7 +3,7 @@ layout: post
 title: Leer los meta-data del AndroidManifest.xml en tu aplicación
 date: '2014-08-06 10:00:00'
 tags:
-  - Snippets
+- Snippets
 ---
 
 ¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?
