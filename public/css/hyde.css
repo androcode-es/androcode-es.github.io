@@ -112,6 +112,64 @@ a.sidebar-nav-item:focus {
   font-weight: bold;
 }
 
+.sidebar-foot-note {
+  font-size: smaller;
+}
+
+img.sidebar-logo {
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.sidebar-social {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.navigation {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.social-item {
+  display: inline-block;
+  margin: 1px;
+}
+
+.sidebar-social a {
+  width: 2em;
+  height: 2em;
+}
+
+.social-item a {
+  display: block;
+  position: relative;
+  border: 1px solid #BBB;
+  border-radius: 50%;
+  font-weight: bold;
+  text-shadow: none;
+  color: #BBB;
+  -webkit-font-smoothing: antialiased;
+}
+
+.social-item i {
+  line-height: 1.6;
+}
+
+.sidebar-social a .icon {
+  display: block;
+  font-size: 1.2em;
+}
+
+.sidebar-social a .label {
+  display: none;
+}
+
 /* Sticky sidebar
  *
  * Add the `sidebar-sticky` class to the sidebar's container to affix it the
