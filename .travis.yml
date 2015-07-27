@@ -1,4 +1,6 @@
 language: ruby
+install:
+  - gem install jekyll
 script: "./build.sh" # execute this script on each commit
 branches:
   only:
