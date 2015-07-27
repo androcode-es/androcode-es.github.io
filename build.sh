@@ -16,7 +16,7 @@ jekyll build
 rm -rf ../androcode-es.github.io.master
 
 #clone `master' branch of the repository using encrypted GH_TOKEN for authentification
-git clone https://${GH_TOKEN}@github.com/androcode-es/androcode-es.github.io.git ../androcode-es.github.io.master
+git clone -b master https://${GH_TOKEN}@github.com/androcode-es/androcode-es.github.io.git ../androcode-es.github.io.master
 
 # copy generated HTML site to `master' branch
 cp -R _site/* ../androcode-es.github.io.master
