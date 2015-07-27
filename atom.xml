@@ -4,7 +4,7 @@
  <title>Androcode</title>
  <link href="http://androcode.es/atom.xml" rel="self"/>
  <link href="http://androcode.es/"/>
- <updated>2015-07-27T15:26:40+02:00</updated>
+ <updated>2015-07-27T13:30:23+00:00</updated>
  <id>http://androcode.es</id>
  <author>
    <name></name>
@@ -15,7 +15,7 @@
  <entry>
    <title>Un ‘stack’ productivo para el desarrollador android #1, Arquitectura</title>
    <link href="http://androcode.es/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/"/>
-   <updated>2015-02-03T11:00:00+01:00</updated>
+   <updated>2015-02-03T11:00:00+00:00</updated>
    <id>http://androcode.es/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura</id>
    <content type="html">&lt;p&gt;Este es el primero de una serie de artículos sobre como configurar un entorno para llevar a cabo un proyecto android escalable, &lt;em&gt;mantenible&lt;/em&gt; y t&lt;em&gt;esteable&lt;/em&gt;, una serie de patrones y librerías usadas de una cierta manera para no volverse loco en el día día de un desarrollador android.&lt;/p&gt;
 
@@ -292,7 +292,7 @@ public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
  <entry>
    <title>Entendiendo Material Design</title>
    <link href="http://androcode.es/2014/11/29/entendiendo-material-design/"/>
-   <updated>2014-11-29T11:00:00+01:00</updated>
+   <updated>2014-11-29T11:00:00+00:00</updated>
    <id>http://androcode.es/2014/11/29/entendiendo-material-design</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov-1024x550.png&quot; alt=&quot;materialdesign_introduction&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -548,7 +548,7 @@ Todo esto se ilustra de la siguiente forma:&lt;/p&gt;
  <entry>
    <title>Un vistazo rápido al nuevo RecyclerView</title>
    <link href="http://androcode.es/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/"/>
-   <updated>2014-10-09T10:00:00+02:00</updated>
+   <updated>2014-10-09T10:00:00+00:00</updated>
    <id>http://androcode.es/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg&quot; alt=&quot;lpreview&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -695,7 +695,7 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
  <entry>
    <title>Los mejores atajos de teclado para Android Studio</title>
    <link href="http://androcode.es/2014/10/03/mejores-atajos-android-studio/"/>
-   <updated>2014-10-03T10:00:00+02:00</updated>
+   <updated>2014-10-03T10:00:00+00:00</updated>
    <id>http://androcode.es/2014/10/03/mejores-atajos-android-studio</id>
    <content type="html">&lt;p&gt;Sin lugar a duda, &lt;a href=&quot;https://developer.android.com/sdk/installing/studio.html&quot; title=&quot;android studio&quot;&gt;android studio&lt;/a&gt; se ha convertido en la herramienta principal para el desarrollador android actual. A veces, uno no es consciente de las grandes características que este entorno de desarrollo ofrece, &lt;em&gt;live templates&lt;/em&gt;, &lt;em&gt;code inspection&lt;/em&gt;… entre muchas otras .&lt;/p&gt;
 
@@ -815,7 +815,7 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
  <entry>
    <title>Leer los meta-data del AndroidManifest.xml en tu aplicación</title>
    <link href="http://androcode.es/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/"/>
-   <updated>2014-08-06T10:00:00+02:00</updated>
+   <updated>2014-08-06T10:00:00+00:00</updated>
    <id>http://androcode.es/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion</id>
    <content type="html">&lt;p&gt;¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?&lt;/p&gt;
 
@@ -880,7 +880,7 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
  <entry>
    <title>Otra forma de acelerar el emulador de Android</title>
    <link href="http://androcode.es/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/"/>
-   <updated>2014-02-21T11:00:00+01:00</updated>
+   <updated>2014-02-21T11:00:00+00:00</updated>
    <id>http://androcode.es/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android</id>
    <content type="html">&lt;p&gt;Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar &lt;a href=&quot;http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/&quot; title=&quot;Aumenta la velocidad del emulador de Android en un 400%&quot;&gt;android-x86 y virtualbox para virtualizar un dispositivo android &lt;/a&gt;como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.&lt;/p&gt;
 
@@ -922,7 +922,7 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
  <entry>
    <title>Usar códigos secretos en tu aplicación</title>
    <link href="http://androcode.es/2013/11/27/usar-codigos-secretos-en-tu-aplicacion/"/>
-   <updated>2013-11-27T11:00:00+01:00</updated>
+   <updated>2013-11-27T11:00:00+00:00</updated>
    <id>http://androcode.es/2013/11/27/usar-codigos-secretos-en-tu-aplicacion</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png&quot; alt=&quot;androcode_secret_code&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
@@ -982,7 +982,7 @@ Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátil
  <entry>
    <title>Generar ID único en la instalación de nuestras apps</title>
    <link href="http://androcode.es/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/"/>
-   <updated>2013-04-19T10:00:00+02:00</updated>
+   <updated>2013-04-19T10:00:00+00:00</updated>
    <id>http://androcode.es/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps</id>
    <content type="html">&lt;p&gt;Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.&lt;/p&gt;
 
@@ -1027,7 +1027,7 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&g
  <entry>
    <title>Hacer más cómodo el trabajo con Eclipse</title>
    <link href="http://androcode.es/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/"/>
-   <updated>2013-02-14T11:00:00+01:00</updated>
+   <updated>2013-02-14T11:00:00+00:00</updated>
    <id>http://androcode.es/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse</id>
    <content type="html">&lt;p&gt;Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.&lt;/p&gt;
 
@@ -1186,7 +1186,7 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&g
  <entry>
    <title>Añadir datos precargados en tus aplicaciones</title>
    <link href="http://androcode.es/2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/"/>
-   <updated>2013-01-23T11:00:00+01:00</updated>
+   <updated>2013-01-23T11:00:00+00:00</updated>
    <id>http://androcode.es/2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones</id>
    <content type="html">&lt;p&gt;Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.&lt;/p&gt;
 
@@ -1349,7 +1349,7 @@ public class DBHelper extends SQLiteOpenHelper {
         try {
             checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         } catch(Exception e){
-             // Database doesn't exist
+             // Database doesn&#39;t exist
         }
         if(checkDB != null) {
             checkDB.close();
@@ -1440,7 +1440,7 @@ public class DBHelper extends SQLiteOpenHelper {
  <entry>
    <title>Trabajando con Parcelables</title>
    <link href="http://androcode.es/2012/12/17/trabajando-con-parcelables/"/>
-   <updated>2012-12-17T11:00:00+01:00</updated>
+   <updated>2012-12-17T11:00:00+00:00</updated>
    <id>http://androcode.es/2012/12/17/trabajando-con-parcelables</id>
    <content type="html">&lt;p&gt;Hola a todos! hoy me estreno en androcode.es con un artículo sobre tipos parcelables, si no sabes lo que son, hoy aprenderás para qué sirven y cómo implementarlos.
 &lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx-300x201.png&quot; alt=&quot;&quot; title=&quot;teach&quot;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -1618,7 +1618,7 @@ I/amigo(6739): [7.8, 4.9, 10.0]
  <entry>
    <title>Primeros pasos con ORMLite</title>
    <link href="http://androcode.es/2012/12/04/primeros-pasos-con-ormlite/"/>
-   <updated>2012-12-04T11:00:00+01:00</updated>
+   <updated>2012-12-04T11:00:00+00:00</updated>
    <id>http://androcode.es/2012/12/04/primeros-pasos-con-ormlite</id>
    <content type="html">&lt;p&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/orm_cz4tqf.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 

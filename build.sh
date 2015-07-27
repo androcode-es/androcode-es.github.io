@@ -28,4 +28,4 @@ git config user.email "git@androcode.com"
 git config user.name "Androcode"
 git add -A .
 git commit -a -m "Travis #$TRAVIS_BUILD_NUMBER"
-git push --quiet origin master -u
+git push --quiet origin master > /dev/null 2>&1 
