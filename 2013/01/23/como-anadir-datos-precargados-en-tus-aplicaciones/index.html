@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Añadir datos precargados en tus aplicaciones &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Añadir datos precargados en tus aplicaciones</h1>
+  <span class="post-date">23 Jan 2013</span>
+  <p>Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.</p>
+
+<p>En el siguiente artículo os plantearemos una serie de alternativas sobre cómo partir de una base de datos con datos existentes. No existe una opción única o mejor que todas, ya que cada una de las soluciones aquí presentadas se adaptan a distintas situaciones.</p>
+
+<h5>Opción 1 - Carga manual al crear la base de datos</h5>
+
+<p>Si los datos son pocos y éstos no van a cambiar mucho la forma más sencilla es insertarlos manualmente durante la creación de la base de datos.</p>
+
+<p>Al trabajar con <a href="http://developer.android.com/training/basics/data-storage/databases.html">bases de datos en android</a>, tendremos una clase que extiende de <strong>SQLiteOpenHelper</strong> y que será la encargada de generar la base de datos. El método <strong>onCreate</strong> será el lugar donde podremos insertar los valores, de esta forma nos aseguramos que se hará siempre que se cree la base de datos.</p>
+
+<p>Si estamos trabajando directamente con <strong>SQLiteOpenHelper</strong> (no estamos utilizando una librería externa de gestión de base de datos) nuestro método <strong>onCreate</strong> podría quedar de la siguiente forma:</p>
+
+<pre class="brush: java; gutter: true; first-line: 1">    public void onCreate(SQLiteDatabase db) {
+        // Sentencias de creación de base de datos
+        // db.execSQL("CREATE TABLE ...");
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            for (int i = 0; i &lt; NOMRES.length; i++) {
+                values.put("nombre", NOMBRES[i]);
+                values.put("edad", EDADES[i]);
+                db.insert("usuarios", null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+</pre>
+
+<p>Como vemos el funcionamiento es muy sencillo. Los datos podrían venir de cualquier otra clase de nuestro código en lugar de arrays (en el ejemplo NOMBRES y EDADES). Lo importante aquí empieza en la línea 4, declaramos que vamos a iniciar una transacción, insertamos los datos, declaramos que hemos insertado los datos correctamente y finalizamos la transacción. Se utilizan transacciones para que la inserción de datos se haga de una forma más rápida.</p>
+
+<p>Si estamos utilizando alguna librería de gestión de base de datos siempre tendremos la posibilidad de ejecutar código durante la creación de la base de datos. ORMLite por ejemplo extiende de <a href="http://ormlite.com/android/examples/DatabaseHelper.java">OrmLiteSqliteOpenHelper</a> que también incluye el método <strong>onCreate</strong>.</p>
+
+<h5>Opción 2 - Cargar script SQL al crear la base de datos</h5>
+
+<p>Una segunda opción y quizás la más recomendable después de la <strong>Opción 4</strong> consiste en crearnos un fichero SQL de inserción, leerlo e importarlo en el <strong>onCreate</strong>. El fichero podemos crearlo en el directorio <em>assets</em> y tendría una sentencia SQL por línea. Por ejemplo:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">INSERT INTO usuarios (nombre, edad) VALUES (&#39;usuario1&#39;, 18);
+INSERT INTO usuarios (nombre, edad) VALUES (&#39;usuario2&#39;, 48);
+INSERT INTO usuarios (nombre, edad) VALUES (&#39;usuario3&#39;, 30);
+INSERT INTO usuarios (nombre, edad) VALUES (&#39;usuario4&#39;, 55);
+INSERT INTO usuarios (nombre, edad) VALUES (&#39;usuario5&#39;, 16);
+</code></pre></div>
+<p>Si suponemos que el fichero se ha grabado en el directorio <em>assets</em> con el nombre <em>import.sql</em> nuestro método <strong>onCreate</strong> del <strong>SQLiteOpenHelper</strong> quedaría de la siguiente forma:</p>
+
+<pre class="brush: java; gutter: true; first-line: 1">    public void onCreate(SQLiteDatabase db) {
+        // Sentencias de creación de base de datos
+        // db.execSQL("CREATE TABLE ...");
+        InputStream is = null;
+        try {
+             is = mContext.getAssets().open("import.sql");
+             if (is != null) {
+                 db.beginTransaction();
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                 String line = reader.readLine();
+                 while (!TextUtils.isEmpty(line)) {
+                     db.execSQL(line);
+                     line = reader.readLine();
+                 }
+                 db.setTransactionSuccessful();
+             }
+        } catch (Exception ex) {
+            // Muestra log
+        } finally {
+            db.endTransaction();
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // Muestra log
+                }
+            }
+        }
+    }
+</pre>
+
+<p>Como vemos resulta muy sencillo. La variable <strong>mContext</strong> podemos inicializarla en el constructor del <strong>SQLiteOpenHelper</strong>. Luego sólo tenemos que cargar el fichero, leerlo línea a línea e ir ejecutando las sentencias. Esto mismo podría valernos para el método <strong>onUpgrade</strong>, con un fichero SQL con sentencias de actualización de base de datos.</p>
+
+<p>Esta opción es muy recomendable cuando tenemos un número considerable de datos, pero hay que tener en cuenta que es posible que se ejecute en el hilo principal (por ejemplo porque inicializamos el <em>helper</em> en una activity) llegándolo a bloquear si tarda mucho.</p>
+
+<p>Al igual que antes, la mayoría de los gestores de base de datos proporcionan el método <strong>onCreate</strong> donde podemos realizar esta misma tarea.</p>
+
+<h5>Opción 3 - Copiar una base de datos creada con anterioridad</h5>
+
+<p>Esta opción y la última son las aconsejables cuando el volumen de datos es muy grande. No obstante, aunque la opción 3 pueda llegar a ser la más cómoda es, sin lugar a dudas, la que más problemas y quebraderos de cabeza puede darnos. No es la más recomendable, sin embargo es una solución posible y como tal os la presentamos en el artículo.</p>
+
+<p>La idea se basa en crear una base de datos <em>SQLite</em>, insertar datos mediante un programa externo en nuestro ordenador, empaquetarla en el directorio <em>assets</em> de nuestra aplicación y en la creación de la base de datos darle el cambiazo a la recién creada por la nuestra.</p>
+
+<p>Existen multitud de recursos sobre cómo realizar esta tarea, basta con una simple <a href="https://www.google.es/search?q=Using+your+own+SQLite+database+in+Android">búsqueda en Google</a> para encontrar alguno de los artículos. A continuación vamos a comentar los pasos por encima.</p>
+
+<h6>Paso 1 - Preparar la base de datos</h6>
+
+<p>El primer paso es preparar nuestra base de datos. Podemos utilizar la <a href="http://developer.android.com/tools/help/sqlite3.html">herramienta sqlite3</a> que incorpora el SDK de android o algún editor gráfico como <a href="http://sourceforge.net/projects/sqlitebrowser/">SQLite Database Browser</a> o <a href="http://sqliteman.com/">SQLiteman</a>. Lo importante es que nuestra base de datos debe tener una tabla con el nombre <strong>android_metadata</strong> con una única columna de nombre <strong>locale</strong> y con una fila con el valor <strong>en_US</strong>. Podemos crearla con las siguientes dos sentencias SQL:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">CREATE TABLE android_metadata (locale TEXT DEFAULT &#39;en_US&#39;);
+INSERT INTO android_metadata VALUES (&#39;en_US&#39;);
+</code></pre></div>
+<p>Una vez hecho esto creamos las tablas de nuestra aplicación e insertamos los datos necesarios.</p>
+
+<h6>Paso 2 - Copiar la base de datos en el directorio assets</h6>
+
+<p>Este paso, a priori sencillo, puede darnos más de un problema. El motivo es que si nuestra base de datos ocupa más de 1MB, al crear el APK la base de datos estará en el directorio <em>assets</em> pero comprimida y al leerla nos dará un error.</p>
+
+<p>La herramienta <em>aapt</em> ignora para su compresión algunos recursos en base a su extensión, como por ejemplo mp3 o avi, porque se supone que estos ficheros ya están comprimidos. Por tanto, tenemos dos formas de evitar que la herramienta <em>aapt</em> comprima nuestro fichero de base de datos al crear el APK:</p>
+
+<ul>
+<li>  <span style="line-height: 12px"><strong>Forma fácil</strong>: Le cambiamos la extensión a .mp3</span></li>
+<li>  <strong>Forma correcta</strong>: Le pasamos el parámetro &#39;-0&#39; (cero) seguido de la extensión &#39;db&#39; (o la extensión del fichero de nuestra base de datos si es otra) a la herramienta cuando vayamos a crear el APK</li>
+</ul>
+
+<h6>Paso 3 - Inicializar la base de datos y copiar la nuestra</h6>
+
+<p>El último paso consiste en modificar nuestra clase <strong>SQLiteOpenHelper</strong> para que realice los siguientes pasos:</p>
+
+<ol>
+<li> <span style="line-height: 12px">Compruebe si la base de datos está inicializada</span></li>
+<li> Si no lo está, inicialice y la sobrescriba con la base de datos del directorio assets</li>
+</ol>
+
+<p>Como dijimos antes, existen varias páginas que explican cómo realizar esta tarea. A continuación podemos ver una posible implementación del <strong>SQLiteOpenHelper</strong>.</p>
+
+<pre class="brush: java; gutter: true; first-line: 1">import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DBHelper extends SQLiteOpenHelper {
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "basededatos.db";
+
+    private Context mContext;
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+
+    public void createDataBase() throws IOException {
+        File pathFile = mContext.getDatabasePath(DATABASE_NAME);
+        boolean dbExist = checkDataBase(pathFile.getAbsolutePath());
+        if(!dbExist) {
+            this.getReadableDatabase();
+            try {
+                copyDataBase(pathFile);
+            } catch (IOException e) {
+                // Error copying database
+            }
+        }
+    }
+
+    private boolean checkDataBase(String path) {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+        } catch(Exception e){
+             // Database doesn't exist
+        }
+        if(checkDB != null) {
+            checkDB.close();
+        }
+        return checkDB != null;
+    }
+
+    private void copyDataBase(File pathFile) throws IOException {
+        InputStream myInput = mContext.getAssets().open("basededatos.db");
+        OutputStream myOutput = new FileOutputStream(pathFile);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = myInput.read(buffer)) &gt; 0) {
+            myOutput.write(buffer, 0, length);
+        }
+        myOutput.flush();
+        myOutput.close();
+        myInput.close();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+}
+</pre>
+
+<p>Siempre que queramos hacer uso de los métodos <strong>getReadableDatabase()</strong> y <strong>getWritableDatabase()</strong> tendríamos que llamar al método <strong>createDatabase()</strong> que se encarga de crear la base de datos si ésta no existe (si ya existe no hace nada).</p>
+
+<p><strong>¡Excepciones!</strong>: Si vas a utilizar este código en tu aplicación ten en cuenta las capturas de excepciones, deberás actuar en consecuencia.</p>
+
+<h5>Opción 3&#39; - Utilizar android-sqlite-asset-helper</h5>
+
+<p>La <a href="https://github.com/jgilfelt/android-sqlite-asset-helper">librería android-sqlite-asset-helper</a> nos facilita la implementación mediante la opción 3 pero con la ventaja de que nos ahorra prácticamente todo el trabajo. Por contra, perderemos el control de qué está ocurriendo.</p>
+
+<p>Para utilizarla debemos seguir los siguientes pasos:</p>
+
+<ol>
+<li> <span style="line-height: 12px">Copiar <a href="https://github.com/jgilfelt/android-sqlite-asset-helper/blob/master/lib/android-sqlite-asset-helper.jar?raw=true">android-sqlite-asset-helper.jar</a> en nuestro directorio libs</span></li>
+<li> Crear nuestro <em>helper</em> extendiendo de <strong>SQLiteAssetHelper</strong></li>
+<li> Llamar al &quot;super constructor&quot; pasándole el nombre de la base de datos.</li>
+</ol>
+
+<p>Por ejemplo, si invocamos el super constructor de la siguiente forma:</p>
+
+<pre class="brush: java; gutter: true; first-line: 1">super(context, "mibasededatos", null, 1);</pre>
+
+<p>Tendremos que poner nuestra base de datos comprimida en:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">assets/databases/mibasededatos.zip
+</code></pre></div>
+<p>Simplemente con esto, la librería gestionará la importación de la base de datos en el caso de que no existiera.</p>
+
+<h5>Opción 4 - Estándar</h5>
+
+<p>¿Pero qué ocurre si los datos tardan mucho en cargar?, o ¿y si los leo desde un servicio web externo?, o ¿y si me los pasan en XML o JSON?. Bueno, si estás en una de las situaciones anteriores una solución como esta es la más indicada. Es la opción más visual (de hecho es la única que cuenta con vistas) y podemos verla reflejada en el siguiente boceto:</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/1.-Home_pj3dla.png"><img src="http://androcode.es/wp-content/uploads/2015/02/1.-Home_pj3dla.png" alt="Mockup carga de datos"></a></p>
+
+<p>La idea es sencilla, al entrar en nuestra pantalla principal comprobamos si están los datos cargados. Si no lo están cargamos una vista como la del boceto e iniciamos una tarea de carga.</p>
+
+<p>El código aquí no tiene sentido, pues existen muchísimas formas de conseguir este comportamiento y depende, entre otras cosas, de nuestra forma de conectarnos a la base de datos.</p>
+
+<p>Esta forma de resolver la carga inicial está especialmente indicada cuando tenemos un volumen de datos bastante considerable y además los datos estén en un formato no impuesto por nosotros, como por ejemplo XML o fichero de texto.</p>
+
+<p>La idea de esta aproximación es ejecutar la tarea en un segundo plano, por lo que si la importación tarda más de un par se segundos de ejecución esta puede ser una buena opción. Podría implementarse fácilmente con una <a href="http://developer.android.com/reference/android/os/AsyncTask.html">AsyncTask</a>, aunque los detalles ya dependen de vuestro caso.</p>
+
+<p>Las características de esta aproximación son:</p>
+
+<ol>
+<li> Se adapta a cualquier cantidad de datos. Si la importación tarda más de un minuto no es problema, pues no estamos bloqueando el hilo principal de ejecución.</li>
+<li> Tendremos que diseñar los layouts, gestionar la carga en segundo plano y actualizar la vista cuando sea necesario.</li>
+</ol>
+
+<h5>Conclusiones</h5>
+
+<p>Como vemos es relativamente sencillo incorporar unos datos precargados a nuestras aplicaciones android.</p>
+
+<p>En ese artículo se han presentado 4 +1 formas de realizar esta tarea. Y vosotros, ¿utilizáis otros mecanismos?, si habéis utilizado alguna de las propuestas, ¿cuál ha sido vuestra experiencia?.</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

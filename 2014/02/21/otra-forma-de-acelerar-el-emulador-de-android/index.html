@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Otra forma de acelerar el emulador de Android &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Otra forma de acelerar el emulador de Android</h1>
+  <span class="post-date">21 Feb 2014</span>
+  <p>Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar <a href="http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/" title="Aumenta la velocidad del emulador de Android en un 400%">android-x86 y virtualbox para virtualizar un dispositivo android </a>como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.</p>
+
+<h6>Requisitos:</h6>
+
+<ul>
+<li>Procesador con Intel que soporte Intel VT-x, EM64T y Execute Disable(XD) Bit habilitado en la BIOS.</li>
+<li>Tener instalado el <a href="https://developer.android.com/sdk/index.html" title="Android SDK">SDK de Android.&lt;!--more--&gt;</a></li>
+</ul>
+
+<h6>Instalación en Windows</h6>
+
+<p>Una vez instalado el SDK de Android, abrimos el SDK Manager que usamos para descargarnos las diferentes versiones de Android y marcamos para descargar el Intel HAXM dentro de la pestaña de &quot;extras&quot;. Aunque lo instalemos desde el SDK Manager en realidad sólo nos copia un instalador a la carpeta &quot;extras&quot; donde está instalado el SDK de Android, así que vamos a ésa carpeta de nuestro disco duro e instalamos IntelHaxm.exe. Otra cosa que debemos marcar para instalar es la Intel x86 Atom System Image de la versión de Android que deseemos, de esta manera podremos crear AVDs con esta imagen del sistema.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png"><img src="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png" alt="intel_haxm_1"></a><a href="http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png"><img src="http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png" alt="Intel HAXM.exe"></a></p>
+
+<p>Ejecutamos el instalador y seguimos los pasos. En caso de que nuestra BIOS no tenga configurada la opción de VT-x deberemos arrancar la BIOS, para activarla más o menos así, y luego volver a instalar el Intel HAXM:</p>
+
+<p><a href="http://software.intel.com/sites/default/files/haxm07.jpg"><img src="http://software.intel.com/sites/default/files/haxm07.jpg" alt=""></a></p>
+
+<h6>Crear el AVD</h6>
+
+<p>Una vez instalado el SDK y el Intel HAXM, procederemos a crear un dispositivo android virtual, para ello abrimos el AVD Manager y creamos un AVD nuevo.</p>
+
+<p>Deberemos elegir un target del que nos hayamos bajado su imagen Intel x86 como hemos hecho en el paso anterior con el SDK Manager, así podremos elegir, en CPU/ABI, la opción Intel Atom (x86).</p>
+
+<p>Ponemos un nombre y elegimos un dispositivo cualquiera.</p>
+
+<p>Importante seleccionar &quot;Use Host GPU&quot; para que utilice OpenGL para el renderizado, de esta manera la parte gráfica irá más rápida. Una vez hecho todo esto, hacemos click en OK, para generar el AVD y luego una vez creado, pulsamos en Start y arrancamos el emulador. Debería tardar sólo 15 segundos y debemos ver un mensaje de que está arrancando en &quot;fast virtual mode&quot;</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png"><img src="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png" alt="intel_haxm_3"></a></p>
+
+<p>Una vez hecho esto, podemos instalar y probar nuestra aplicación en el emulador e incluso controlar algunos aspectos como la ubicación GPS, simular recibir llamadas o mensajes, etc. desde la pestaña &quot;Emulator control&quot; de la perspectiva &quot;DDMS&quot; (En Eclipse: Window &gt; Open perspective &gt; DDMS).</p>
+
+<p>Para más información, resolución de problemas y cómo instalarlo en Linux, podéis leer <a href="http://software.intel.com/en-us/android/articles/speeding-up-the-android-emulator-on-intel-architecture#_Toc358213274" title="Intel HAXM">este artículo de la página de Intel</a> que lo explica con más detalle.</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

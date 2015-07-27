@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Inicio &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item active" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="posts">
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+        Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+      </a>
+    </h1>
+
+    <span class="post-date">03 Feb 2015</span>
+
+    <p>Este es el primero de una serie de artículos sobre como configurar un entorno para llevar a cabo un proyecto android escalable, <em>mantenible</em> y t<em>esteable</em>, una serie de patrones y librerías usadas de una cierta manera para no volverse loco en el día día de un desarrollador android.</p>
+
+<!--more-->
+
+<h2><span style="font-size: medium">Escenario</span></h2>
+
+<p>Como ejemplo, me voy a basar en el siguiente proyecto, es una prueba de concepto de un simple catálogo de películas, las cuales se pueden marcar como vistas o pendientes.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png"><img src="http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png" alt="1"></a></p>
+
+<p>La información sobre las películas es sacada de una API pública llamada: <a href="https://www.themoviedb.org/documentation/api" title="TheMovieDB">themoviedb</a>, se puede encontrar buena documentación sobre ésta en su sección de <a href="http://docs.themoviedb.apiary.io/#" title="Apiary">Apiary</a>.</p>
+
+<p>Este proyecto se apoya en el patrón <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter" title="Model View Presenter">Model View Presenter</a>, además implementa varias <em>guidelines</em> de la nueva especificación de diseño: <a href="http://www.google.com/design/spec/material-design/introduction.html" title="Material Design">Material Design</a>, como transiciones, estructuras, animaciones, colores etc...</p>
+
+<p>Todo el código está publicado en <a href="https://github.com/saulmm/Material-Movies" title="Github">Github</a>, por si queréis echarle un ojo.</p>
+
+<h2>Arquitectura:</h2>
+
+<p>Para diseñar la arquitectura, me he basado en el patrón <a href="Model%20View%20Presenter" title="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter">Model View Presenter</a>, que es una variación del patrón de arquitectura<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"> Model View Controller</a>.</p>
+
+<p>Este patrón busca abstraer la <strong>lógica de negocio</strong> de la capa de presentación, en android esto es importante, ya que el propio <em>framework</em> facilita el acople de estas dos partes junto a la capa de datos, un claro ejemplo son los <em>Adapters</em>.</p>
+
+<p>Esta arquitectura, facilita el intercambio de las vistas sin que sea necesario modificar la lógica de negocio ni la capa de datos, reutilizar la capa de dominio, o variar entre varias fuentes de datos como una base de datos o una API REST.</p>
+
+<h3>Idea general</h3>
+
+<p>La estructura se puede dividir en tres grandes capas: <strong>presentación,</strong> <strong>modelo</strong> y <strong>dominio</strong>.</p>
+
+<p><img src="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2eGczcWh3MERkRGc-e1422883852292_hfs4r6.png" alt="0B62SZ3WRM2R2eGczcWh3MERkRGc"></p>
+
+<h4>Presentación</h4>
+
+<p>La capa de <strong>presentación</strong> es la que se encargará, como su nombre indica de mostrar la interfaz gráfica y proveerla de datos.</p>
+
+<h4>Modelo</h4>
+
+<p>El <strong>modelo</strong>, será el encargado de proveer la información, esta capa no sabrá <strong>nada</strong> del dominio, tampoco de la presentación, podría implementar una conexión e interfaz con una base de datos, con una Api REST, o con cualquier otro medio de persistencia.</p>
+
+<p>En esta capa también se implementarán las entidades de nuestra aplicación, la clase que representa a una película, una categoría, etc...</p>
+
+<h4>Dominio</h4>
+
+<p>La capa de <strong>dominio</strong> es totalmente <strong>independiente</strong> de la capa de presentación, en ella residirá la lógica de negocio de nuestra aplicación.</p>
+
+<h3>Implementación</h3>
+
+<p>Las capas de <strong>dominio, presentación</strong> y <strong>modelo</strong> dentro del proyecto, se distribuyen en dos módulos java y otro correspondiente a la aplicación Android (capa de presentación), además, se comparte un módulo común con librerías y utilidades.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi.png"><img src="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi-260x300.png" alt="0B62SZ3WRM2R2elJfT0JiZnlTcE0"></a></p>
+
+<h4>Modulo dominio</h4>
+
+<p>El módulo del dominio, albergará los casos de uso y sus implementaciones, es la lógica de negocio de nuestra aplicación.</p>
+
+<p>Este módulo es <strong>totalmente independiente</strong> del <em>framework</em> de Android y sus dependencias son el módulo del modelo y el módulo común.</p>
+
+<p>Un caso de uso podría ser obtener la valoración total de varias categorías de películas para ver que categoría es la más solicitada, para ello el caso de uso necesitaría obtener la información y luego hacer un cálculo sobre ella, esa información es pedida al <strong>modelo</strong>.</p>
+
+<p><em>Dependencias del dominio</em>
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile project (&#39;:common&#39;)
+    compile project (&#39;:model&#39;)
+}</pre></p>
+
+<h4>Módulo modelo</h4>
+
+<p>El módulo del modelo es el encargado de gestionar la información, solicitarla, guardarla, eliminarla etc... En una primera versión únicamente gestionará las operaciones sobre una API REST de información de películas,</p>
+
+<p>También implementa las entidades, como por ejemplo <em>TvMovie</em>, entidad encargada de representar una película.</p>
+
+<p>Sus dependencias únicamente será el módulo común y por ahora, la librería utilizada para gestionar las peticiones a la API REST, en este caso <a href="http://square.github.io/retrofit/">Retrofit</a> &quot;Retrofit&quot;), de <a href="http://square.github.io/" title="Square">Square</a>:</p>
+
+<p><em>Dependencias del modelo</em>
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile project(&#39;:common&#39;)
+    compile &#39;com.squareup.retrofit:retrofit:1.9.0&#39;
+}</pre></p>
+
+<h4>Modulo presentación</h4>
+
+<p>Este módulo como bien dice su nombre se encargará de la <strong>presentación</strong>, es la propia <strong>aplicación Android</strong>, con sus recursos, <em>assets</em>, etc...</p>
+
+<p>Además, interactuará con el dominio ejecutando los casos de uso, un ejemplo sería listar las películas actuales de un determinado momento, o solicitar datos específicos de una película.</p>
+
+<p>En este módulo tendremos <strong>presentadores</strong> y <strong>vistas</strong>, el término <em>vista</em> en este contexto puede resultar un poco confuso, ya que se podría confundir con tres término diferentes: una referencia a un elemento relativo a la clase de Android: <em><a href="http://developer.android.com/reference/android/view/View.html" title="View">View</a>,</em> elementos visuales de la aplicación, como un <em>Activity</em> o un <em>Fragment</em>, o a las propias vistas del patrón: <em>MVP</em>, por eso cuando haga alusión a las vistas del <em>MVP</em> me referiré a ellas como: <em>MVPView</em>.</p>
+
+<p>Cada <em>Activity</em>, <em>Fragment</em>, <em>etc...</em> implementará una interfaz correspondiente a una <em>MVPView</em>, ésta, especificará operaciones para mostrar pintar información de las que se tiene que encargar la vista.</p>
+
+<p>Por ejemplo, la <em>MVPView</em>, <em>PopularMoviesView</em>, especificará las operaciones para mostrar la lista de películas actuales, está será implementada por la vista, <em>MoviesActivity</em>.
+<pre class="brush: java; gutter: true; first-line: 1">public interface PopularMoviesView extends MVPView {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">void showMovies (List&amp;lt;TvMovie&amp;gt; movieList);
+
+void showLoading ();
+
+void hideLoading ();
+
+void showError (String error);
+
+void hideError ();
+</code></pre></div>
+<p>}</pre>
+El patrón: <em>MVP</em> incide en que las vistas sean <strong>lo más tontas posibles</strong>, es el presentador de cada vista quien decidirá su comportamiento.
+<pre class="brush: java; gutter: true; first-line: 1">public class MoviesActivity extends ActionBarActivity implements
+PopularMoviesView, ... {
+...
+    private PopularShowsPresenter popularShowsPresenter;
+    private RecyclerView popularMoviesRecycler;
+    private ProgressBar loadingProgressBar;
+    private MoviesAdapter moviesAdapter;
+    private TextView errorTextView;</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+protected void onCreate(Bundle savedInstanceState) {
+
+    ...
+    popularShowsPresenter = new PopularShowsPresenterImpl(this);
+    popularShowsPresenter.onCreate();
+}
+
+@Override
+protected void onStop() {
+
+    super.onStop();
+    popularShowsPresenter.onStop();
+}
+
+@Override
+public Context getContext() {
+
+    return this;
+}
+
+@Override
+public void showMovies(List&amp;lt;TvMovie&amp;gt; movieList) {
+
+    moviesAdapter = new MoviesAdapter(movieList);
+    popularMoviesRecycler.setAdapter(moviesAdapter);
+}
+
+@Override
+public void showLoading() {
+
+    loadingProgressBar.setVisibility(View.VISIBLE);
+}
+
+@Override
+public void hideLoading() {
+
+    loadingProgressBar.setVisibility(View.GONE);
+}
+
+@Override
+public void showError(String error) {
+
+    errorTextView.setVisibility(View.VISIBLE);
+    errorTextView.setText(error);
+}
+
+@Override
+public void hideError() {
+    errorTextView.setVisibility(View.GONE);
+}
+...
+</code></pre></div>
+<p>}</pre>
+Los casos de uso serán ejecutados desde los presentadores, estos recibirán la respuesta y gestionarán el comportamiento de las vistas.
+<pre class="brush: java; gutter: true; first-line: 1">public class PopularShowsPresenterImpl implements PopularShowsPresenter {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private final PopularMoviesView popularMoviesView;
+
+public PopularShowsPresenterImpl(PopularMoviesView popularMoviesView) {
+    this.popularMoviesView = popularMoviesView;
+}
+
+@Override
+public void onCreate() {
+
+    ...
+    popularMoviesView.showLoading();
+    Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+    getPopularShows.execute();
+}
+
+@Override
+public void onStop() {
+    ...
+}
+
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}
+</code></pre></div>
+<p>}</pre></p>
+
+<h3>Comunicación</h3>
+
+<p>Para este proyecto me he decidido por un sistema de <em>Message Buses</em>, este sistema es muy útil para hacer <em>Broadcast</em> de eventos, o para comunicarse entre componentes, este último caso se ajusta a la perfección.</p>
+
+<p>Básicamente se <strong>envían eventos</strong> mediante un <strong>Bus</strong>, quienes estén interesados en recibir un evento determinado, se <strong>suscriben</strong> al Bus.</p>
+
+<p>También se podría haber optado por la programación funcional o reactiva, pero eso lo vamos apartar para otro post :).</p>
+
+<p>Utilizando un sistema de este tipo permitimos que los módulos tengan un <strong>muy bajo acoplamiento</strong>.</p>
+
+<p>Para implementar el sistema de buses, he utilizado la librería <a href="http://square.github.io/otto/" title="Otto">Otto</a> de <a href="http://square.github.io/" title="Square">Square</a>, seguro que para los que nunca la hayan usado esta librería, el diagrama de un poco más arriba les ha llamado la atención :).</p>
+
+<p>Declaramos dos buses, uno para la comunicación de los casos de uso con el cliente API REST (<em>REST_BUS</em>) y el otro para mandar eventos hacia la capa de presentación. (<em>UI_BUS</em>)</p>
+
+<p><em>REST_BUS</em> utilizará cualquier hilo para gestionar los eventos, mientras que <em>UI_BUS</em> mandará los eventos en el hilo por defecto de la librería, el hilo de la interfaz de usuario.
+<pre class="brush: java; gutter: true; first-line: 1">public class BusProvider {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final Bus REST_BUS = new Bus(ThreadEnforcer.ANY);
+private static final Bus UI_BUS = new Bus();
+
+private BusProvider() {};
+
+public static Bus getRestBusInstance() {
+    return REST_BUS;
+}
+
+public static Bus getUIBusInstance () {
+    return UI_BUS;
+}
+</code></pre></div>
+<p>}</pre>
+Esta clase es gestionada por el módulo común, ya que todos los módulos han de tener acceso a ella para interactuar con los buses, este módulo no tendrá más dependencias que la propia librería de buses.
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile &#39;com.squareup:otto:1.3.5&#39;
+}</pre>
+Para finalizar, imaginaros el siguiente ejemplo, un usuario abre la aplicación y se muestran las películas más populares.</p>
+
+<p>El presentador, siempre que la vista llame al método <em>onCreate</em> se registra al bus de la interfaz gráfica para poder recibir los eventos. Éste se da de baja cuando se llama al método <em>onStop()</em>. Posteriormente, ejecuta el caso de uso <em>GetMoviesUseCase</em>.
+<pre class="brush: java; gutter: true; first-line: 1">@Override
+public void onCreate() {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">BusProvider.getUIBusInstance().register(this);
+Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+getPopularShows.execute();
+</code></pre></div>
+<p>}
+...
+@Override
+public void onStop() {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">BusProvider.getUIBusInstance().unregister(this);
+</code></pre></div>
+<p>}</pre>
+El caso de uso <em>GetMoviesUsecase</em>, al recibir las películas envía un evento por el bus de la interfaz gráfica:
+<pre class="brush: java; gutter: true; first-line: 1">@Override
+public void sendShowsToPresenter() {
+...
+    BusProvider.getUIBusInstance().post(moviesEvent);
+}</pre>
+Para que el presentador pueda recibir el evento, tiene que implementar un método que reciba por parámetro el <strong>mismo tipo de dato</strong> que se ha enviado por el Bus, además ha de llevar la anotación <em><strong>@Subscribe.</strong></em>
+<pre class="brush: java; gutter: true; first-line: 1">@Subscribe
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}</pre></p>
+
+<h6>Recursos interesantes:</h6>
+
+<p><a href="http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/">Architecting Android…The clean way?</a> - Fernando Cejas</p>
+
+<p><a href="https://github.com/pedrovgs/EffectiveAndroidUI">Effective Android UI</a> - Pedro Vicente Gómez Sanchez</p>
+
+<p><a href="http://csaba.palfi.me/reactive-and-buses-for-mobile/">Reactive programming and message buses for mobile</a> - Csaba Palfi</p>
+
+<p><a href="http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html">The clean architecture</a> - Uncle Bob</p>
+
+<p><a href="http://antonioleiva.com/mvp-android/">MVP Android</a> - Antonio Leiva</p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/11/29/entendiendo-material-design/">
+        Entendiendo Material Design
+      </a>
+    </h1>
+
+    <span class="post-date">29 Nov 2014</span>
+
+    <p><a href="http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov.png"><img src="http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov-1024x550.png" alt="materialdesign_introduction"></a></p>
+
+<p><em>&quot;Material design es un lenguaje visual creado para nuestros usuarios que sintetiza los principios clásicos del buen diseño con la innovación y posibilidad de la tecnología y la ciencia, <a href="http://www.google.com/design/spec/material-design/introduction.html#">material design.&quot;</a></em></p>
+
+<h6>Material como una metáfora</h6>
+
+<p>Material design está motivado por el estudio del comportamiento de las superficies, papel y tinta.</p>
+
+<p>Los fundamentos de la superficie y la luz entrañan la esencia para explicar los movimientos de los objetos, como interactúan y como se transforman.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/materialdesign_principles_metaphor1_morr1c.png"><img src="http://androcode.es/wp-content/uploads/2015/02/materialdesign_principles_metaphor1_morr1c.png" alt="materialdesign_principles_metaphor"></a></p>
+
+<h6>Material es gráfico e intencional</h6>
+
+<p>Determinadas opciones de color, tipografías y espacios en blanco puestos de forma intencionada, ayudan a enfatizar las funcionalidades principales de forma evidente además de proporcionar puntos de referencia para el usuario.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi.png"><img src="http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi-1024x1024.png" alt="intentional"></a></p>
+
+<!--more-->
+
+<h2>Movimiento</h2>
+
+<p>Los objetos se presentan al usuario sin romper la continuidad de una experiencia, reorganizándose y transformándose, cada aplicación cuenta una historia a través del diseño.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/pixate_jcdowa.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/pixate_jcdowa.gif" alt="pixate"></a></p>
+
+<h2>Colores</h2>
+
+<p>La especificación de Material Design hace hincapié en sombras atrevidas y en las luces, en colores inesperados y vibrantes, por ello la propia especificación provee <a href="http://www.google.com/design/spec/style/color.html#color-color-palette">una paleta de colores que se pueden usar y combinar.</a></p>
+
+<p>De una forma muy sencilla se pueden especificar los colores de todos los componentes, barra de navegación, color de acento y demás bajo la versión 21 del framework, o bien con la librería de compatibilidad AppCompat.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/Screen-Shot-2014-11-25-at-20.56.30_rct2ey.png"><img src="http://androcode.es/wp-content/uploads/2015/02/Screen-Shot-2014-11-25-at-20.56.30_rct2ey-1024x1014.png" alt="Screen Shot 2014-11-25 at 20.56.30"></a></p>
+
+<p>Únicamente modificando el <em>styles.xml</em> bajo la v21 se puede conseguir los colores de la imagen
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;resources&gt;
+    &lt;color name=&quot;theme<em>primary&quot;&gt;#48C2F9&lt;/color&gt;
+    &lt;color name=&quot;theme</em>dark&quot;&gt;#18B5F9&lt;/color&gt;
+    &lt;color name=&quot;theme<em>accent&quot;&gt;#FFCB00&lt;/color&gt;
+    &lt;color name=&quot;theme</em>components&quot;&gt;#FFB400&lt;/color&gt;
+    &lt;color name=&quot;theme_wbackgound&quot;&gt;#F5F5F5&lt;/color&gt;</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">&amp;lt;!-- Base application theme. --&amp;gt;
+&amp;lt;style name=&quot;AppTheme&quot; parent=&quot;android:Theme.Material.Light&quot;&amp;gt;
+    &amp;lt;item name=&quot;android:colorPrimary&quot;&amp;gt;@color/theme_primary&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:colorPrimaryDark&quot;&amp;gt;@color/theme_dark&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:navigationBarColor&quot;&amp;gt;@color/theme_primary&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:colorAccent&quot;&amp;gt;@color/theme_accent&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:colorControlActivated&quot;&amp;gt;@color/theme_components&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:colorControlNormal&quot;&amp;gt;@color/theme_accent&amp;lt;/item&amp;gt;
+    &amp;lt;item name=&quot;android:windowBackground&quot;&amp;gt;@color/theme_wbackgound&amp;lt;/item&amp;gt;
+&amp;lt;/style&amp;gt;
+</code></pre></div>
+<p>&lt;/resources&gt;</pre></p>
+
+<h2>Palette</h2>
+
+<p><em>Palette</em> es una librería incluída en la librería de compatibilidad v7, que permite extraer colores de una imagen, <em>Palette</em> extrae ciertos perfiles con un número determinado de colores, la extracción de colores dependiendo del número de colores es una operación costosa, por lo que debería no usarse en el hilo principal, por ello se proveen métodos asíncronos para esta tarea.</p>
+
+<p><strong>Para importar la librería:</strong>
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile &#39;com.android.support:palette-v7:21.0.0&#39;
+}</pre>
+<strong>Para conseguir la paleta:</strong>
+<pre class="brush: java; gutter: true; first-line: 1">Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+       @Override
+       public void onGenerated(Palette palette) {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">        bookTitle.setTextColor(palette.getLightVibrantColor(defaultTextColor));
+        bookAuthor.setTextColor(palette.getVibrantColor(defaultTextColor));
+  }
+</code></pre></div>
+<p>});</pre>
+<img src="https://camo.githubusercontent.com/2b430a3cc1181af701fbc920d32b46eada33867a/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d745376657a7157483553632f56476e707272316b3144492f4141414141414141784c632f55372d6a4e32416d35796f2f77313230302d68313036342d6e6f2f70616c657474655f616461707465722e676966" alt=""></p>
+
+<h2>Elevación</h2>
+
+<p>Material design introduce un nuevo concepto en cuanto al diseño en android, la elevación para los elementos de la interfaz gráfica.</p>
+
+<p>La elevación ayuda a los usuarios a entender la importancia de cada elemento y centrar su atención en la tarea principal.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/elevation_sample_esatql.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/elevation_sample_esatql.gif" alt="elevation_sample"></a></p>
+
+<p>Este ejemplo se puede conseguir facilmente añadiendo un <em>StateListAnimator</em> que defina las animaciones en función del estado de una vista, de tal forma que tan solo con una línea en vuestro <em>layout</em> se pude conseguir una animación suave que dará el foco a la vista que se pretenda mostrar.</p>
+
+<p>Este ejemplo se ha hecho únicamente con el siguiente <em>layout</em> y <em>selector</em>:</p>
+
+<p>  <strong>Selector, translation_selector:</strong></p>
+
+<pre class="brush: xml; gutter: true; first-line: 1; highlight: [31,42,54]">&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EAEAEA"
+    &gt;
+
+    &lt;android.support.v7.widget.Toolbar
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="?android:colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:elevation="5dp"
+        /&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        &gt;
+
+        &lt;android.support.v7.widget.CardView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="16dp"
+            android:stateListAnimator="@drawable/translation_selector"
+            android:elevation="2dp"
+            android:clickable="true"
+            card_view:cardCornerRadius="4dp"
+            /&gt;
+
+        &lt;android.support.v7.widget.CardView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="16dp"
+            android:stateListAnimator="@drawable/translation_selector"
+            android:elevation="2dp"
+            android:clickable="true"
+            card_view:cardCornerRadius="4dp"
+            /&gt;
+
+        &lt;android.support.v7.widget.CardView
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:stateListAnimator="@drawable/translation_selector"
+            android:elevation="2dp"
+            android:clickable="true"
+            card_view:cardCornerRadius="4dp"
+            /&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/FrameLayout&gt;</pre>
+
+<p><strong>Selector, translation_selector:</strong>
+<pre class="brush: java; gutter: true; first-line: 1">&lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+    &lt;item android:state<em>pressed=&quot;true&quot;&gt;
+        &lt;set&gt;
+            &lt;objectAnimator android:propertyName=&quot;translationZ&quot;
+                android:duration=&quot;@android:integer/config</em>shortAnimTime&quot;
+                android:valueTo=&quot;10dp&quot;
+                android:valueType=&quot;floatType&quot;/&gt;
+        &lt;/set&gt;
+    &lt;/item&gt;
+    &lt;item
+        android:state_pressed=&quot;false&quot;
+        &gt;
+        &lt;set&gt;
+            &lt;objectAnimator android:propertyName=&quot;translationZ&quot;
+                android:duration=&quot;100&quot;
+                android:valueTo=&quot;2dp&quot;
+                android:valueType=&quot;floatType&quot;/&gt;
+        &lt;/set&gt;
+    &lt;/item&gt;
+&lt;/selector&gt;</pre></p>
+
+<h2>Transiciones</h2>
+
+<p>Las transiciones fueron introducidas con android KitKat 4.4, con Lollipop y Material Design toman un papel muy importante a la hora de diseñar la experiencia de usuario, el propio tema de material añade transiciones para sus actividades, incluyendo la capacidad de utilizar elementos visuales compartidos y transiciones predefinidas como <em>Explode, Fade</em>.</p>
+
+<p>Es tan sencillo como configurar el nombre de la vista de una actividad a la otra y especificar, antes de cambiar de actividad cuál es el elemto compartido.</p>
+
+<p><strong>Layout 1</strong>
+<pre class="brush: xml; gutter: true; first-line: 1; highlight: [9]">    &lt;Button
+        android:id=&quot;@+id/fab<em>button&quot;
+        android:layout</em>width=&quot;@dimen/fab<em>size&quot;
+        android:layout</em>height=&quot;@dimen/fab<em>size&quot;
+        android:layout</em>marginRight=&quot;@dimen/activity<em>horizontal</em>margin&quot;
+        android:layout<em>below=&quot;@+id/holder</em>view&quot;
+        android:layout<em>marginTop=&quot;-26dp&quot;
+        android:layout</em>alignParentEnd=&quot;true&quot;
+        android:transitionName=&quot;fab&quot;
+        android:background=&quot;@drawable/ripple<em>round&quot;
+        android:stateListAnimator=&quot;@anim/fab</em>anim&quot;
+        android:elevation=&quot;5dp&quot;
+        /&gt;
+      ...</pre>
+En este caso la vista compartida es un <em>floating action button</em>, el atributo importante en este caso es el de <em>android:transitionName=&quot;fab&quot;</em> ya que es el nombre que identifica al a vista en la transición de las actividades</p>
+
+<p><strong>Actividad 2</strong>:
+<pre class="brush: java; gutter: true; first-line: 1">        ...
+        Intent i  = new Intent (TransitionFirstActivity.this,
+            TransitionSecondActivity.class);</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+        TransitionFirstActivity.this, Pair.create(fabButton, &quot;fab&quot;));
+
+    startActivity(i, transitionActivityOptions.toBundle());
+   ...&lt;/pre&gt;
+</code></pre></div>
+<p><strong>Layout 2</strong>
+<pre class="brush: java; gutter: true; first-line: 9">    &lt;Button
+        android:id=&quot;@+id/fab<em>button&quot;
+        android:layout</em>width=&quot;@dimen/fab<em>size&quot;
+        android:layout</em>height=&quot;@dimen/fab<em>size&quot;
+        android:layout</em>marginRight=&quot;@dimen/activity<em>horizontal</em>margin&quot;
+        android:layout<em>centerHorizontal=&quot;true&quot;
+        android:layout</em>alignParentBottom=&quot;true&quot;
+        android:background=&quot;@drawable/ripple<em>round&quot;
+        android:stateListAnimator=&quot;@anim/fab</em>anim&quot;
+        android:transitionName=&quot;fab&quot;
+        android:elevation=&quot;5dp&quot;/&gt;</pre>
+Todo esto se ilustra de la siguiente forma:</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769_se68d9.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769_se68d9.gif" alt="68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769"></a></p>
+
+<h2>Ripples</h2>
+
+<p>Android Lollipop, siguiendo con los principios de material design, provee un feedback visual al usuario para que sepa que ha ocurrido algo, toda acción conlleva una reacción, esto hasta ahora se venía haciendo usando <em>state list drawables.</em></p>
+
+<p>El efecto del <em>Ripple</em>, se puede comparar como una expansión en una superficie líquida, una expansión desde el punto donde se ha tocado.</p>
+
+<p>Los Ripples, son un nuevo tipo de Drawable (RippleDrawable), para usarlo es tan sencillo como asignarlo como <em>background</em> a una vista.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/ripples_vrwyiv.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/ripples_vrwyiv.gif" alt="ripples"></a></p>
+
+<h6>Referencias y recursos:</h6>
+
+<p><a href="https://github.com/saulmm/Android-Material-Example">Material design android samples</a></p>
+
+<p><a href="http://www.google.com/design/spec/material-design/introduction.html">Material design spec</a></p>
+
+<p><a href="https://developer.android.com/training/material/animations.html">Defining custom animations</a></p>
+
+<p><a href="https://speakerdeck.com/malmstein/what-material-design-means-to-android">What material means to android - David Gonzalez</a></p>
+
+<p><a href="http://android-developers.blogspot.com.es/2014/10/material-design-on-android-checklist.html">Material design checklist</a></p>
+
+<p><a href="http://developer.android.com/training/material/index.html">Creating apps with material design</a></p>
+
+<p><a href="https://www.youtube.com/playlist?list=PLOU2XLYxmsIJFcNKpAV9B_aQmz2h68fw_">Material design bytes</a></p>
+
+<p><a href="http://developer.android.com/training/material/index.html">Creating apps with material design</a></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+        Un vistazo rápido al nuevo RecyclerView
+      </a>
+    </h1>
+
+    <span class="post-date">09 Oct 2014</span>
+
+    <p><a href="http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg"><img src="http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg" alt="lpreview"></a></p>
+
+<p>Con la versión preview de <em><a href="http://developer.android.com/preview/index.html" title="android L">android L</a>,</em> Google ha presentado dos nuevos <a href="https://developer.android.com/preview/material/ui-widgets.html"><em>Widgets</em></a>, <em>RecyclerView</em> y <em>CardView</em>, este artículo tratará el primero, el <em>RecyclerView</em>.</p>
+
+<p>Este nuevo <em>Widget</em> entra en juego cuando el propósito es mostrar gran número de <em>Views</em> repetidamente, listas, grids, etc..., tantas que no entran en la pantalla.</p>
+
+<p><em>RecyclerView</em> implementa un sistema para llevar a cabo esta tarea, de forma sencilla y eficiente.</p>
+
+<p><strong><span style="font-size: medium">Proyecto de ejemplo</span></strong></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif" alt="rv_demo"></a></p>
+
+<p>Todos los ejemplos de código que se muestran en este artículo se pueden encontrar en este proyecto en GitHub de forma funcional:</p>
+
+<p><a href="https://github.com/saulmm/RecyclerView-demo.git">https://github.com/saulmm/RecyclerView-demo.git</a></p>
+
+<!--more-->
+
+<p><strong><span style="font-size: medium">La API de RecyclerView</span></strong></p>
+
+<p>A diferencia del <em>ListView,</em> <em>GridView,</em> etc... el <em>RecyclerView</em> se dedica únicamente a lo que su nombre indica, reciclar, reutilizar recursos y evitar el uso reiterado del costoso <a href="http://developer.android.com/reference/android/app/Activity.html#findViewById(int)"><em>findViewById</em></a>, no se preocupa del aspecto visual, para ello está el <em>LayoutManager.</em></p>
+
+<p>Una clase una tarea, esa es la filosofía que sigue la <em>API</em> del <em>RecyclerView,</em> un paquete de clases  internas cada una con una responsabilidad:</p>
+
+<ul>
+<li>  <strong><em>Adapter</em></strong></li>
+<li>  <em><strong>ViewHolder</strong></em></li>
+<li>  <em><strong>LayoutManager</strong></em></li>
+<li>  <em><strong>ItemDecoration</strong></em></li>
+<li>  <strong><em>ItemAnimator</em></strong>
+<strong><span style="font-size: medium">Adapter</span></strong></li>
+</ul>
+
+<p>Esta clase se encarga de crear las <em>Views</em> necesarias para cada elemento del <em>RecyclerView</em>, además, está muy unida al <em>ViewHolder</em>, teniendo que ser indicado en la declaración de la clase, muchos pensaréis que esto no es nuevo, que Google ya aconsejara este <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling.html" title="patrón">patrón</a> tiempo atrás, esta vez fuerza a utilizarlo, teniendo que ser indicado en la implementación del <em>Adapter</em>, un paso adelante, sin duda.</p>
+
+<p>El método <em>OnCreateViewHolder</em> inicializa el <em>ViewHolder</em>
+<pre class="brush: java; gutter: true; first-line: 17">    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parentViewGroup, int i) {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    View rowView = LayoutInflater.from (parentViewGroup.getContext())
+        .inflate(R.layout.list_basic_item, parentViewGroup, false);
+
+    return new ViewHolder (rowView);
+}&lt;/pre&gt;
+</code></pre></div>
+<p>El método <em>onBindViewHolder(ViewHolder viewholder, int position)</em> se usa para configurar el contenido de las <em>Views</em>
+<pre class="brush: java; gutter: true; first-line: 25">    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    final SampleModel rowData = sampleData.get(position);
+    viewHolder.textViewSample.setText(rowData.getSampleText());
+    viewHolder.itemView.setTag(rowData);
+}&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>ViewHolder</strong></span></p>
+
+<p>Como venía diciendo, el patrón <em>ViewHolder</em> no es nada nuevo, de hecho Google, lo lleva recomendando desde hace tiempo, se puede pensar en el como un <em>cache</em> de las vistas, pudiendo reutilizarlas en vez de crearlas nuevamente.
+<pre class="brush: java; gutter: true; first-line: 39">
+   @Override
+   public static class ViewHolder extends RecyclerView.ViewHolder {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    private final TextView textViewSample;
+
+    public ViewHolder(View itemView) {
+        super(itemView);
+
+        textViewSample = (TextView) itemView.findViewById(
+            R.id.textViewSample);
+    }
+}&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>LayoutManager</strong></span></p>
+
+<p>El <em>LayoutManager</em> se encarga del layout de todas las vistas dentro del <em>RecyclerView</em>, concretando con el <em>LinearLayoutManager</em>, permite entre otros acceder a elementos mostrados en la pantalla como el primer elemento, último, o por ejemplo, el último completamente visible, esto de forma horizontal o vertical, en el ejemplo se ha utilizado la disposición en vertical.
+<pre class="brush: java; gutter: true; first-line: 19"></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(mLayoutManager);&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>ItemDecorator</strong></span></p>
+
+<p>Otro eslabón importante, son los llamados <em>ItemDecorator</em>, estos permiten modificar los elementos del RecycleView, este además, ofrece además ofrece un elemento llamado insets (márgenes) que pueden aplicarse a las vistas sin necesidad de modificar los parámetros del layout.</p>
+
+<p>En el ejemplo, se muestra como se usan los <em>ItemDecorators</em> para dibujar un pequeño <em>Divider</em> entre los elementos del <em>RecyclerView</em>:
+<pre class="brush: java; gutter: true; first-line: 19">
+package saulmm.com.recyclerviewproject;</p>
+
+<p>import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;</p>
+
+<p>public class SampleDivider extends RecyclerView.ItemDecoration {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final int[] ATTRS = { android.R.attr.listDivider };
+
+private Drawable mDivider;
+
+public SampleDivider(Context context) {
+    TypedArray a = context.obtainStyledAttributes(ATTRS);
+    mDivider = a.getDrawable(0);
+    a.recycle();
+
+}
+
+@Override
+public void onDrawOver(Canvas c, RecyclerView parent) {
+
+    int left = parent.getPaddingLeft();
+    int right = parent.getWidth() - parent.getPaddingRight();
+
+    int childCount = parent.getChildCount();
+
+    for (int i = 0; i &amp;lt; childCount; i++) {
+
+        View child = parent.getChildAt(i);
+
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                .getLayoutParams();
+
+        int top = child.getBottom() + params.bottomMargin;
+        int bottom = top + mDivider.getIntrinsicHeight();
+
+        mDivider.setBounds(left, top, right, bottom);
+        mDivider.draw(c);
+    }
+}
+</code></pre></div>
+<p>}</pre>
+<strong>ItemAnimator</strong></p>
+
+<p>La clase <em>ItemAnimator</em> como su nombre indica, anima el <em>RecyclerView</em> cuando se añade y se elimina un elemento, el <em>RecyclerView</em> utiliza un <em>ItemAnimator</em> por defecto.</p>
+
+<p>El <em>RecyclerView</em> ha de saber cuando se inserta un elemento o se elimina, con elementos como <em>ListViews</em>, <em>GridViews</em>, etc... esto se conseguía llamando al método <em>notifyDataSetChanged()</em>, a nivel de performance, es bastante costoso, ya que redibuja todos los items en el <em>layout</em>, lo propio con el <em>RecyclerView</em> es usar el método <em>notifyItemInserted()</em> para añadir, y <em>notifyItemRemoved()</em> para eliminar, actualizando solo la parte apropiada.</p>
+
+<p><strong>Referencias:</strong></p>
+
+<p><a href="http://www.grokkingandroid.com/first-glance-androids-recyclerview/">Wolfram RittMeyer - A first Glance at Android&#39;s RecyclerView</a></p>
+
+<p><a href="http://wiresareobsolete.com/2014/09/recyclerview-layoutmanager-2/">Wires are obsolete - Building a RecyclerView</a></p>
+
+<p><a href="http://developer.android.com/preview/reference.html">Android L - Reference</a></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/10/03/mejores-atajos-android-studio/">
+        Los mejores atajos de teclado para Android Studio
+      </a>
+    </h1>
+
+    <span class="post-date">03 Oct 2014</span>
+
+    <p>Sin lugar a duda, <a href="https://developer.android.com/sdk/installing/studio.html" title="android studio">android studio</a> se ha convertido en la herramienta principal para el desarrollador android actual. A veces, uno no es consciente de las grandes características que este entorno de desarrollo ofrece, <em>live templates</em>, <em>code inspection</em>… entre muchas otras .</p>
+
+<p>Una de ellas, son los atajos de teclado, android studio ofrece una gran catálogo que pueden aumentar vuestra productividad considerablemente.</p>
+
+<p>El trabajo que ha hecho <a href="https://plus.google.com/u/0/+PhilippeBreault" title="Philippe Breault">Philippe Breault</a>, ha sido impoluto, quién nos ha permitido usar sus imágenes para hacer recopilación de algunos de los atajos de teclado más interesantes que éste IDE ofrece.</p>
+
+<p><span style="font-size: medium"><strong>Moverse entre métodos y clases internas</strong></span></p>
+
+<p>Éste atajo permite mover el cursor al nombre del siguiente método o clase en el archivo que tengas abierto en el editor en ese momento.</p>
+
+<p><em><strong>Windows:</strong> ctrl + up / down</em>
+<em><strong>Mac:</strong> alt + up / down</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/moverse_entre_metodos_ofmvhe.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/moverse_entre_metodos_ofmvhe.gif" alt="moverse_entre_metodos"></a></p>
+
+<!--more-->
+
+<p><strong>Ver el <em>Popup</em> de la estructura del archivo</strong></p>
+
+<p>Muy parecido a la herramienta <em>outline</em> que se puede encontrar en <em>eclipse,</em> este atajo de teclado permite abrir un popup con la estructura del archivo que tengas abierto en el editor.</p>
+
+<p>Un método rápido para filtrar es usar el teclado, ésta es una manera bastante productiva de ir a un método o clase del que se conozca el nombre.</p>
+
+<p><em><strong>Windows:</strong> ctrl + F12</em>
+<em><strong>Mac:</strong> cmd + F12</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2014/10/estructura_archivo.gif"><img src="http://androcode.es/wp-content/uploads/2014/10/estructura_archivo.gif" alt="estructura_archivo"></a></p>
+
+<p><strong>Abrir la jerarquía de llamadas</strong></p>
+
+<p>Con este atajo de teclado es posible desplegar el panel con la jerarquía de llamadas del método o variable que esté bajo tu cursor.</p>
+
+<p><em><strong>Windows:</strong> ctrl + alt + h</em>
+<em><strong>Mac:</strong> ctrl + cmd + h</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/jerarqu%C3%ADa_de_llamadas_idk6cr.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/jerarqu%C3%ADa_de_llamadas_idk6cr.gif" alt="jerarquía_de_llamadas"></a></p>
+
+<p><strong>Encapsular / desplegar bloque</strong></p>
+
+<p>Ocultar pedazos de código como todos los métodos que se estén utilizando puede se útil para mantener la atención en un único lugar.</p>
+
+<p><em><strong>Windows:</strong> ctrl + shift + plus(+) / minus(-)</em>
+<em><strong>Mac:</strong> cmd + plus(+) / minus(-)</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/expandir_colapsar_y7nkuc.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/expandir_colapsar_y7nkuc.gif" alt="expandir_colapsar"></a></p>
+
+<p><strong>Encontrar acciones</strong></p>
+
+<p>Este atajo permite abrir un <em>popup</em> para ejecutar una opción de forma rápida, sin necesidad de usar el ratón.</p>
+
+<p><em><strong>Windows:</strong> ctrl + shift + a</em>
+<em><strong>Mac:</strong> cmd + shift + a</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/popup_de_acciones_zwny9j.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/popup_de_acciones_zwny9j.gif" alt="popup_de_acciones"></a></p>
+
+<p><strong>Mover lineas</strong></p>
+
+<p>Atajo para mover lineas hacia arriba y hacia abajo</p>
+
+<p><em><strong>Windows:</strong> alt + shift + up / down</em>
+<em><strong>Mac:</strong> cmd + shift + up / down</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/mover_lineas_rrzj42.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/mover_lineas_rrzj42.gif" alt="mover_lineas"></a></p>
+
+<p><strong>Expandir selección</strong></p>
+
+<p>A partir del cursor, selecciona la expresión, método, clase, etc...</p>
+
+<p><em><strong>Windows:</strong> ctrl + shift + up / down</em>
+<em><strong>Mac:</strong> alt + up / down</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/expandir_seleccion_xssmid.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/expandir_seleccion_xssmid.gif" alt="expandir_seleccion"></a></p>
+
+<p><strong>Encapsular selección en...</strong></p>
+
+<p>A partir del código seleccionado en alguna estructura, es posible encapsularlo en un <em>try / catch, if, do / while,</em> etc...</p>
+
+<p><em><strong>Windows:</strong> ctrl + alt + t</em>
+<em><strong>Mac:</strong> cmd + alt + t</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/encapsular_seleccion_tblnk2.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/encapsular_seleccion_tblnk2.gif" alt="encapsular_seleccion"></a></p>
+
+<p><strong>Archivos recientes</strong></p>
+
+<p>Atajo de teclado usado para mostrar un <em>popup </em>con los archivos más consultados</p>
+
+<p><em><strong>Windows / Linux:</strong> ctrl + e</em>
+<em><strong>Mac:</strong> cmd + e</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/recientes_degkxz.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/recientes_degkxz.gif" alt="recientes"></a></p>
+
+<p><strong>Multicursor</strong></p>
+
+<p>Uno de los mejores, seleccionando un patrón que se repita, se habilitan múltiples cursores para editar todas las ocurrencias al mismo tiempo.</p>
+
+<p><em><strong>Windows:</strong> alt + j</em>
+<em><strong>Mac:</strong> ctrl + g</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/multicursor_fflye4.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/multicursor_fflye4.gif" alt="multicursor"></a></p>
+
+<p><strong>Selección por columnas</strong></p>
+
+<p>Con este atajo es posible crear una selección en columna.</p>
+
+<p><em><strong>Windows / Linux:</strong> shift + alt + insert</em>
+<em><strong>Mac:</strong> cmd + shift + 8</em></p>
+
+<p><em><strong>Ratón:</strong> alt + arrastrar</em></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/seleccion_columna_vmj4oz.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/seleccion_columna_vmj4oz.gif" alt="seleccion_columna"></a></p>
+
+<p>Todos estos atajos y algunos más los podéis encontrar en el blog de <a href="http://www.developerphil.com/">Phillippe Breault</a>, además, podéis consultar todas las acciones en el apartado de opciones del entorno de desarrollo bajo <em>keymap.</em></p>
+
+  </div>
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/">
+        Leer los meta-data del AndroidManifest.xml en tu aplicación
+      </a>
+    </h1>
+
+    <span class="post-date">06 Aug 2014</span>
+
+    <p>¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?</p>
+
+<p>Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento <strong>&lt;meta-data&gt;</strong> se hará de una forma u otra.</p>
+
+<!--more-->
+
+<p>Estos meta datos pueden ser constantes, claves de api, cadenas con parámetros opcionales, etc. Los definimos en el AndroidManifest.xml y pueden tener distintos ámbitos. Cuando una librería nos pide meter una API key suele hacerse en un elemento <strong>&lt;meta-data&gt;</strong> dentro del <strong>&lt;application&gt;</strong> pero se puede hacer a nivel de <strong>&lt;activity&gt;, &lt;provider&gt;, &lt;receiver&gt; **o</strong> &lt;activity-alias&gt;** y dependiendo de dónde esté, se hará llamando a unos métodos u otros.</p>
+
+<p>Pongamos por caso que tenemos un activity definido así:
+<div>
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;activity android:name=&quot;.MiActivity&quot;&gt;
+    &lt;meta-data
+        android:name=&quot;com.miapp.midato&quot;
+        android:resource=&quot;@string/midato&quot; /&gt;
+&lt;/activity&gt;</pre>
+</div>
+<code>
+&lt;activity android:name=&quot;.MiActivity&quot;&gt;  
+    &lt;meta-data
+        android:name=&quot;com.miapp.midato&quot;
+        android:resource=&quot;@string/midato&quot; /&gt;
+&lt;/activity&gt;
+</code>
+En este caso hemos puesto una etiqueta** &lt;meta-data&gt;** en un activity, así que para leerlo nos referimos a la clase <strong>ActivityInfo</strong> que obtenemos a través del <strong>PackageManager</strong> así:
+<pre class="brush: java; gutter: true; first-line: 1">ActivityInfo ai = this.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET<em>ACTIVITIES|PackageManager.GET</em>META_DATA);
+int stringReference = ai.metaData.getInt(&quot;com.miapp.usuario&quot;)</pre>
+Vemos en este caso que el atributo que hemos definido en los meta datos es un <strong>android:resource</strong>, por lo tanto lo tenemos que recuperar con un getInt que nos devolverá el id de la referencia, luego podemos recuperar el valor con <strong>getString(stringReference)</strong>.</p>
+
+<p>Pero si en vez de usar <strong>android:resource</strong> usamos <strong>android:value</strong> podemos usar tipos primitivos como string, int, bool, float y color, y que recuperaríamos luego con <strong>getString(), getInt(), getBoolean(), getFloat() y getInt()</strong> respectivamente.</p>
+
+<p>En el caso de que los meta datos sean a nivel de aplicación y los hayamos definido dentro de &lt;application&gt; entonces para recuperarlos tenemos que usar el <strong>ApplicationInfo</strong>:
+<pre class="brush: java; gutter: true; first-line: 1">ApplicationInfo ai = getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET<em>META</em>DATA);
+Bundle bundle = ai.metaData;
+String myApiKey = bundle.getString(&quot;com.miapp.usuario&quot;);</pre>
+Para un <strong>&lt;meta-data&gt;</strong> dentro de un <strong>&lt;receiver&gt;</strong> usaríamos <strong>getReceiverInfo()</strong> y así sucesivamente.</p>
+
+<p>Un truco que he aprendido es, si quieres poner dos iconos diferentes en el launcher de android para abrir tu app y que realmente solo necesitas que se abra la misma activity inicial pero con diferente parámetro, puedes usar un <strong>&lt;activity-alias&gt;</strong> y un <strong>&lt;meta-data&gt;</strong> para pasar ese parámetro.
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;activity
+    android:name=&quot;.MainActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+&lt;activity-alias
+    android:name=&quot;.MainActivityWithParameter&quot;
+    android:targetActivity=&quot;.MainActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+    &lt;meta-data android:name=&quot;com.miapp.specialparameter&quot;
+        android:value=&quot;true&quot; /&gt;
+ &lt;/activity-alias&gt;</pre>
+Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe este parámetro con <strong>getBoolean(&quot;com.miapp.specialparameter&quot;,false);</strong> y hacer una cosa u otra según esté presente  o no.</p>
+
+<p>Espero que os haya gustado este mini tutorial y si tenéis preguntas os intentaré contestar aquí, y si no, a <a href="http://www.stackoverflow.com">StackOverflow</a>!</p>
+
+  </div>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item older" href="/page2">Más antiguas</a>
+  
+  
+    <span class="pagination-item newer">Más nuevas</span>
+  
+</div>
+
+    </div>
+
+  </body>
+</html>

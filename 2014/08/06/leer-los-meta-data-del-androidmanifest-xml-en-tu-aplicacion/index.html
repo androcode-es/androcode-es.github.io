@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Leer los meta-data del AndroidManifest.xml en tu aplicación &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Leer los meta-data del AndroidManifest.xml en tu aplicación</h1>
+  <span class="post-date">06 Aug 2014</span>
+  <p>¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?</p>
+
+<p>Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento <strong>&lt;meta-data&gt;</strong> se hará de una forma u otra.</p>
+
+<!--more-->
+
+<p>Estos meta datos pueden ser constantes, claves de api, cadenas con parámetros opcionales, etc. Los definimos en el AndroidManifest.xml y pueden tener distintos ámbitos. Cuando una librería nos pide meter una API key suele hacerse en un elemento <strong>&lt;meta-data&gt;</strong> dentro del <strong>&lt;application&gt;</strong> pero se puede hacer a nivel de <strong>&lt;activity&gt;, &lt;provider&gt;, &lt;receiver&gt; **o</strong> &lt;activity-alias&gt;** y dependiendo de dónde esté, se hará llamando a unos métodos u otros.</p>
+
+<p>Pongamos por caso que tenemos un activity definido así:
+<div>
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;activity android:name=&quot;.MiActivity&quot;&gt;
+    &lt;meta-data
+        android:name=&quot;com.miapp.midato&quot;
+        android:resource=&quot;@string/midato&quot; /&gt;
+&lt;/activity&gt;</pre>
+</div>
+<code>
+&lt;activity android:name=&quot;.MiActivity&quot;&gt;  
+    &lt;meta-data
+        android:name=&quot;com.miapp.midato&quot;
+        android:resource=&quot;@string/midato&quot; /&gt;
+&lt;/activity&gt;
+</code>
+En este caso hemos puesto una etiqueta** &lt;meta-data&gt;** en un activity, así que para leerlo nos referimos a la clase <strong>ActivityInfo</strong> que obtenemos a través del <strong>PackageManager</strong> así:
+<pre class="brush: java; gutter: true; first-line: 1">ActivityInfo ai = this.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET<em>ACTIVITIES|PackageManager.GET</em>META_DATA);
+int stringReference = ai.metaData.getInt(&quot;com.miapp.usuario&quot;)</pre>
+Vemos en este caso que el atributo que hemos definido en los meta datos es un <strong>android:resource</strong>, por lo tanto lo tenemos que recuperar con un getInt que nos devolverá el id de la referencia, luego podemos recuperar el valor con <strong>getString(stringReference)</strong>.</p>
+
+<p>Pero si en vez de usar <strong>android:resource</strong> usamos <strong>android:value</strong> podemos usar tipos primitivos como string, int, bool, float y color, y que recuperaríamos luego con <strong>getString(), getInt(), getBoolean(), getFloat() y getInt()</strong> respectivamente.</p>
+
+<p>En el caso de que los meta datos sean a nivel de aplicación y los hayamos definido dentro de &lt;application&gt; entonces para recuperarlos tenemos que usar el <strong>ApplicationInfo</strong>:
+<pre class="brush: java; gutter: true; first-line: 1">ApplicationInfo ai = getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET<em>META</em>DATA);
+Bundle bundle = ai.metaData;
+String myApiKey = bundle.getString(&quot;com.miapp.usuario&quot;);</pre>
+Para un <strong>&lt;meta-data&gt;</strong> dentro de un <strong>&lt;receiver&gt;</strong> usaríamos <strong>getReceiverInfo()</strong> y así sucesivamente.</p>
+
+<p>Un truco que he aprendido es, si quieres poner dos iconos diferentes en el launcher de android para abrir tu app y que realmente solo necesitas que se abra la misma activity inicial pero con diferente parámetro, puedes usar un <strong>&lt;activity-alias&gt;</strong> y un <strong>&lt;meta-data&gt;</strong> para pasar ese parámetro.
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;activity
+    android:name=&quot;.MainActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity&gt;
+&lt;activity-alias
+    android:name=&quot;.MainActivityWithParameter&quot;
+    android:targetActivity=&quot;.MainActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+    &lt;meta-data android:name=&quot;com.miapp.specialparameter&quot;
+        android:value=&quot;true&quot; /&gt;
+ &lt;/activity-alias&gt;</pre>
+Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe este parámetro con <strong>getBoolean(&quot;com.miapp.specialparameter&quot;,false);</strong> y hacer una cosa u otra según esté presente  o no.</p>
+
+<p>Espero que os haya gustado este mini tutorial y si tenéis preguntas os intentaré contestar aquí, y si no, a <a href="http://www.stackoverflow.com">StackOverflow</a>!</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

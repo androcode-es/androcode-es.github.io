@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Usar códigos secretos en tu aplicación &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Usar códigos secretos en tu aplicación</h1>
+  <span class="post-date">27 Nov 2013</span>
+  <p><a href="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png"><img src="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png" alt="androcode_secret_code"></a></p>
+
+<p>Estoy seguro de que todos habréis usado alguna vez un &quot;código secreto&quot; en vuestro móvil. Son los códigos que al introducirlos en el teclado del &quot;teléfono&quot; (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI <em>(*#06#)</em> o información del teléfono <em>(<em>#</em>#4636#<em>#</em>)</em>. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.</p>
+
+<h6>¿De dónde viene esto?</h6>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png"><img src="http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png" alt="protips_original_recorte"></a></p>
+
+<p>Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el <a href="https://android.googlesource.com/platform/packages/apps/Protips/+/master">código fuente</a> (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:</p>
+
+<!--more-->
+
+<pre class="brush: xml; gutter: true; first-line: 1">&lt;receiver android:name=".ProtipWidget" android:label="@string/widget_name"&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.appwidget.action.APPWIDGET_UPDATE" /&gt;
+                &lt;action android:name="com.android.protips.NEXT_TIP" /&gt;
+                &lt;action android:name="com.android.protips.HEE_HEE" /&gt;
+            &lt;/intent-filter&gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name="android.provider.Telephony.SECRET_CODE" /&gt;
+                &lt;data android:scheme="android_secret_code" android:host="8477" /&gt;
+            &lt;/intent-filter&gt;
+            &lt;meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_build" /&gt;
+        &lt;/receiver&gt;</pre>
+
+<p>Ese <em>android.provider.Telephony.SECRET</em>CODE_ es bastante llamativo, ¿no? Con el número 8477 (que corresponde al <a href="http://es.wikipedia.org/wiki/Phonewords"><em>Phoneword</em></a> de &quot;TIPS&quot;) en los datos y la acción perteneciente al paquete Telephony, no hay que ser un genio para deducir que ese código se introduce en el marcador del teléfono. Lo hice y... Voilà! Los consejos del widget cambiaron por completo:</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png"><img src="http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png" alt="protips__secret" title="Gracias por las capturas, mi viejo HTC Legend :)"></a></p>
+
+<p>¡Toma huevo de pascua! Como veis, al introducir el código los consejos originales cambian por unos en tono más de humor. Y como de costumbre en Android, si el widget puede nosotros también.</p>
+
+<p>¿Por qué os cuento esto? Pues para que sirva de moraleja: <strong>leyendo código fuente</strong>, tanto de Android como de otros proyectos, <strong>se aprende mucho</strong>.</p>
+
+<h6>Déjate de rollos, cómo se hace</h6>
+
+<p>El funcionamiento de los códigos secretos propios no tiene misterio. En el anterior extracto de manifiesto tenéis la mitad del trabajo hecho. Sólo hay que añadir un Intent-Filter a nuestro AndroidManifest.xml con la acción android.provider.Telephony.SECRET<em>CODE, y con la especificación de esquema &quot;android</em>secret_code&quot; y nuestro número secreto como host. Hay que tener en cuenta que estos códigos se introducen en el dialer en formato <em>#</em>#código#<em>#</em>, pero nosotros aquí sólo especificamos el número.</p>
+
+<p>La segunda parte es añadir el elemento que recibe ese Intent. Podría ser cualquiera, por ejemplo una Activity o un Broadcast Receiver que active cierta función en la aplicación. Una implementación básica podría ser:
+<pre class="brush: java; gutter: true; first-line: 1">public class SecretCodeReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(&quot;android.provider.Telephony.SECRET<em>CODE&quot;)) {
+            String numero = intent.getData().getHost();
+            if (numero.equals(&quot;732738&quot;)) {
+                Toast.makeText(context, &quot;¡Función chachipiruli altamente secreta desbloqueada!&quot;, Toast.LENGTH</em>SHORT).show();
+            } else {
+                // Podemos usar el mismo receiver para otros códigos distintos
+            }
+        }
+    }
+}</pre>
+Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátiles que son los Intents, así que posibilidades de explotar esta pequeña función hay infinitas. A mí se me ocurren varias aparte de los huevos de pascua y pantallas ocultas. ¿Y a vosotros? ¿Para qué usaríais los códigos secretos? ¿Los conocíais ya?</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

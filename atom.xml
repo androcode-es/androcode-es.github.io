@@ -1,0 +1,1931 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>Androcode</title>
+ <link href="http://androcode.es/atom.xml" rel="self"/>
+ <link href="http://androcode.es/"/>
+ <updated>2015-07-27T14:23:07+02:00</updated>
+ <id>http://androcode.es</id>
+ <author>
+   <name></name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>Un ‘stack’ productivo para el desarrollador android #1, Arquitectura</title>
+   <link href="http://androcode.es/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/"/>
+   <updated>2015-02-03T11:00:00+01:00</updated>
+   <id>http://androcode.es/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura</id>
+   <content type="html">&lt;p&gt;Este es el primero de una serie de artículos sobre como configurar un entorno para llevar a cabo un proyecto android escalable, &lt;em&gt;mantenible&lt;/em&gt; y t&lt;em&gt;esteable&lt;/em&gt;, una serie de patrones y librerías usadas de una cierta manera para no volverse loco en el día día de un desarrollador android.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2&gt;&lt;span style=&quot;font-size: medium&quot;&gt;Escenario&lt;/span&gt;&lt;/h2&gt;
+
+&lt;p&gt;Como ejemplo, me voy a basar en el siguiente proyecto, es una prueba de concepto de un simple catálogo de películas, las cuales se pueden marcar como vistas o pendientes.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png&quot; alt=&quot;1&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;La información sobre las películas es sacada de una API pública llamada: &lt;a href=&quot;https://www.themoviedb.org/documentation/api&quot; title=&quot;TheMovieDB&quot;&gt;themoviedb&lt;/a&gt;, se puede encontrar buena documentación sobre ésta en su sección de &lt;a href=&quot;http://docs.themoviedb.apiary.io/#&quot; title=&quot;Apiary&quot;&gt;Apiary&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Este proyecto se apoya en el patrón &lt;a href=&quot;http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter&quot; title=&quot;Model View Presenter&quot;&gt;Model View Presenter&lt;/a&gt;, además implementa varias &lt;em&gt;guidelines&lt;/em&gt; de la nueva especificación de diseño: &lt;a href=&quot;http://www.google.com/design/spec/material-design/introduction.html&quot; title=&quot;Material Design&quot;&gt;Material Design&lt;/a&gt;, como transiciones, estructuras, animaciones, colores etc...&lt;/p&gt;
+
+&lt;p&gt;Todo el código está publicado en &lt;a href=&quot;https://github.com/saulmm/Material-Movies&quot; title=&quot;Github&quot;&gt;Github&lt;/a&gt;, por si queréis echarle un ojo.&lt;/p&gt;
+
+&lt;h2&gt;Arquitectura:&lt;/h2&gt;
+
+&lt;p&gt;Para diseñar la arquitectura, me he basado en el patrón &lt;a href=&quot;Model%20View%20Presenter&quot; title=&quot;http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter&quot;&gt;Model View Presenter&lt;/a&gt;, que es una variación del patrón de arquitectura&lt;a href=&quot;http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller&quot;&gt; Model View Controller&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Este patrón busca abstraer la &lt;strong&gt;lógica de negocio&lt;/strong&gt; de la capa de presentación, en android esto es importante, ya que el propio &lt;em&gt;framework&lt;/em&gt; facilita el acople de estas dos partes junto a la capa de datos, un claro ejemplo son los &lt;em&gt;Adapters&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Esta arquitectura, facilita el intercambio de las vistas sin que sea necesario modificar la lógica de negocio ni la capa de datos, reutilizar la capa de dominio, o variar entre varias fuentes de datos como una base de datos o una API REST.&lt;/p&gt;
+
+&lt;h3&gt;Idea general&lt;/h3&gt;
+
+&lt;p&gt;La estructura se puede dividir en tres grandes capas: &lt;strong&gt;presentación,&lt;/strong&gt; &lt;strong&gt;modelo&lt;/strong&gt; y &lt;strong&gt;dominio&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2eGczcWh3MERkRGc-e1422883852292_hfs4r6.png&quot; alt=&quot;0B62SZ3WRM2R2eGczcWh3MERkRGc&quot;&gt;&lt;/p&gt;
+
+&lt;h4&gt;Presentación&lt;/h4&gt;
+
+&lt;p&gt;La capa de &lt;strong&gt;presentación&lt;/strong&gt; es la que se encargará, como su nombre indica de mostrar la interfaz gráfica y proveerla de datos.&lt;/p&gt;
+
+&lt;h4&gt;Modelo&lt;/h4&gt;
+
+&lt;p&gt;El &lt;strong&gt;modelo&lt;/strong&gt;, será el encargado de proveer la información, esta capa no sabrá &lt;strong&gt;nada&lt;/strong&gt; del dominio, tampoco de la presentación, podría implementar una conexión e interfaz con una base de datos, con una Api REST, o con cualquier otro medio de persistencia.&lt;/p&gt;
+
+&lt;p&gt;En esta capa también se implementarán las entidades de nuestra aplicación, la clase que representa a una película, una categoría, etc...&lt;/p&gt;
+
+&lt;h4&gt;Dominio&lt;/h4&gt;
+
+&lt;p&gt;La capa de &lt;strong&gt;dominio&lt;/strong&gt; es totalmente &lt;strong&gt;independiente&lt;/strong&gt; de la capa de presentación, en ella residirá la lógica de negocio de nuestra aplicación.&lt;/p&gt;
+
+&lt;h3&gt;Implementación&lt;/h3&gt;
+
+&lt;p&gt;Las capas de &lt;strong&gt;dominio, presentación&lt;/strong&gt; y &lt;strong&gt;modelo&lt;/strong&gt; dentro del proyecto, se distribuyen en dos módulos java y otro correspondiente a la aplicación Android (capa de presentación), además, se comparte un módulo común con librerías y utilidades.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi-260x300.png&quot; alt=&quot;0B62SZ3WRM2R2elJfT0JiZnlTcE0&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4&gt;Modulo dominio&lt;/h4&gt;
+
+&lt;p&gt;El módulo del dominio, albergará los casos de uso y sus implementaciones, es la lógica de negocio de nuestra aplicación.&lt;/p&gt;
+
+&lt;p&gt;Este módulo es &lt;strong&gt;totalmente independiente&lt;/strong&gt; del &lt;em&gt;framework&lt;/em&gt; de Android y sus dependencias son el módulo del modelo y el módulo común.&lt;/p&gt;
+
+&lt;p&gt;Un caso de uso podría ser obtener la valoración total de varias categorías de películas para ver que categoría es la más solicitada, para ello el caso de uso necesitaría obtener la información y luego hacer un cálculo sobre ella, esa información es pedida al &lt;strong&gt;modelo&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Dependencias del dominio&lt;/em&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;dependencies {
+    compile project (&amp;#39;:common&amp;#39;)
+    compile project (&amp;#39;:model&amp;#39;)
+}&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h4&gt;Módulo modelo&lt;/h4&gt;
+
+&lt;p&gt;El módulo del modelo es el encargado de gestionar la información, solicitarla, guardarla, eliminarla etc... En una primera versión únicamente gestionará las operaciones sobre una API REST de información de películas,&lt;/p&gt;
+
+&lt;p&gt;También implementa las entidades, como por ejemplo &lt;em&gt;TvMovie&lt;/em&gt;, entidad encargada de representar una película.&lt;/p&gt;
+
+&lt;p&gt;Sus dependencias únicamente será el módulo común y por ahora, la librería utilizada para gestionar las peticiones a la API REST, en este caso &lt;a href=&quot;http://square.github.io/retrofit/&quot;&gt;Retrofit&lt;/a&gt; &amp;quot;Retrofit&amp;quot;), de &lt;a href=&quot;http://square.github.io/&quot; title=&quot;Square&quot;&gt;Square&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Dependencias del modelo&lt;/em&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;dependencies {
+    compile project(&amp;#39;:common&amp;#39;)
+    compile &amp;#39;com.squareup.retrofit:retrofit:1.9.0&amp;#39;
+}&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h4&gt;Modulo presentación&lt;/h4&gt;
+
+&lt;p&gt;Este módulo como bien dice su nombre se encargará de la &lt;strong&gt;presentación&lt;/strong&gt;, es la propia &lt;strong&gt;aplicación Android&lt;/strong&gt;, con sus recursos, &lt;em&gt;assets&lt;/em&gt;, etc...&lt;/p&gt;
+
+&lt;p&gt;Además, interactuará con el dominio ejecutando los casos de uso, un ejemplo sería listar las películas actuales de un determinado momento, o solicitar datos específicos de una película.&lt;/p&gt;
+
+&lt;p&gt;En este módulo tendremos &lt;strong&gt;presentadores&lt;/strong&gt; y &lt;strong&gt;vistas&lt;/strong&gt;, el término &lt;em&gt;vista&lt;/em&gt; en este contexto puede resultar un poco confuso, ya que se podría confundir con tres término diferentes: una referencia a un elemento relativo a la clase de Android: &lt;em&gt;&lt;a href=&quot;http://developer.android.com/reference/android/view/View.html&quot; title=&quot;View&quot;&gt;View&lt;/a&gt;,&lt;/em&gt; elementos visuales de la aplicación, como un &lt;em&gt;Activity&lt;/em&gt; o un &lt;em&gt;Fragment&lt;/em&gt;, o a las propias vistas del patrón: &lt;em&gt;MVP&lt;/em&gt;, por eso cuando haga alusión a las vistas del &lt;em&gt;MVP&lt;/em&gt; me referiré a ellas como: &lt;em&gt;MVPView&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Cada &lt;em&gt;Activity&lt;/em&gt;, &lt;em&gt;Fragment&lt;/em&gt;, &lt;em&gt;etc...&lt;/em&gt; implementará una interfaz correspondiente a una &lt;em&gt;MVPView&lt;/em&gt;, ésta, especificará operaciones para mostrar pintar información de las que se tiene que encargar la vista.&lt;/p&gt;
+
+&lt;p&gt;Por ejemplo, la &lt;em&gt;MVPView&lt;/em&gt;, &lt;em&gt;PopularMoviesView&lt;/em&gt;, especificará las operaciones para mostrar la lista de películas actuales, está será implementada por la vista, &lt;em&gt;MoviesActivity&lt;/em&gt;.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;public interface PopularMoviesView extends MVPView {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;void showMovies (List&amp;amp;lt;TvMovie&amp;amp;gt; movieList);
+
+void showLoading ();
+
+void hideLoading ();
+
+void showError (String error);
+
+void hideError ();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;
+El patrón: &lt;em&gt;MVP&lt;/em&gt; incide en que las vistas sean &lt;strong&gt;lo más tontas posibles&lt;/strong&gt;, es el presentador de cada vista quien decidirá su comportamiento.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;public class MoviesActivity extends ActionBarActivity implements
+PopularMoviesView, ... {
+...
+    private PopularShowsPresenter popularShowsPresenter;
+    private RecyclerView popularMoviesRecycler;
+    private ProgressBar loadingProgressBar;
+    private MoviesAdapter moviesAdapter;
+    private TextView errorTextView;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@Override
+protected void onCreate(Bundle savedInstanceState) {
+
+    ...
+    popularShowsPresenter = new PopularShowsPresenterImpl(this);
+    popularShowsPresenter.onCreate();
+}
+
+@Override
+protected void onStop() {
+
+    super.onStop();
+    popularShowsPresenter.onStop();
+}
+
+@Override
+public Context getContext() {
+
+    return this;
+}
+
+@Override
+public void showMovies(List&amp;amp;lt;TvMovie&amp;amp;gt; movieList) {
+
+    moviesAdapter = new MoviesAdapter(movieList);
+    popularMoviesRecycler.setAdapter(moviesAdapter);
+}
+
+@Override
+public void showLoading() {
+
+    loadingProgressBar.setVisibility(View.VISIBLE);
+}
+
+@Override
+public void hideLoading() {
+
+    loadingProgressBar.setVisibility(View.GONE);
+}
+
+@Override
+public void showError(String error) {
+
+    errorTextView.setVisibility(View.VISIBLE);
+    errorTextView.setText(error);
+}
+
+@Override
+public void hideError() {
+    errorTextView.setVisibility(View.GONE);
+}
+...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;
+Los casos de uso serán ejecutados desde los presentadores, estos recibirán la respuesta y gestionarán el comportamiento de las vistas.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;public class PopularShowsPresenterImpl implements PopularShowsPresenter {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private final PopularMoviesView popularMoviesView;
+
+public PopularShowsPresenterImpl(PopularMoviesView popularMoviesView) {
+    this.popularMoviesView = popularMoviesView;
+}
+
+@Override
+public void onCreate() {
+
+    ...
+    popularMoviesView.showLoading();
+    Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+    getPopularShows.execute();
+}
+
+@Override
+public void onStop() {
+    ...
+}
+
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h3&gt;Comunicación&lt;/h3&gt;
+
+&lt;p&gt;Para este proyecto me he decidido por un sistema de &lt;em&gt;Message Buses&lt;/em&gt;, este sistema es muy útil para hacer &lt;em&gt;Broadcast&lt;/em&gt; de eventos, o para comunicarse entre componentes, este último caso se ajusta a la perfección.&lt;/p&gt;
+
+&lt;p&gt;Básicamente se &lt;strong&gt;envían eventos&lt;/strong&gt; mediante un &lt;strong&gt;Bus&lt;/strong&gt;, quienes estén interesados en recibir un evento determinado, se &lt;strong&gt;suscriben&lt;/strong&gt; al Bus.&lt;/p&gt;
+
+&lt;p&gt;También se podría haber optado por la programación funcional o reactiva, pero eso lo vamos apartar para otro post :).&lt;/p&gt;
+
+&lt;p&gt;Utilizando un sistema de este tipo permitimos que los módulos tengan un &lt;strong&gt;muy bajo acoplamiento&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Para implementar el sistema de buses, he utilizado la librería &lt;a href=&quot;http://square.github.io/otto/&quot; title=&quot;Otto&quot;&gt;Otto&lt;/a&gt; de &lt;a href=&quot;http://square.github.io/&quot; title=&quot;Square&quot;&gt;Square&lt;/a&gt;, seguro que para los que nunca la hayan usado esta librería, el diagrama de un poco más arriba les ha llamado la atención :).&lt;/p&gt;
+
+&lt;p&gt;Declaramos dos buses, uno para la comunicación de los casos de uso con el cliente API REST (&lt;em&gt;REST_BUS&lt;/em&gt;) y el otro para mandar eventos hacia la capa de presentación. (&lt;em&gt;UI_BUS&lt;/em&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;REST_BUS&lt;/em&gt; utilizará cualquier hilo para gestionar los eventos, mientras que &lt;em&gt;UI_BUS&lt;/em&gt; mandará los eventos en el hilo por defecto de la librería, el hilo de la interfaz de usuario.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;public class BusProvider {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private static final Bus REST_BUS = new Bus(ThreadEnforcer.ANY);
+private static final Bus UI_BUS = new Bus();
+
+private BusProvider() {};
+
+public static Bus getRestBusInstance() {
+    return REST_BUS;
+}
+
+public static Bus getUIBusInstance () {
+    return UI_BUS;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;
+Esta clase es gestionada por el módulo común, ya que todos los módulos han de tener acceso a ella para interactuar con los buses, este módulo no tendrá más dependencias que la propia librería de buses.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;dependencies {
+    compile &amp;#39;com.squareup:otto:1.3.5&amp;#39;
+}&lt;/pre&gt;
+Para finalizar, imaginaros el siguiente ejemplo, un usuario abre la aplicación y se muestran las películas más populares.&lt;/p&gt;
+
+&lt;p&gt;El presentador, siempre que la vista llame al método &lt;em&gt;onCreate&lt;/em&gt; se registra al bus de la interfaz gráfica para poder recibir los eventos. Éste se da de baja cuando se llama al método &lt;em&gt;onStop()&lt;/em&gt;. Posteriormente, ejecuta el caso de uso &lt;em&gt;GetMoviesUseCase&lt;/em&gt;.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;@Override
+public void onCreate() {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;BusProvider.getUIBusInstance().register(this);
+Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+getPopularShows.execute();
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}
+...
+@Override
+public void onStop() {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;BusProvider.getUIBusInstance().unregister(this);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;
+El caso de uso &lt;em&gt;GetMoviesUsecase&lt;/em&gt;, al recibir las películas envía un evento por el bus de la interfaz gráfica:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;@Override
+public void sendShowsToPresenter() {
+...
+    BusProvider.getUIBusInstance().post(moviesEvent);
+}&lt;/pre&gt;
+Para que el presentador pueda recibir el evento, tiene que implementar un método que reciba por parámetro el &lt;strong&gt;mismo tipo de dato&lt;/strong&gt; que se ha enviado por el Bus, además ha de llevar la anotación &lt;em&gt;&lt;strong&gt;@Subscribe.&lt;/strong&gt;&lt;/em&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;@Subscribe
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h6&gt;Recursos interesantes:&lt;/h6&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/&quot;&gt;Architecting Android…The clean way?&lt;/a&gt; - Fernando Cejas&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/pedrovgs/EffectiveAndroidUI&quot;&gt;Effective Android UI&lt;/a&gt; - Pedro Vicente Gómez Sanchez&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://csaba.palfi.me/reactive-and-buses-for-mobile/&quot;&gt;Reactive programming and message buses for mobile&lt;/a&gt; - Csaba Palfi&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html&quot;&gt;The clean architecture&lt;/a&gt; - Uncle Bob&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://antonioleiva.com/mvp-android/&quot;&gt;MVP Android&lt;/a&gt; - Antonio Leiva&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Entendiendo Material Design</title>
+   <link href="http://androcode.es/2014/11/29/entendiendo-material-design/"/>
+   <updated>2014-11-29T11:00:00+01:00</updated>
+   <id>http://androcode.es/2014/11/29/entendiendo-material-design</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_introduction_shk3ov-1024x550.png&quot; alt=&quot;materialdesign_introduction&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;quot;Material design es un lenguaje visual creado para nuestros usuarios que sintetiza los principios clásicos del buen diseño con la innovación y posibilidad de la tecnología y la ciencia, &lt;a href=&quot;http://www.google.com/design/spec/material-design/introduction.html#&quot;&gt;material design.&amp;quot;&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h6&gt;Material como una metáfora&lt;/h6&gt;
+
+&lt;p&gt;Material design está motivado por el estudio del comportamiento de las superficies, papel y tinta.&lt;/p&gt;
+
+&lt;p&gt;Los fundamentos de la superficie y la luz entrañan la esencia para explicar los movimientos de los objetos, como interactúan y como se transforman.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_principles_metaphor1_morr1c.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/materialdesign_principles_metaphor1_morr1c.png&quot; alt=&quot;materialdesign_principles_metaphor&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Material es gráfico e intencional&lt;/h6&gt;
+
+&lt;p&gt;Determinadas opciones de color, tipografías y espacios en blanco puestos de forma intencionada, ayudan a enfatizar las funcionalidades principales de forma evidente además de proporcionar puntos de referencia para el usuario.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi-1024x1024.png&quot; alt=&quot;intentional&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;h2&gt;Movimiento&lt;/h2&gt;
+
+&lt;p&gt;Los objetos se presentan al usuario sin romper la continuidad de una experiencia, reorganizándose y transformándose, cada aplicación cuenta una historia a través del diseño.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/pixate_jcdowa.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/pixate_jcdowa.gif&quot; alt=&quot;pixate&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Colores&lt;/h2&gt;
+
+&lt;p&gt;La especificación de Material Design hace hincapié en sombras atrevidas y en las luces, en colores inesperados y vibrantes, por ello la propia especificación provee &lt;a href=&quot;http://www.google.com/design/spec/style/color.html#color-color-palette&quot;&gt;una paleta de colores que se pueden usar y combinar.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;De una forma muy sencilla se pueden especificar los colores de todos los componentes, barra de navegación, color de acento y demás bajo la versión 21 del framework, o bien con la librería de compatibilidad AppCompat.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/Screen-Shot-2014-11-25-at-20.56.30_rct2ey.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/Screen-Shot-2014-11-25-at-20.56.30_rct2ey-1024x1014.png&quot; alt=&quot;Screen Shot 2014-11-25 at 20.56.30&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Únicamente modificando el &lt;em&gt;styles.xml&lt;/em&gt; bajo la v21 se puede conseguir los colores de la imagen
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1&quot;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;utf-8&amp;quot;?&amp;gt;
+&amp;lt;resources&amp;gt;
+    &amp;lt;color name=&amp;quot;theme&lt;em&gt;primary&amp;quot;&amp;gt;#48C2F9&amp;lt;/color&amp;gt;
+    &amp;lt;color name=&amp;quot;theme&lt;/em&gt;dark&amp;quot;&amp;gt;#18B5F9&amp;lt;/color&amp;gt;
+    &amp;lt;color name=&amp;quot;theme&lt;em&gt;accent&amp;quot;&amp;gt;#FFCB00&amp;lt;/color&amp;gt;
+    &amp;lt;color name=&amp;quot;theme&lt;/em&gt;components&amp;quot;&amp;gt;#FFB400&amp;lt;/color&amp;gt;
+    &amp;lt;color name=&amp;quot;theme_wbackgound&amp;quot;&amp;gt;#F5F5F5&amp;lt;/color&amp;gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&amp;amp;lt;!-- Base application theme. --&amp;amp;gt;
+&amp;amp;lt;style name=&amp;quot;AppTheme&amp;quot; parent=&amp;quot;android:Theme.Material.Light&amp;quot;&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:colorPrimary&amp;quot;&amp;amp;gt;@color/theme_primary&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:colorPrimaryDark&amp;quot;&amp;amp;gt;@color/theme_dark&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:navigationBarColor&amp;quot;&amp;amp;gt;@color/theme_primary&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:colorAccent&amp;quot;&amp;amp;gt;@color/theme_accent&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:colorControlActivated&amp;quot;&amp;amp;gt;@color/theme_components&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:colorControlNormal&amp;quot;&amp;amp;gt;@color/theme_accent&amp;amp;lt;/item&amp;amp;gt;
+    &amp;amp;lt;item name=&amp;quot;android:windowBackground&amp;quot;&amp;amp;gt;@color/theme_wbackgound&amp;amp;lt;/item&amp;amp;gt;
+&amp;amp;lt;/style&amp;amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&amp;lt;/resources&amp;gt;&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h2&gt;Palette&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Palette&lt;/em&gt; es una librería incluída en la librería de compatibilidad v7, que permite extraer colores de una imagen, &lt;em&gt;Palette&lt;/em&gt; extrae ciertos perfiles con un número determinado de colores, la extracción de colores dependiendo del número de colores es una operación costosa, por lo que debería no usarse en el hilo principal, por ello se proveen métodos asíncronos para esta tarea.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Para importar la librería:&lt;/strong&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;dependencies {
+    compile &amp;#39;com.android.support:palette-v7:21.0.0&amp;#39;
+}&lt;/pre&gt;
+&lt;strong&gt;Para conseguir la paleta:&lt;/strong&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+       @Override
+       public void onGenerated(Palette palette) {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;        bookTitle.setTextColor(palette.getLightVibrantColor(defaultTextColor));
+        bookAuthor.setTextColor(palette.getVibrantColor(defaultTextColor));
+  }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;});&lt;/pre&gt;
+&lt;img src=&quot;https://camo.githubusercontent.com/2b430a3cc1181af701fbc920d32b46eada33867a/68747470733a2f2f6c68332e676f6f676c6575736572636f6e74656e742e636f6d2f2d745376657a7157483553632f56476e707272316b3144492f4141414141414141784c632f55372d6a4e32416d35796f2f77313230302d68313036342d6e6f2f70616c657474655f616461707465722e676966&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+
+&lt;h2&gt;Elevación&lt;/h2&gt;
+
+&lt;p&gt;Material design introduce un nuevo concepto en cuanto al diseño en android, la elevación para los elementos de la interfaz gráfica.&lt;/p&gt;
+
+&lt;p&gt;La elevación ayuda a los usuarios a entender la importancia de cada elemento y centrar su atención en la tarea principal.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/elevation_sample_esatql.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/elevation_sample_esatql.gif&quot; alt=&quot;elevation_sample&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Este ejemplo se puede conseguir facilmente añadiendo un &lt;em&gt;StateListAnimator&lt;/em&gt; que defina las animaciones en función del estado de una vista, de tal forma que tan solo con una línea en vuestro &lt;em&gt;layout&lt;/em&gt; se pude conseguir una animación suave que dará el foco a la vista que se pretenda mostrar.&lt;/p&gt;
+
+&lt;p&gt;Este ejemplo se ha hecho únicamente con el siguiente &lt;em&gt;layout&lt;/em&gt; y &lt;em&gt;selector&lt;/em&gt;:&lt;/p&gt;
+
+&lt;p&gt;  &lt;strong&gt;Selector, translation_selector:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1; highlight: [31,42,54]&quot;&gt;&amp;lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    xmlns:card_view=&quot;http://schemas.android.com/apk/res-auto&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:background=&quot;#EAEAEA&quot;
+    &amp;gt;
+
+    &amp;lt;android.support.v7.widget.Toolbar
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:background=&quot;?android:colorPrimary&quot;
+        android:minHeight=&quot;?attr/actionBarSize&quot;
+        android:elevation=&quot;5dp&quot;
+        /&amp;gt;
+
+    &amp;lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;vertical&quot;
+        android:layout_gravity=&quot;center_vertical&quot;
+        android:layout_marginLeft=&quot;@dimen/activity_horizontal_margin&quot;
+        android:layout_marginRight=&quot;@dimen/activity_horizontal_margin&quot;
+        &amp;gt;
+
+        &amp;lt;android.support.v7.widget.CardView
+            android:layout_gravity=&quot;center&quot;
+            android:layout_width=&quot;100dp&quot;
+            android:layout_height=&quot;96dp&quot;
+            android:layout_marginTop=&quot;16dp&quot;
+            android:stateListAnimator=&quot;@drawable/translation_selector&quot;
+            android:elevation=&quot;2dp&quot;
+            android:clickable=&quot;true&quot;
+            card_view:cardCornerRadius=&quot;4dp&quot;
+            /&amp;gt;
+
+        &amp;lt;android.support.v7.widget.CardView
+            android:layout_gravity=&quot;center&quot;
+            android:layout_width=&quot;100dp&quot;
+            android:layout_height=&quot;96dp&quot;
+            android:layout_marginTop=&quot;16dp&quot;
+            android:stateListAnimator=&quot;@drawable/translation_selector&quot;
+            android:elevation=&quot;2dp&quot;
+            android:clickable=&quot;true&quot;
+            card_view:cardCornerRadius=&quot;4dp&quot;
+            /&amp;gt;
+
+        &amp;lt;android.support.v7.widget.CardView
+            android:layout_gravity=&quot;center&quot;
+            android:layout_width=&quot;100dp&quot;
+            android:layout_height=&quot;96dp&quot;
+            android:layout_marginTop=&quot;16dp&quot;
+            android:layout_marginBottom=&quot;@dimen/activity_vertical_margin&quot;
+            android:stateListAnimator=&quot;@drawable/translation_selector&quot;
+            android:elevation=&quot;2dp&quot;
+            android:clickable=&quot;true&quot;
+            card_view:cardCornerRadius=&quot;4dp&quot;
+            /&amp;gt;
+
+    &amp;lt;/LinearLayout&amp;gt;
+&amp;lt;/FrameLayout&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Selector, translation_selector:&lt;/strong&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;&amp;lt;selector xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;&amp;gt;
+    &amp;lt;item android:state&lt;em&gt;pressed=&amp;quot;true&amp;quot;&amp;gt;
+        &amp;lt;set&amp;gt;
+            &amp;lt;objectAnimator android:propertyName=&amp;quot;translationZ&amp;quot;
+                android:duration=&amp;quot;@android:integer/config&lt;/em&gt;shortAnimTime&amp;quot;
+                android:valueTo=&amp;quot;10dp&amp;quot;
+                android:valueType=&amp;quot;floatType&amp;quot;/&amp;gt;
+        &amp;lt;/set&amp;gt;
+    &amp;lt;/item&amp;gt;
+    &amp;lt;item
+        android:state_pressed=&amp;quot;false&amp;quot;
+        &amp;gt;
+        &amp;lt;set&amp;gt;
+            &amp;lt;objectAnimator android:propertyName=&amp;quot;translationZ&amp;quot;
+                android:duration=&amp;quot;100&amp;quot;
+                android:valueTo=&amp;quot;2dp&amp;quot;
+                android:valueType=&amp;quot;floatType&amp;quot;/&amp;gt;
+        &amp;lt;/set&amp;gt;
+    &amp;lt;/item&amp;gt;
+&amp;lt;/selector&amp;gt;&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h2&gt;Transiciones&lt;/h2&gt;
+
+&lt;p&gt;Las transiciones fueron introducidas con android KitKat 4.4, con Lollipop y Material Design toman un papel muy importante a la hora de diseñar la experiencia de usuario, el propio tema de material añade transiciones para sus actividades, incluyendo la capacidad de utilizar elementos visuales compartidos y transiciones predefinidas como &lt;em&gt;Explode, Fade&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Es tan sencillo como configurar el nombre de la vista de una actividad a la otra y especificar, antes de cambiar de actividad cuál es el elemto compartido.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Layout 1&lt;/strong&gt;
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1; highlight: [9]&quot;&gt;    &amp;lt;Button
+        android:id=&amp;quot;@+id/fab&lt;em&gt;button&amp;quot;
+        android:layout&lt;/em&gt;width=&amp;quot;@dimen/fab&lt;em&gt;size&amp;quot;
+        android:layout&lt;/em&gt;height=&amp;quot;@dimen/fab&lt;em&gt;size&amp;quot;
+        android:layout&lt;/em&gt;marginRight=&amp;quot;@dimen/activity&lt;em&gt;horizontal&lt;/em&gt;margin&amp;quot;
+        android:layout&lt;em&gt;below=&amp;quot;@+id/holder&lt;/em&gt;view&amp;quot;
+        android:layout&lt;em&gt;marginTop=&amp;quot;-26dp&amp;quot;
+        android:layout&lt;/em&gt;alignParentEnd=&amp;quot;true&amp;quot;
+        android:transitionName=&amp;quot;fab&amp;quot;
+        android:background=&amp;quot;@drawable/ripple&lt;em&gt;round&amp;quot;
+        android:stateListAnimator=&amp;quot;@anim/fab&lt;/em&gt;anim&amp;quot;
+        android:elevation=&amp;quot;5dp&amp;quot;
+        /&amp;gt;
+      ...&lt;/pre&gt;
+En este caso la vista compartida es un &lt;em&gt;floating action button&lt;/em&gt;, el atributo importante en este caso es el de &lt;em&gt;android:transitionName=&amp;quot;fab&amp;quot;&lt;/em&gt; ya que es el nombre que identifica al a vista en la transición de las actividades&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Actividad 2&lt;/strong&gt;:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;        ...
+        Intent i  = new Intent (TransitionFirstActivity.this,
+            TransitionSecondActivity.class);&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+        TransitionFirstActivity.this, Pair.create(fabButton, &amp;quot;fab&amp;quot;));
+
+    startActivity(i, transitionActivityOptions.toBundle());
+   ...&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Layout 2&lt;/strong&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 9&quot;&gt;    &amp;lt;Button
+        android:id=&amp;quot;@+id/fab&lt;em&gt;button&amp;quot;
+        android:layout&lt;/em&gt;width=&amp;quot;@dimen/fab&lt;em&gt;size&amp;quot;
+        android:layout&lt;/em&gt;height=&amp;quot;@dimen/fab&lt;em&gt;size&amp;quot;
+        android:layout&lt;/em&gt;marginRight=&amp;quot;@dimen/activity&lt;em&gt;horizontal&lt;/em&gt;margin&amp;quot;
+        android:layout&lt;em&gt;centerHorizontal=&amp;quot;true&amp;quot;
+        android:layout&lt;/em&gt;alignParentBottom=&amp;quot;true&amp;quot;
+        android:background=&amp;quot;@drawable/ripple&lt;em&gt;round&amp;quot;
+        android:stateListAnimator=&amp;quot;@anim/fab&lt;/em&gt;anim&amp;quot;
+        android:transitionName=&amp;quot;fab&amp;quot;
+        android:elevation=&amp;quot;5dp&amp;quot;/&amp;gt;&lt;/pre&gt;
+Todo esto se ilustra de la siguiente forma:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769_se68d9.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769_se68d9.gif&quot; alt=&quot;68747470733a2f2f6c68342e676f6f676c6575736572636f6e74656e742e636f6d2f2d646d44466f4637633555592f564437374e73464b386b492f4141414141414141754c4d2f4d74537150384a6f51636f2f773238322d683439392d6e6f2f323031342d31302d313625324230305f35315f33342e6769&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2&gt;Ripples&lt;/h2&gt;
+
+&lt;p&gt;Android Lollipop, siguiendo con los principios de material design, provee un feedback visual al usuario para que sepa que ha ocurrido algo, toda acción conlleva una reacción, esto hasta ahora se venía haciendo usando &lt;em&gt;state list drawables.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;El efecto del &lt;em&gt;Ripple&lt;/em&gt;, se puede comparar como una expansión en una superficie líquida, una expansión desde el punto donde se ha tocado.&lt;/p&gt;
+
+&lt;p&gt;Los Ripples, son un nuevo tipo de Drawable (RippleDrawable), para usarlo es tan sencillo como asignarlo como &lt;em&gt;background&lt;/em&gt; a una vista.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/ripples_vrwyiv.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/ripples_vrwyiv.gif&quot; alt=&quot;ripples&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Referencias y recursos:&lt;/h6&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/saulmm/Android-Material-Example&quot;&gt;Material design android samples&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.google.com/design/spec/material-design/introduction.html&quot;&gt;Material design spec&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.android.com/training/material/animations.html&quot;&gt;Defining custom animations&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://speakerdeck.com/malmstein/what-material-design-means-to-android&quot;&gt;What material means to android - David Gonzalez&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://android-developers.blogspot.com.es/2014/10/material-design-on-android-checklist.html&quot;&gt;Material design checklist&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://developer.android.com/training/material/index.html&quot;&gt;Creating apps with material design&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/playlist?list=PLOU2XLYxmsIJFcNKpAV9B_aQmz2h68fw_&quot;&gt;Material design bytes&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://developer.android.com/training/material/index.html&quot;&gt;Creating apps with material design&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Un vistazo rápido al nuevo RecyclerView</title>
+   <link href="http://androcode.es/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/"/>
+   <updated>2014-10-09T10:00:00+02:00</updated>
+   <id>http://androcode.es/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg&quot; alt=&quot;lpreview&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Con la versión preview de &lt;em&gt;&lt;a href=&quot;http://developer.android.com/preview/index.html&quot; title=&quot;android L&quot;&gt;android L&lt;/a&gt;,&lt;/em&gt; Google ha presentado dos nuevos &lt;a href=&quot;https://developer.android.com/preview/material/ui-widgets.html&quot;&gt;&lt;em&gt;Widgets&lt;/em&gt;&lt;/a&gt;, &lt;em&gt;RecyclerView&lt;/em&gt; y &lt;em&gt;CardView&lt;/em&gt;, este artículo tratará el primero, el &lt;em&gt;RecyclerView&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Este nuevo &lt;em&gt;Widget&lt;/em&gt; entra en juego cuando el propósito es mostrar gran número de &lt;em&gt;Views&lt;/em&gt; repetidamente, listas, grids, etc..., tantas que no entran en la pantalla.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;RecyclerView&lt;/em&gt; implementa un sistema para llevar a cabo esta tarea, de forma sencilla y eficiente.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size: medium&quot;&gt;Proyecto de ejemplo&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif&quot; alt=&quot;rv_demo&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Todos los ejemplos de código que se muestran en este artículo se pueden encontrar en este proyecto en GitHub de forma funcional:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/saulmm/RecyclerView-demo.git&quot;&gt;https://github.com/saulmm/RecyclerView-demo.git&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size: medium&quot;&gt;La API de RecyclerView&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A diferencia del &lt;em&gt;ListView,&lt;/em&gt; &lt;em&gt;GridView,&lt;/em&gt; etc... el &lt;em&gt;RecyclerView&lt;/em&gt; se dedica únicamente a lo que su nombre indica, reciclar, reutilizar recursos y evitar el uso reiterado del costoso &lt;a href=&quot;http://developer.android.com/reference/android/app/Activity.html#findViewById(int)&quot;&gt;&lt;em&gt;findViewById&lt;/em&gt;&lt;/a&gt;, no se preocupa del aspecto visual, para ello está el &lt;em&gt;LayoutManager.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Una clase una tarea, esa es la filosofía que sigue la &lt;em&gt;API&lt;/em&gt; del &lt;em&gt;RecyclerView,&lt;/em&gt; un paquete de clases  internas cada una con una responsabilidad:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;  &lt;strong&gt;&lt;em&gt;Adapter&lt;/em&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;  &lt;em&gt;&lt;strong&gt;ViewHolder&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;  &lt;em&gt;&lt;strong&gt;LayoutManager&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;  &lt;em&gt;&lt;strong&gt;ItemDecoration&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;  &lt;strong&gt;&lt;em&gt;ItemAnimator&lt;/em&gt;&lt;/strong&gt;
+&lt;strong&gt;&lt;span style=&quot;font-size: medium&quot;&gt;Adapter&lt;/span&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Esta clase se encarga de crear las &lt;em&gt;Views&lt;/em&gt; necesarias para cada elemento del &lt;em&gt;RecyclerView&lt;/em&gt;, además, está muy unida al &lt;em&gt;ViewHolder&lt;/em&gt;, teniendo que ser indicado en la declaración de la clase, muchos pensaréis que esto no es nuevo, que Google ya aconsejara este &lt;a href=&quot;http://developer.android.com/training/improving-layouts/smooth-scrolling.html&quot; title=&quot;patrón&quot;&gt;patrón&lt;/a&gt; tiempo atrás, esta vez fuerza a utilizarlo, teniendo que ser indicado en la implementación del &lt;em&gt;Adapter&lt;/em&gt;, un paso adelante, sin duda.&lt;/p&gt;
+
+&lt;p&gt;El método &lt;em&gt;OnCreateViewHolder&lt;/em&gt; inicializa el &lt;em&gt;ViewHolder&lt;/em&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 17&quot;&gt;    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parentViewGroup, int i) {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    View rowView = LayoutInflater.from (parentViewGroup.getContext())
+        .inflate(R.layout.list_basic_item, parentViewGroup, false);
+
+    return new ViewHolder (rowView);
+}&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;El método &lt;em&gt;onBindViewHolder(ViewHolder viewholder, int position)&lt;/em&gt; se usa para configurar el contenido de las &lt;em&gt;Views&lt;/em&gt;
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 25&quot;&gt;    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    final SampleModel rowData = sampleData.get(position);
+    viewHolder.textViewSample.setText(rowData.getSampleText());
+    viewHolder.itemView.setTag(rowData);
+}&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: medium&quot;&gt;&lt;strong&gt;ViewHolder&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Como venía diciendo, el patrón &lt;em&gt;ViewHolder&lt;/em&gt; no es nada nuevo, de hecho Google, lo lleva recomendando desde hace tiempo, se puede pensar en el como un &lt;em&gt;cache&lt;/em&gt; de las vistas, pudiendo reutilizarlas en vez de crearlas nuevamente.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 39&quot;&gt;
+   @Override
+   public static class ViewHolder extends RecyclerView.ViewHolder {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    private final TextView textViewSample;
+
+    public ViewHolder(View itemView) {
+        super(itemView);
+
+        textViewSample = (TextView) itemView.findViewById(
+            R.id.textViewSample);
+    }
+}&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: medium&quot;&gt;&lt;strong&gt;LayoutManager&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;El &lt;em&gt;LayoutManager&lt;/em&gt; se encarga del layout de todas las vistas dentro del &lt;em&gt;RecyclerView&lt;/em&gt;, concretando con el &lt;em&gt;LinearLayoutManager&lt;/em&gt;, permite entre otros acceder a elementos mostrados en la pantalla como el primer elemento, último, o por ejemplo, el último completamente visible, esto de forma horizontal o vertical, en el ejemplo se ha utilizado la disposición en vertical.
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 19&quot;&gt;&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(mLayoutManager);&amp;lt;/pre&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;span style=&quot;font-size: medium&quot;&gt;&lt;strong&gt;ItemDecorator&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Otro eslabón importante, son los llamados &lt;em&gt;ItemDecorator&lt;/em&gt;, estos permiten modificar los elementos del RecycleView, este además, ofrece además ofrece un elemento llamado insets (márgenes) que pueden aplicarse a las vistas sin necesidad de modificar los parámetros del layout.&lt;/p&gt;
+
+&lt;p&gt;En el ejemplo, se muestra como se usan los &lt;em&gt;ItemDecorators&lt;/em&gt; para dibujar un pequeño &lt;em&gt;Divider&lt;/em&gt; entre los elementos del &lt;em&gt;RecyclerView&lt;/em&gt;:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 19&quot;&gt;
+package saulmm.com.recyclerviewproject;&lt;/p&gt;
+
+&lt;p&gt;import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;&lt;/p&gt;
+
+&lt;p&gt;public class SampleDivider extends RecyclerView.ItemDecoration {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private static final int[] ATTRS = { android.R.attr.listDivider };
+
+private Drawable mDivider;
+
+public SampleDivider(Context context) {
+    TypedArray a = context.obtainStyledAttributes(ATTRS);
+    mDivider = a.getDrawable(0);
+    a.recycle();
+
+}
+
+@Override
+public void onDrawOver(Canvas c, RecyclerView parent) {
+
+    int left = parent.getPaddingLeft();
+    int right = parent.getWidth() - parent.getPaddingRight();
+
+    int childCount = parent.getChildCount();
+
+    for (int i = 0; i &amp;amp;lt; childCount; i++) {
+
+        View child = parent.getChildAt(i);
+
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                .getLayoutParams();
+
+        int top = child.getBottom() + params.bottomMargin;
+        int bottom = top + mDivider.getIntrinsicHeight();
+
+        mDivider.setBounds(left, top, right, bottom);
+        mDivider.draw(c);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}&lt;/pre&gt;
+&lt;strong&gt;ItemAnimator&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;La clase &lt;em&gt;ItemAnimator&lt;/em&gt; como su nombre indica, anima el &lt;em&gt;RecyclerView&lt;/em&gt; cuando se añade y se elimina un elemento, el &lt;em&gt;RecyclerView&lt;/em&gt; utiliza un &lt;em&gt;ItemAnimator&lt;/em&gt; por defecto.&lt;/p&gt;
+
+&lt;p&gt;El &lt;em&gt;RecyclerView&lt;/em&gt; ha de saber cuando se inserta un elemento o se elimina, con elementos como &lt;em&gt;ListViews&lt;/em&gt;, &lt;em&gt;GridViews&lt;/em&gt;, etc... esto se conseguía llamando al método &lt;em&gt;notifyDataSetChanged()&lt;/em&gt;, a nivel de performance, es bastante costoso, ya que redibuja todos los items en el &lt;em&gt;layout&lt;/em&gt;, lo propio con el &lt;em&gt;RecyclerView&lt;/em&gt; es usar el método &lt;em&gt;notifyItemInserted()&lt;/em&gt; para añadir, y &lt;em&gt;notifyItemRemoved()&lt;/em&gt; para eliminar, actualizando solo la parte apropiada.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Referencias:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.grokkingandroid.com/first-glance-androids-recyclerview/&quot;&gt;Wolfram RittMeyer - A first Glance at Android&amp;#39;s RecyclerView&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://wiresareobsolete.com/2014/09/recyclerview-layoutmanager-2/&quot;&gt;Wires are obsolete - Building a RecyclerView&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://developer.android.com/preview/reference.html&quot;&gt;Android L - Reference&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Los mejores atajos de teclado para Android Studio</title>
+   <link href="http://androcode.es/2014/10/03/mejores-atajos-android-studio/"/>
+   <updated>2014-10-03T10:00:00+02:00</updated>
+   <id>http://androcode.es/2014/10/03/mejores-atajos-android-studio</id>
+   <content type="html">&lt;p&gt;Sin lugar a duda, &lt;a href=&quot;https://developer.android.com/sdk/installing/studio.html&quot; title=&quot;android studio&quot;&gt;android studio&lt;/a&gt; se ha convertido en la herramienta principal para el desarrollador android actual. A veces, uno no es consciente de las grandes características que este entorno de desarrollo ofrece, &lt;em&gt;live templates&lt;/em&gt;, &lt;em&gt;code inspection&lt;/em&gt;… entre muchas otras .&lt;/p&gt;
+
+&lt;p&gt;Una de ellas, son los atajos de teclado, android studio ofrece una gran catálogo que pueden aumentar vuestra productividad considerablemente.&lt;/p&gt;
+
+&lt;p&gt;El trabajo que ha hecho &lt;a href=&quot;https://plus.google.com/u/0/+PhilippeBreault&quot; title=&quot;Philippe Breault&quot;&gt;Philippe Breault&lt;/a&gt;, ha sido impoluto, quién nos ha permitido usar sus imágenes para hacer recopilación de algunos de los atajos de teclado más interesantes que éste IDE ofrece.&lt;/p&gt;
+
+&lt;p&gt;&lt;span style=&quot;font-size: medium&quot;&gt;&lt;strong&gt;Moverse entre métodos y clases internas&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
+
+&lt;p&gt;Éste atajo permite mover el cursor al nombre del siguiente método o clase en el archivo que tengas abierto en el editor en ese momento.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + up / down&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; alt + up / down&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/moverse_entre_metodos_ofmvhe.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/moverse_entre_metodos_ofmvhe.gif&quot; alt=&quot;moverse_entre_metodos&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;&lt;strong&gt;Ver el &lt;em&gt;Popup&lt;/em&gt; de la estructura del archivo&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Muy parecido a la herramienta &lt;em&gt;outline&lt;/em&gt; que se puede encontrar en &lt;em&gt;eclipse,&lt;/em&gt; este atajo de teclado permite abrir un popup con la estructura del archivo que tengas abierto en el editor.&lt;/p&gt;
+
+&lt;p&gt;Un método rápido para filtrar es usar el teclado, ésta es una manera bastante productiva de ir a un método o clase del que se conozca el nombre.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + F12&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + F12&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2014/10/estructura_archivo.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2014/10/estructura_archivo.gif&quot; alt=&quot;estructura_archivo&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Abrir la jerarquía de llamadas&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Con este atajo de teclado es posible desplegar el panel con la jerarquía de llamadas del método o variable que esté bajo tu cursor.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + alt + h&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; ctrl + cmd + h&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/jerarqu%C3%ADa_de_llamadas_idk6cr.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/jerarqu%C3%ADa_de_llamadas_idk6cr.gif&quot; alt=&quot;jerarquía_de_llamadas&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Encapsular / desplegar bloque&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Ocultar pedazos de código como todos los métodos que se estén utilizando puede se útil para mantener la atención en un único lugar.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + shift + plus(+) / minus(-)&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + plus(+) / minus(-)&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/expandir_colapsar_y7nkuc.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/expandir_colapsar_y7nkuc.gif&quot; alt=&quot;expandir_colapsar&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Encontrar acciones&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Este atajo permite abrir un &lt;em&gt;popup&lt;/em&gt; para ejecutar una opción de forma rápida, sin necesidad de usar el ratón.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + shift + a&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + shift + a&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/popup_de_acciones_zwny9j.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/popup_de_acciones_zwny9j.gif&quot; alt=&quot;popup_de_acciones&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mover lineas&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Atajo para mover lineas hacia arriba y hacia abajo&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; alt + shift + up / down&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + shift + up / down&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/mover_lineas_rrzj42.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/mover_lineas_rrzj42.gif&quot; alt=&quot;mover_lineas&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Expandir selección&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A partir del cursor, selecciona la expresión, método, clase, etc...&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + shift + up / down&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; alt + up / down&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/expandir_seleccion_xssmid.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/expandir_seleccion_xssmid.gif&quot; alt=&quot;expandir_seleccion&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Encapsular selección en...&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A partir del código seleccionado en alguna estructura, es posible encapsularlo en un &lt;em&gt;try / catch, if, do / while,&lt;/em&gt; etc...&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; ctrl + alt + t&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + alt + t&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/encapsular_seleccion_tblnk2.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/encapsular_seleccion_tblnk2.gif&quot; alt=&quot;encapsular_seleccion&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Archivos recientes&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Atajo de teclado usado para mostrar un &lt;em&gt;popup &lt;/em&gt;con los archivos más consultados&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows / Linux:&lt;/strong&gt; ctrl + e&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + e&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/recientes_degkxz.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/recientes_degkxz.gif&quot; alt=&quot;recientes&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Multicursor&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Uno de los mejores, seleccionando un patrón que se repita, se habilitan múltiples cursores para editar todas las ocurrencias al mismo tiempo.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows:&lt;/strong&gt; alt + j&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; ctrl + g&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/multicursor_fflye4.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/multicursor_fflye4.gif&quot; alt=&quot;multicursor&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Selección por columnas&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Con este atajo es posible crear una selección en columna.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Windows / Linux:&lt;/strong&gt; shift + alt + insert&lt;/em&gt;
+&lt;em&gt;&lt;strong&gt;Mac:&lt;/strong&gt; cmd + shift + 8&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Ratón:&lt;/strong&gt; alt + arrastrar&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/seleccion_columna_vmj4oz.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/seleccion_columna_vmj4oz.gif&quot; alt=&quot;seleccion_columna&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Todos estos atajos y algunos más los podéis encontrar en el blog de &lt;a href=&quot;http://www.developerphil.com/&quot;&gt;Phillippe Breault&lt;/a&gt;, además, podéis consultar todas las acciones en el apartado de opciones del entorno de desarrollo bajo &lt;em&gt;keymap.&lt;/em&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Leer los meta-data del AndroidManifest.xml en tu aplicación</title>
+   <link href="http://androcode.es/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/"/>
+   <updated>2014-08-06T10:00:00+02:00</updated>
+   <id>http://androcode.es/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion</id>
+   <content type="html">&lt;p&gt;¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?&lt;/p&gt;
+
+&lt;p&gt;Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; se hará de una forma u otra.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;Estos meta datos pueden ser constantes, claves de api, cadenas con parámetros opcionales, etc. Los definimos en el AndroidManifest.xml y pueden tener distintos ámbitos. Cuando una librería nos pide meter una API key suele hacerse en un elemento &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; dentro del &lt;strong&gt;&amp;lt;application&amp;gt;&lt;/strong&gt; pero se puede hacer a nivel de &lt;strong&gt;&amp;lt;activity&amp;gt;, &amp;lt;provider&amp;gt;, &amp;lt;receiver&amp;gt; **o&lt;/strong&gt; &amp;lt;activity-alias&amp;gt;** y dependiendo de dónde esté, se hará llamando a unos métodos u otros.&lt;/p&gt;
+
+&lt;p&gt;Pongamos por caso que tenemos un activity definido así:
+&lt;div&gt;
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1&quot;&gt;&amp;lt;activity android:name=&amp;quot;.MiActivity&amp;quot;&amp;gt;
+    &amp;lt;meta-data
+        android:name=&amp;quot;com.miapp.midato&amp;quot;
+        android:resource=&amp;quot;@string/midato&amp;quot; /&amp;gt;
+&amp;lt;/activity&amp;gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;code&gt;
+&amp;lt;activity android:name=&amp;quot;.MiActivity&amp;quot;&amp;gt;  
+    &amp;lt;meta-data
+        android:name=&amp;quot;com.miapp.midato&amp;quot;
+        android:resource=&amp;quot;@string/midato&amp;quot; /&amp;gt;
+&amp;lt;/activity&amp;gt;
+&lt;/code&gt;
+En este caso hemos puesto una etiqueta** &amp;lt;meta-data&amp;gt;** en un activity, así que para leerlo nos referimos a la clase &lt;strong&gt;ActivityInfo&lt;/strong&gt; que obtenemos a través del &lt;strong&gt;PackageManager&lt;/strong&gt; así:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;ActivityInfo ai = this.getPackageManager().getActivityInfo(this.getComponentName(), PackageManager.GET&lt;em&gt;ACTIVITIES|PackageManager.GET&lt;/em&gt;META_DATA);
+int stringReference = ai.metaData.getInt(&amp;quot;com.miapp.usuario&amp;quot;)&lt;/pre&gt;
+Vemos en este caso que el atributo que hemos definido en los meta datos es un &lt;strong&gt;android:resource&lt;/strong&gt;, por lo tanto lo tenemos que recuperar con un getInt que nos devolverá el id de la referencia, luego podemos recuperar el valor con &lt;strong&gt;getString(stringReference)&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Pero si en vez de usar &lt;strong&gt;android:resource&lt;/strong&gt; usamos &lt;strong&gt;android:value&lt;/strong&gt; podemos usar tipos primitivos como string, int, bool, float y color, y que recuperaríamos luego con &lt;strong&gt;getString(), getInt(), getBoolean(), getFloat() y getInt()&lt;/strong&gt; respectivamente.&lt;/p&gt;
+
+&lt;p&gt;En el caso de que los meta datos sean a nivel de aplicación y los hayamos definido dentro de &amp;lt;application&amp;gt; entonces para recuperarlos tenemos que usar el &lt;strong&gt;ApplicationInfo&lt;/strong&gt;:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;ApplicationInfo ai = getPackageManager().getApplicationInfo(activity.getPackageName(), PackageManager.GET&lt;em&gt;META&lt;/em&gt;DATA);
+Bundle bundle = ai.metaData;
+String myApiKey = bundle.getString(&amp;quot;com.miapp.usuario&amp;quot;);&lt;/pre&gt;
+Para un &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; dentro de un &lt;strong&gt;&amp;lt;receiver&amp;gt;&lt;/strong&gt; usaríamos &lt;strong&gt;getReceiverInfo()&lt;/strong&gt; y así sucesivamente.&lt;/p&gt;
+
+&lt;p&gt;Un truco que he aprendido es, si quieres poner dos iconos diferentes en el launcher de android para abrir tu app y que realmente solo necesitas que se abra la misma activity inicial pero con diferente parámetro, puedes usar un &lt;strong&gt;&amp;lt;activity-alias&amp;gt;&lt;/strong&gt; y un &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; para pasar ese parámetro.
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1&quot;&gt;&amp;lt;activity
+    android:name=&amp;quot;.MainActivity&amp;quot;&amp;gt;
+    &amp;lt;intent-filter&amp;gt;
+        &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot; /&amp;gt;
+        &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+    &amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity&amp;gt;
+&amp;lt;activity-alias
+    android:name=&amp;quot;.MainActivityWithParameter&amp;quot;
+    android:targetActivity=&amp;quot;.MainActivity&amp;quot;&amp;gt;
+    &amp;lt;intent-filter&amp;gt;
+        &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot; /&amp;gt;
+        &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+    &amp;lt;/intent-filter&amp;gt;
+    &amp;lt;meta-data android:name=&amp;quot;com.miapp.specialparameter&amp;quot;
+        android:value=&amp;quot;true&amp;quot; /&amp;gt;
+ &amp;lt;/activity-alias&amp;gt;&lt;/pre&gt;
+Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe este parámetro con &lt;strong&gt;getBoolean(&amp;quot;com.miapp.specialparameter&amp;quot;,false);&lt;/strong&gt; y hacer una cosa u otra según esté presente  o no.&lt;/p&gt;
+
+&lt;p&gt;Espero que os haya gustado este mini tutorial y si tenéis preguntas os intentaré contestar aquí, y si no, a &lt;a href=&quot;http://www.stackoverflow.com&quot;&gt;StackOverflow&lt;/a&gt;!&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Otra forma de acelerar el emulador de Android</title>
+   <link href="http://androcode.es/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/"/>
+   <updated>2014-02-21T11:00:00+01:00</updated>
+   <id>http://androcode.es/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android</id>
+   <content type="html">&lt;p&gt;Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar &lt;a href=&quot;http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/&quot; title=&quot;Aumenta la velocidad del emulador de Android en un 400%&quot;&gt;android-x86 y virtualbox para virtualizar un dispositivo android &lt;/a&gt;como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.&lt;/p&gt;
+
+&lt;h6&gt;Requisitos:&lt;/h6&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Procesador con Intel que soporte Intel VT-x, EM64T y Execute Disable(XD) Bit habilitado en la BIOS.&lt;/li&gt;
+&lt;li&gt;Tener instalado el &lt;a href=&quot;https://developer.android.com/sdk/index.html&quot; title=&quot;Android SDK&quot;&gt;SDK de Android.&amp;lt;!--more--&amp;gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6&gt;Instalación en Windows&lt;/h6&gt;
+
+&lt;p&gt;Una vez instalado el SDK de Android, abrimos el SDK Manager que usamos para descargarnos las diferentes versiones de Android y marcamos para descargar el Intel HAXM dentro de la pestaña de &amp;quot;extras&amp;quot;. Aunque lo instalemos desde el SDK Manager en realidad sólo nos copia un instalador a la carpeta &amp;quot;extras&amp;quot; donde está instalado el SDK de Android, así que vamos a ésa carpeta de nuestro disco duro e instalamos IntelHaxm.exe. Otra cosa que debemos marcar para instalar es la Intel x86 Atom System Image de la versión de Android que deseemos, de esta manera podremos crear AVDs con esta imagen del sistema.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png&quot; alt=&quot;intel_haxm_1&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png&quot; alt=&quot;Intel HAXM.exe&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Ejecutamos el instalador y seguimos los pasos. En caso de que nuestra BIOS no tenga configurada la opción de VT-x deberemos arrancar la BIOS, para activarla más o menos así, y luego volver a instalar el Intel HAXM:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://software.intel.com/sites/default/files/haxm07.jpg&quot;&gt;&lt;img src=&quot;http://software.intel.com/sites/default/files/haxm07.jpg&quot; alt=&quot;&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Crear el AVD&lt;/h6&gt;
+
+&lt;p&gt;Una vez instalado el SDK y el Intel HAXM, procederemos a crear un dispositivo android virtual, para ello abrimos el AVD Manager y creamos un AVD nuevo.&lt;/p&gt;
+
+&lt;p&gt;Deberemos elegir un target del que nos hayamos bajado su imagen Intel x86 como hemos hecho en el paso anterior con el SDK Manager, así podremos elegir, en CPU/ABI, la opción Intel Atom (x86).&lt;/p&gt;
+
+&lt;p&gt;Ponemos un nombre y elegimos un dispositivo cualquiera.&lt;/p&gt;
+
+&lt;p&gt;Importante seleccionar &amp;quot;Use Host GPU&amp;quot; para que utilice OpenGL para el renderizado, de esta manera la parte gráfica irá más rápida. Una vez hecho todo esto, hacemos click en OK, para generar el AVD y luego una vez creado, pulsamos en Start y arrancamos el emulador. Debería tardar sólo 15 segundos y debemos ver un mensaje de que está arrancando en &amp;quot;fast virtual mode&amp;quot;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png&quot; alt=&quot;intel_haxm_3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Una vez hecho esto, podemos instalar y probar nuestra aplicación en el emulador e incluso controlar algunos aspectos como la ubicación GPS, simular recibir llamadas o mensajes, etc. desde la pestaña &amp;quot;Emulator control&amp;quot; de la perspectiva &amp;quot;DDMS&amp;quot; (En Eclipse: Window &amp;gt; Open perspective &amp;gt; DDMS).&lt;/p&gt;
+
+&lt;p&gt;Para más información, resolución de problemas y cómo instalarlo en Linux, podéis leer &lt;a href=&quot;http://software.intel.com/en-us/android/articles/speeding-up-the-android-emulator-on-intel-architecture#_Toc358213274&quot; title=&quot;Intel HAXM&quot;&gt;este artículo de la página de Intel&lt;/a&gt; que lo explica con más detalle.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Usar códigos secretos en tu aplicación</title>
+   <link href="http://androcode.es/2013/11/27/usar-codigos-secretos-en-tu-aplicacion/"/>
+   <updated>2013-11-27T11:00:00+01:00</updated>
+   <id>http://androcode.es/2013/11/27/usar-codigos-secretos-en-tu-aplicacion</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png&quot; alt=&quot;androcode_secret_code&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Estoy seguro de que todos habréis usado alguna vez un &amp;quot;código secreto&amp;quot; en vuestro móvil. Son los códigos que al introducirlos en el teclado del &amp;quot;teléfono&amp;quot; (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI &lt;em&gt;(*#06#)&lt;/em&gt; o información del teléfono &lt;em&gt;(&lt;em&gt;#&lt;/em&gt;#4636#&lt;em&gt;#&lt;/em&gt;)&lt;/em&gt;. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.&lt;/p&gt;
+
+&lt;h6&gt;¿De dónde viene esto?&lt;/h6&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png&quot; alt=&quot;protips_original_recorte&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el &lt;a href=&quot;https://android.googlesource.com/platform/packages/apps/Protips/+/master&quot;&gt;código fuente&lt;/a&gt; (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;pre class=&quot;brush: xml; gutter: true; first-line: 1&quot;&gt;&amp;lt;receiver android:name=&quot;.ProtipWidget&quot; android:label=&quot;@string/widget_name&quot;&amp;gt;
+            &amp;lt;intent-filter&amp;gt;
+                &amp;lt;action android:name=&quot;android.appwidget.action.APPWIDGET_UPDATE&quot; /&amp;gt;
+                &amp;lt;action android:name=&quot;com.android.protips.NEXT_TIP&quot; /&amp;gt;
+                &amp;lt;action android:name=&quot;com.android.protips.HEE_HEE&quot; /&amp;gt;
+            &amp;lt;/intent-filter&amp;gt;
+            &amp;lt;intent-filter&amp;gt;
+                &amp;lt;action android:name=&quot;android.provider.Telephony.SECRET_CODE&quot; /&amp;gt;
+                &amp;lt;data android:scheme=&quot;android_secret_code&quot; android:host=&quot;8477&quot; /&amp;gt;
+            &amp;lt;/intent-filter&amp;gt;
+            &amp;lt;meta-data android:name=&quot;android.appwidget.provider&quot; android:resource=&quot;@xml/widget_build&quot; /&amp;gt;
+        &amp;lt;/receiver&amp;gt;&lt;/pre&gt;
+
+&lt;p&gt;Ese &lt;em&gt;android.provider.Telephony.SECRET&lt;/em&gt;CODE_ es bastante llamativo, ¿no? Con el número 8477 (que corresponde al &lt;a href=&quot;http://es.wikipedia.org/wiki/Phonewords&quot;&gt;&lt;em&gt;Phoneword&lt;/em&gt;&lt;/a&gt; de &amp;quot;TIPS&amp;quot;) en los datos y la acción perteneciente al paquete Telephony, no hay que ser un genio para deducir que ese código se introduce en el marcador del teléfono. Lo hice y... Voilà! Los consejos del widget cambiaron por completo:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png&quot; alt=&quot;protips__secret&quot; title=&quot;Gracias por las capturas, mi viejo HTC Legend :)&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;¡Toma huevo de pascua! Como veis, al introducir el código los consejos originales cambian por unos en tono más de humor. Y como de costumbre en Android, si el widget puede nosotros también.&lt;/p&gt;
+
+&lt;p&gt;¿Por qué os cuento esto? Pues para que sirva de moraleja: &lt;strong&gt;leyendo código fuente&lt;/strong&gt;, tanto de Android como de otros proyectos, &lt;strong&gt;se aprende mucho&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h6&gt;Déjate de rollos, cómo se hace&lt;/h6&gt;
+
+&lt;p&gt;El funcionamiento de los códigos secretos propios no tiene misterio. En el anterior extracto de manifiesto tenéis la mitad del trabajo hecho. Sólo hay que añadir un Intent-Filter a nuestro AndroidManifest.xml con la acción android.provider.Telephony.SECRET&lt;em&gt;CODE, y con la especificación de esquema &amp;quot;android&lt;/em&gt;secret_code&amp;quot; y nuestro número secreto como host. Hay que tener en cuenta que estos códigos se introducen en el dialer en formato &lt;em&gt;#&lt;/em&gt;#código#&lt;em&gt;#&lt;/em&gt;, pero nosotros aquí sólo especificamos el número.&lt;/p&gt;
+
+&lt;p&gt;La segunda parte es añadir el elemento que recibe ese Intent. Podría ser cualquiera, por ejemplo una Activity o un Broadcast Receiver que active cierta función en la aplicación. Una implementación básica podría ser:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;public class SecretCodeReceiver extends BroadcastReceiver {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equals(&amp;quot;android.provider.Telephony.SECRET&lt;em&gt;CODE&amp;quot;)) {
+            String numero = intent.getData().getHost();
+            if (numero.equals(&amp;quot;732738&amp;quot;)) {
+                Toast.makeText(context, &amp;quot;¡Función chachipiruli altamente secreta desbloqueada!&amp;quot;, Toast.LENGTH&lt;/em&gt;SHORT).show();
+            } else {
+                // Podemos usar el mismo receiver para otros códigos distintos
+            }
+        }
+    }
+}&lt;/pre&gt;
+Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátiles que son los Intents, así que posibilidades de explotar esta pequeña función hay infinitas. A mí se me ocurren varias aparte de los huevos de pascua y pantallas ocultas. ¿Y a vosotros? ¿Para qué usaríais los códigos secretos? ¿Los conocíais ya?&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Generar ID único en la instalación de nuestras apps</title>
+   <link href="http://androcode.es/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/"/>
+   <updated>2013-04-19T10:00:00+02:00</updated>
+   <id>http://androcode.es/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps</id>
+   <content type="html">&lt;p&gt;Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.&lt;/p&gt;
+
+&lt;p&gt;Las distintas opciones que encontré &lt;em&gt;(y sus inconvenientes)&lt;/em&gt; son estas:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;IMEI:&lt;/em&gt; Sólo disponible en dispositivos con SIM disponible. Necesita declarar permiso en el manifest.&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Secure.ANDROID_ID:&lt;/em&gt; Sólo existe desde Android 2.2 y con posibles valores duplicados entre dispositivos.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;MAC del WiFi/BT:&lt;/em&gt; Sólo funciona si está activo el receptor. Necesitamos pedir permiso en el manifest.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Build.SERIAL:&lt;/em&gt; Disponible a partir de Android 2.3. Sólo obligatorio para dispositivos sin SIM.
+Como podéis ver no hay nada que directamente nos identifique el dispositivo o la instalación de forma única y, por tanto, que podamos usar como ID de la misma.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.&lt;/p&gt;
+
+&lt;!--more--&gt;
+
+&lt;p&gt;El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private static String uniqueID = null;
+private static final String PREF_UNIQUE_ID = &amp;quot;PREF_UNIQUE_ID&amp;quot;;
+
+public synchronized static String id(Context context) {
+    if (uniqueID == null) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+        if (uniqueID == null) {
+            uniqueID = UUID.randomUUID().toString();
+            Editor editor = sharedPrefs.edit();
+            editor.putString(PREF_UNIQUE_ID, uniqueID);
+            editor.commit();
+        }
+    }
+    return uniqueID;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Y para obtener el código desde cualquier punto de nuestro proyecto tan solo debemos llamar al método &lt;em&gt;id()&lt;/em&gt; pasándole un objeto de tipo &lt;em&gt;Context&lt;/em&gt;, por ejemplo:
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;String deviceID = id(Activity.this);&lt;/pre&gt;
+Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Hacer más cómodo el trabajo con Eclipse</title>
+   <link href="http://androcode.es/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/"/>
+   <updated>2013-02-14T11:00:00+01:00</updated>
+   <id>http://androcode.es/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse</id>
+   <content type="html">&lt;p&gt;Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png&quot; alt=&quot;eclipse_indigo&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;El post de hoy no es tan exclusivo para el desarrollo Android, pero como también nos afecta a nosotros me ha parecido bien tratarlo. Vamos a ver algunos trucos y consejos para escribir código aún más fácilmente, si estamos usando Eclipse.&amp;lt;!--more--&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;Todo lo que se comenta en esta entrada son opiniones a título personal y como orientación Para gustos colores, si no te parecen buenos consejos o tienes otros mejores, cuéntanoslo en los comentarios ;)&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Utilizaré como base el ADT Bundle para Windows que tenemos disponible en la página de desarrolladores, que contiene el SDK y una versión modificada de Eclipse 3.6 con la configuración básica para empezar a desarrollar aplicaciones Android.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h6&gt;Preparación del entorno&lt;/h6&gt;
+
+&lt;p&gt;Lo primero que vamos a ver son algunos cambios en la configuración de Eclipse que podemos hacer para facilitarnos el trabajo. Aunque opciones hay muchas, éstas son las que me han parecido más útiles. Mi &lt;em&gt;&amp;quot;must have&amp;quot;&lt;/em&gt; personal, lo primero que tengo que cambiar si hago una instalación nueva.&lt;/p&gt;
+
+&lt;h6&gt;Cambiar la codificación de caracteres&lt;/h6&gt;
+
+&lt;p&gt;Es un tema por el que me he echado las manos a la cabeza más de una vez. Y más de dos, y de trés... Trabajar con diferentes codificaciones es un infierno, sólo causará problemas. Eclipse por defecto en Windows utiliza una codificación, en Linux otra, y en OSX otra distinta. Si trabajas siempre en la misma máquina el problema puede pasar desapercibido, pero en cuanto migras un proyecto de sistema, se lo pasas a alguien, etc. verás como los caracteres especiales se han convertido en símbolos extraños.&lt;/p&gt;
+
+&lt;p&gt;Los angloparlantes no suelen tener graves problemas con esto, pues la mayoría de codificaciones &lt;em&gt;respetan&lt;/em&gt; sus símbolos. Pero nosotros, con tanta tilde y símbolo raro, vamos a encontrarnos en apuros. Lo mejor es curarse en salud y cambiar desde un principio la codificación de todo el workspace, en el menú bajo Window &amp;gt; Preferences,  a una universal como UTF-8. &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/codificacion_twaypa.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/codificacion_twaypa-300x258.png&quot; alt=&quot;codificacion&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Si lo hacéis no me lo agradeceréis porque no os daréis cuenta de que os ha servido. Pero si no, ya os arrepentiréis.  ;-)&lt;/p&gt;
+
+&lt;h6&gt;Desactivar &lt;em&gt;compilado automático&lt;/em&gt; y &lt;em&gt;compilar todo&lt;/em&gt;&lt;/h6&gt;
+
+&lt;p&gt;Por defecto Eclipse tiene activada la opción de compilar automáticamente nuestro proyecto cuando guardamos algún archivo modificado. Esto es especialmente problemático en Android cuando tenemos proyectos relativamente complejos, con varias librerías externas vinculadas y demás compilar puede llevar varios segundos o peor en ordenadores con pocos recursos (¿he oído minutos?). Y no es agradable que nos interrumpan el trabajo sólo por guardar los cambios. Por ello es de lo primero que desactivo cuando abro Eclipse por primera vez. Sólo hay que desmarcar la opción en Project &amp;gt; Build Automatically.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/build_s0orgi.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/build_s0orgi-300x153.png&quot; alt=&quot;build&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Aunque desactivando dicha opción tenemos el &lt;del&gt;problema&lt;/del&gt; inconveniente de tener que compilar manualmente cuando lo necesitemos. Por suerte tenemos el atajo de teclado &lt;strong&gt;Ctrl+B&lt;/strong&gt; para hacerlo a golpe de tecla, pero este atajo corresponde al comando &lt;em&gt;Build All&lt;/em&gt;, es decir que nos compilará todos los proyectos de nuestro workspace. ¡Aún peor que lo anterior! Don&amp;#39;t panic, es tan fácil como cambiar el atajo para que ejecute el comando &lt;em&gt;Build Project&lt;/em&gt; en su lugar, de esa forma la combinación te teclas sólo compilará el proyecto en el que nos encontremos en ese momento. En el apartado Keys de las preferencias buscamos el comando &lt;em&gt;Build All&lt;/em&gt; y le anulamos el atajo de teclado con &lt;strong&gt;Unbind Command&lt;/strong&gt;, luego seleccionamos &lt;em&gt;Build Project&lt;/em&gt; y en Binding pulsamos la combinación Ctrl+B (u otra) para establecérsela.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/build3_asmolf.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/build3_asmolf-300x215.png&quot; alt=&quot;build3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Aunque para ejecutar no suele hacer falta compilar porque ya lo hace solo, ya sabemos cómo se pone de tonto a veces Eclipse. Es uno de los comandos que yo más utilizo.&lt;/p&gt;
+
+&lt;h6&gt;Desactivar corrección ortográfica&lt;/h6&gt;
+
+&lt;p&gt;Curiosamente Eclipse tiene corrector ortográfico para los comentarios y documentación. Pero a los hispanohablantes no nos sirve de mucho si escribimos en español porque sólo está en inglés. Podríamos descargar e instalar un diccionario en español, pero yo prefiero optar por desactivarlo por completo y quitarme las molestas líneas rojas que salen por todas partes.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://res.cloudinary.com/dttcwxrjo/image/upload/v1422989312/spelling_dsdejb.png&quot;&gt;&lt;img src=&quot;http://res.cloudinary.com/dttcwxrjo/image/upload/h_235,w_300/v1422989312/spelling_dsdejb.png&quot; alt=&quot;spelling&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Explorador de paquetes en vista jerárquica&lt;/h6&gt;
+
+&lt;p&gt;El explorador de paquetes nos permite 2 formas básicas de visualizarlos: &lt;strong&gt;plana&lt;/strong&gt; y** jerárquica**. Por defecto nos los muestra de forma plana, pero cuando tenemos muchos paquetes anidados la jerárquica permite verlos más claramente con su estructura de árbol. ¿No os parece?&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/package_xzre6q.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/package_xzre6q.png&quot; alt=&quot;package&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Podéis usar la que más os guste, en cualquier caso el cambio es sencillo.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/package3_nr4kyw.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/package3_nr4kyw-300x182.png&quot; alt=&quot;package3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Ayuda para escribir código&lt;/h6&gt;
+
+&lt;p&gt;Ahora veremos alguno ajustes orientados a facilitarnos la escritura de código. Eclipse permite un alto nivel de personalización, pero sólo veremos unos que me parecen muy interesantes. Como antes, recomiendo echar un ojo a todas las opciones y adaptarlo todo a nuestras necesidades.&lt;/p&gt;
+
+&lt;h6&gt;Punto y coma siempre al final&lt;/h6&gt;
+
+&lt;p&gt;En java las sentencias llevan un punto y coma al final. Parece una tontería, pero son incontables las veces que he tenido que desplazarme al final de la línea para poner un punto y coma. Con este cambio Eclipse colocará la puntuación correctamente al final de la línea aunque estemos editando en mitad, ahorrándonos un par de pulsaciones de tecla.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/semicolon_d3j7on.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/semicolon_d3j7on-300x275.png&quot; alt=&quot;semicolon&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Autocompletado de métodos mejorado&lt;/h6&gt;
+
+&lt;p&gt;El autocompletado de Eclipse es magnífico. &lt;strong&gt;Ctrl+Espacio&lt;/strong&gt; es la combinación que más uso con diferencia, nos ahorra escribir una barbaridad de código. Pero algo que siempre me ha reventado es cómo al completar una variable o un método desde en medio inserta el texto en vez de modificarlo.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite12_zdjdag.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite12_zdjdag.png&quot; alt=&quot;overwrite12&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Pues hace poco descubrí que se podía cambiar para que sustituyera el resto del texto. De esa forma en el ejemplo anterior obtendríamos lo siguiente:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite34_ndqvjq.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite34_ndqvjq.png&quot; alt=&quot;overwrite34&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;A mi me resulta muchísimo más útil la segunda transformación, y sólo hay que cambiar una opción:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite_dhqc8k.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/overwrite_dhqc8k-300x275.png&quot; alt=&quot;overwrite&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Escapar Strings al pegar texto&lt;/h6&gt;
+
+&lt;p&gt;Copiar y pegar es el recurso más utilizado. ¿Cuántas veces hemos pegado en una cadena un texto copiado de otra parte que contiene comillas y otros caracteres que necesitan ser escapados (como las comillas en un código html)? Activando esta opción no tendremos que hacerlo más, pues el texto se transformará automáticamente cuando lo peguemos para escapar dichos caracteres.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/strings_mrdpqp.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/strings_mrdpqp-300x276.png&quot; alt=&quot;strings&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Aquí vemos cómo quedaría al pegar una cadena con comillas antes y después de activar esta opción:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/strings2_tqfznv.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/strings2_tqfznv.png&quot; alt=&quot;strings2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Acciones al guardar&lt;/h6&gt;
+
+&lt;p&gt;Nos puede venir bien que Eclipse haga determinadas cosas automáticamente cuando guardamos un archivo. Por ejemplo, que reorganice las importaciones de paquetes, o que formatee el código según las reglas que le digamos. Debo confesar que yo personalmente lo tengo desactivado, porque tengo la manía de guardar los cambios constantemente, y al procesar el archivo cada vez puedo notar el retraso en contadas ocasiones si el ordenador está pasando un mal rato y no lo soporto. Pero aun así, si no sois tan maníacos como yo seguro que agradecéis esta función.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/save_dqpzw9.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/save_dqpzw9-300x276.png&quot; alt=&quot;save&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Formateo de código&lt;/h6&gt;
+
+&lt;p&gt;Otra de las funciones más útiles de Eclipse es el formateo de código automático, mediante la combinación de teclas &lt;strong&gt;Ctrl+Shift+F&lt;/strong&gt;. Nosotros escribimos (o pegamos) un churro, con las identaciones mal puestas, espacios sobrantes, etc., y Eclipse nos deja un código limpio, claro y ordenado. Pero es importante para estar cómodos con nuestro IDE que nos produzca código que nos guste. Para ello viene bien echar unos minutos en revisar las opciones de personalización del formateo de código, que no son pocas. Podemos tener varios perfiles, e incluso configurar un perfil distinto para cada proyecto (modificando las preferencias del proyecto concreto, y no las globales). Para personalizarlos creamos uno nuevo o editamos el existente (habrá que guardarlo con otro nombre).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/format1_kficmo.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/format1_kficmo-300x274.png&quot; alt=&quot;format1&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Aquí entran muy en juego los gustos de cada uno. Aconsejo mirar todas las opciones, elegir las que nos parezcan mejores, y volver a mirarlas tras llevar un tiempo con ellas para asegurarnos de que estamos cómodos con todas.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/format2_bhouhm.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/format2_bhouhm-300x257.png&quot; alt=&quot;format2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Os comento como ejemplo las que yo suelo cambiar, que son realmente pocas: En &lt;em&gt;Identation&lt;/em&gt; pongo Tab Policy a &lt;em&gt;Tabs Only&lt;/em&gt;, y activo &lt;em&gt;Statements within switch body&lt;/em&gt;; en &lt;em&gt;Line Wrapping&lt;/em&gt; pongo el &lt;em&gt;Maximun line width&lt;/em&gt; a un valor alto como 200 para que no me divida las líneas, y activo &lt;em&gt;Never join already wrapped lines&lt;/em&gt; por si quiero dividirlas  manualmente; y por último en &lt;em&gt;Comments&lt;/em&gt; activo &lt;em&gt;Never join lines&lt;/em&gt; para decidir yo los saltos de línea, y pongo el &lt;em&gt;Maximun line width&lt;/em&gt; también a un valor como 200. &lt;/p&gt;
+
+&lt;p&gt;Mucho ojo a esta función si trabajamos en grupo con repositorios, o si contribuímos a proyectos de software libre. Debemos adaptarnos a las normas comunes, así que si pensamos dejar que Eclipse formatee nuestro código debemos asegurarnos de respetar dichas normas. No queremos que Git nos marque todo el archivo &amp;quot;en rojo&amp;quot; cuando sólo hemos cambiado una línea, ¿verdad?&lt;/p&gt;
+
+&lt;h6&gt;Etiquetas&lt;/h6&gt;
+
+&lt;p&gt;No muy usadas, pero están ahí para ayudar a organizarnos si las necesitamos. Las etiquetas son comentarios especiales que podemos poner para marcar nuestro código. La más famosa es la etiqueta &lt;strong&gt;TODO&lt;/strong&gt;, para dejar anotado algo que tenemos que hacer o cambiar en un futuro. Pero nosotros mismos podemos crear nuestras etiquetas personalizadas. Por ejemplo DEBUG para indicar algo que debemos quitar antes de sacar la aplicación a producción,  asignar tareas a determinadas personas en un grupo, etc. &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/tags_uh9kru.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/tags_uh9kru-300x278.png&quot; alt=&quot;tags&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Luego podemos ver la lista de etiquetas usadas en la vista Tasks (Si no la tenemos se activa en Window &amp;gt; Show View &amp;gt; Tasks)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/tags2_neqlws.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/tags2_neqlws.png&quot; alt=&quot;tags2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Plantillas de código&lt;/h6&gt;
+
+&lt;p&gt;Eclipse nos permite usar palabras clave para generar automáticamente determinadas estructuras de código, y más aún, crearlas a nuestro gusto. Por ejemplo, uno de los métodos más utilizados en Java es System.out.println() para imprimir texto en la consola; pues nos basta con escribir en el editor &amp;quot;sysout&amp;quot; y pulsar el autocompletado (ctrl+espacio) para que nos inserte la línea completa y nos ponga el cursor en la posición del argumento. Lo mismo ocurre con &amp;quot;try&amp;quot; para insertar un bloque try-catch.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/codtemplate12_kuk5re.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/codtemplate12_kuk5re.png&quot; alt=&quot;codtemplate12&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;La lista completa podemos verla en las preferencias, y ahí mismo podemos añadir nuestras propias plantillas. Por ejemplo, podríamos crear una plantilla así para inicializar el método getView() típico del BaseAdapter: &lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates3_jgadxe.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates3_jgadxe-300x261.png&quot; alt=&quot;codetemplates3&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates4_anikbo.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates4_anikbo-1024x355.png&quot; alt=&quot;codetemplates4&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Copiar código&lt;/p&gt;
+
+&lt;p&gt;Y en el editor de código, poniendo la palabra clave con autocompletado, nos genera el código por el que podemos movernos mediante el tabulador. ¡Magia!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates56_jp3ca5.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/codetemplates56_jp3ca5.png&quot; alt=&quot;codetemplates56&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h6&gt;Plantillas de ADT&lt;/h6&gt;
+
+&lt;p&gt;No hace mucho añadieron al plugin ADT la posibilidad de crear componentes de Android como Actividades para nuestras aplicaciones mediante un &lt;strong&gt;asistente&lt;/strong&gt;, que podemos encontrar en el menú &lt;em&gt;File &amp;gt; New&lt;/em&gt; bajo la categoría de Android, el cual nos genera el código y recursos que podemos editar fácilmente. Por ejemplo, en el caso de las Actividades nos creará un &lt;strong&gt;layout&lt;/strong&gt; y &lt;strong&gt;menú&lt;/strong&gt; básicos en xml, la &lt;strong&gt;clase Java&lt;/strong&gt; correspondiente con el código para mostrar el layout y el menú, y la entrada necesaria en el &lt;strong&gt;AndroidManifest.xml&lt;/strong&gt;. E incluso podemos decirle que nos añada elementos extra de navegación como pestañas, ViewPager y más.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/templatesadt2_ogac3e.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/templatesadt2_ogac3e-300x284.png&quot; alt=&quot;templatesadt2&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Por si fuera poco, un tiempo después añadieron la posibilidad de instalar plantillas personalizadas creadas por nosotros mismos. Yo os recomiendo &lt;a href=&quot;https://github.com/jgilfelt/android-adt-templates&quot;&gt;estas plantillas &lt;/a&gt;creadas por Jeff Gilfelt para crear Actividades compatibles con la magnífica librería &lt;strong&gt;&lt;a href=&quot;http://androcode.es/2012/03/introduccion-a-actionbarsherlock/&quot; title=&quot;Introducción a ActionBarSherlock&quot;&gt;ActionBar Sherlock&lt;/a&gt;&lt;/strong&gt;, entre otras. En el repositorio tenéis más información sobre para qué es cada uno de los elementos que añade. Además, instalar las plantillas es tan sencillo como pegarlas en la carpeta &lt;strong&gt;/extras/templates/&lt;/strong&gt; del SDK.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/templatesadt4_qkhxyb.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/templatesadt4_qkhxyb-198x300.png&quot; alt=&quot;templatesadt4&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Tenéis más información sobre cómo crear plantillas en &lt;a href=&quot;https://plus.google.com/113735310430199015092/posts/XTKTamk4As8&quot;&gt;este post de Google+&lt;/a&gt;. ¿Se os ocurren más plantillas útiles? ¿Os animáis a hacerlas y compartirlas? ;)&lt;/p&gt;
+
+&lt;p&gt;Y hasta aquí los cambios que os sugerimos para vuestro IDE, espero que algunos os resulten tan útiles como a mi. En futuras entregas intentaremos contar otros trucos a la hora de usar Eclipse. Si tenéis más sugerencias relacionadas son bienvenidas en los comentarios  ;-)&lt;/p&gt;
+
+&lt;p&gt;Fuentes: &lt;a href=&quot;http://www.vogella.com/articles/Eclipse/article.html#preferences&quot;&gt;Vogella&lt;/a&gt; y cosecha propia&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Añadir datos precargados en tus aplicaciones</title>
+   <link href="http://androcode.es/2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/"/>
+   <updated>2013-01-23T11:00:00+01:00</updated>
+   <id>http://androcode.es/2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones</id>
+   <content type="html">&lt;p&gt;Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.&lt;/p&gt;
+
+&lt;p&gt;En el siguiente artículo os plantearemos una serie de alternativas sobre cómo partir de una base de datos con datos existentes. No existe una opción única o mejor que todas, ya que cada una de las soluciones aquí presentadas se adaptan a distintas situaciones.&lt;/p&gt;
+
+&lt;h5&gt;Opción 1 - Carga manual al crear la base de datos&lt;/h5&gt;
+
+&lt;p&gt;Si los datos son pocos y éstos no van a cambiar mucho la forma más sencilla es insertarlos manualmente durante la creación de la base de datos.&lt;/p&gt;
+
+&lt;p&gt;Al trabajar con &lt;a href=&quot;http://developer.android.com/training/basics/data-storage/databases.html&quot;&gt;bases de datos en android&lt;/a&gt;, tendremos una clase que extiende de &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt; y que será la encargada de generar la base de datos. El método &lt;strong&gt;onCreate&lt;/strong&gt; será el lugar donde podremos insertar los valores, de esta forma nos aseguramos que se hará siempre que se cree la base de datos.&lt;/p&gt;
+
+&lt;p&gt;Si estamos trabajando directamente con &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt; (no estamos utilizando una librería externa de gestión de base de datos) nuestro método &lt;strong&gt;onCreate&lt;/strong&gt; podría quedar de la siguiente forma:&lt;/p&gt;
+
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;    public void onCreate(SQLiteDatabase db) {
+        // Sentencias de creación de base de datos
+        // db.execSQL(&quot;CREATE TABLE ...&quot;);
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            for (int i = 0; i &amp;lt; NOMRES.length; i++) {
+                values.put(&quot;nombre&quot;, NOMBRES[i]);
+                values.put(&quot;edad&quot;, EDADES[i]);
+                db.insert(&quot;usuarios&quot;, null, values);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+&lt;/pre&gt;
+
+&lt;p&gt;Como vemos el funcionamiento es muy sencillo. Los datos podrían venir de cualquier otra clase de nuestro código en lugar de arrays (en el ejemplo NOMBRES y EDADES). Lo importante aquí empieza en la línea 4, declaramos que vamos a iniciar una transacción, insertamos los datos, declaramos que hemos insertado los datos correctamente y finalizamos la transacción. Se utilizan transacciones para que la inserción de datos se haga de una forma más rápida.&lt;/p&gt;
+
+&lt;p&gt;Si estamos utilizando alguna librería de gestión de base de datos siempre tendremos la posibilidad de ejecutar código durante la creación de la base de datos. ORMLite por ejemplo extiende de &lt;a href=&quot;http://ormlite.com/android/examples/DatabaseHelper.java&quot;&gt;OrmLiteSqliteOpenHelper&lt;/a&gt; que también incluye el método &lt;strong&gt;onCreate&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h5&gt;Opción 2 - Cargar script SQL al crear la base de datos&lt;/h5&gt;
+
+&lt;p&gt;Una segunda opción y quizás la más recomendable después de la &lt;strong&gt;Opción 4&lt;/strong&gt; consiste en crearnos un fichero SQL de inserción, leerlo e importarlo en el &lt;strong&gt;onCreate&lt;/strong&gt;. El fichero podemos crearlo en el directorio &lt;em&gt;assets&lt;/em&gt; y tendría una sentencia SQL por línea. Por ejemplo:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;INSERT INTO usuarios (nombre, edad) VALUES (&amp;#39;usuario1&amp;#39;, 18);
+INSERT INTO usuarios (nombre, edad) VALUES (&amp;#39;usuario2&amp;#39;, 48);
+INSERT INTO usuarios (nombre, edad) VALUES (&amp;#39;usuario3&amp;#39;, 30);
+INSERT INTO usuarios (nombre, edad) VALUES (&amp;#39;usuario4&amp;#39;, 55);
+INSERT INTO usuarios (nombre, edad) VALUES (&amp;#39;usuario5&amp;#39;, 16);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Si suponemos que el fichero se ha grabado en el directorio &lt;em&gt;assets&lt;/em&gt; con el nombre &lt;em&gt;import.sql&lt;/em&gt; nuestro método &lt;strong&gt;onCreate&lt;/strong&gt; del &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt; quedaría de la siguiente forma:&lt;/p&gt;
+
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;    public void onCreate(SQLiteDatabase db) {
+        // Sentencias de creación de base de datos
+        // db.execSQL(&quot;CREATE TABLE ...&quot;);
+        InputStream is = null;
+        try {
+             is = mContext.getAssets().open(&quot;import.sql&quot;);
+             if (is != null) {
+                 db.beginTransaction();
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                 String line = reader.readLine();
+                 while (!TextUtils.isEmpty(line)) {
+                     db.execSQL(line);
+                     line = reader.readLine();
+                 }
+                 db.setTransactionSuccessful();
+             }
+        } catch (Exception ex) {
+            // Muestra log
+        } finally {
+            db.endTransaction();
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // Muestra log
+                }
+            }
+        }
+    }
+&lt;/pre&gt;
+
+&lt;p&gt;Como vemos resulta muy sencillo. La variable &lt;strong&gt;mContext&lt;/strong&gt; podemos inicializarla en el constructor del &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt;. Luego sólo tenemos que cargar el fichero, leerlo línea a línea e ir ejecutando las sentencias. Esto mismo podría valernos para el método &lt;strong&gt;onUpgrade&lt;/strong&gt;, con un fichero SQL con sentencias de actualización de base de datos.&lt;/p&gt;
+
+&lt;p&gt;Esta opción es muy recomendable cuando tenemos un número considerable de datos, pero hay que tener en cuenta que es posible que se ejecute en el hilo principal (por ejemplo porque inicializamos el &lt;em&gt;helper&lt;/em&gt; en una activity) llegándolo a bloquear si tarda mucho.&lt;/p&gt;
+
+&lt;p&gt;Al igual que antes, la mayoría de los gestores de base de datos proporcionan el método &lt;strong&gt;onCreate&lt;/strong&gt; donde podemos realizar esta misma tarea.&lt;/p&gt;
+
+&lt;h5&gt;Opción 3 - Copiar una base de datos creada con anterioridad&lt;/h5&gt;
+
+&lt;p&gt;Esta opción y la última son las aconsejables cuando el volumen de datos es muy grande. No obstante, aunque la opción 3 pueda llegar a ser la más cómoda es, sin lugar a dudas, la que más problemas y quebraderos de cabeza puede darnos. No es la más recomendable, sin embargo es una solución posible y como tal os la presentamos en el artículo.&lt;/p&gt;
+
+&lt;p&gt;La idea se basa en crear una base de datos &lt;em&gt;SQLite&lt;/em&gt;, insertar datos mediante un programa externo en nuestro ordenador, empaquetarla en el directorio &lt;em&gt;assets&lt;/em&gt; de nuestra aplicación y en la creación de la base de datos darle el cambiazo a la recién creada por la nuestra.&lt;/p&gt;
+
+&lt;p&gt;Existen multitud de recursos sobre cómo realizar esta tarea, basta con una simple &lt;a href=&quot;https://www.google.es/search?q=Using+your+own+SQLite+database+in+Android&quot;&gt;búsqueda en Google&lt;/a&gt; para encontrar alguno de los artículos. A continuación vamos a comentar los pasos por encima.&lt;/p&gt;
+
+&lt;h6&gt;Paso 1 - Preparar la base de datos&lt;/h6&gt;
+
+&lt;p&gt;El primer paso es preparar nuestra base de datos. Podemos utilizar la &lt;a href=&quot;http://developer.android.com/tools/help/sqlite3.html&quot;&gt;herramienta sqlite3&lt;/a&gt; que incorpora el SDK de android o algún editor gráfico como &lt;a href=&quot;http://sourceforge.net/projects/sqlitebrowser/&quot;&gt;SQLite Database Browser&lt;/a&gt; o &lt;a href=&quot;http://sqliteman.com/&quot;&gt;SQLiteman&lt;/a&gt;. Lo importante es que nuestra base de datos debe tener una tabla con el nombre &lt;strong&gt;android_metadata&lt;/strong&gt; con una única columna de nombre &lt;strong&gt;locale&lt;/strong&gt; y con una fila con el valor &lt;strong&gt;en_US&lt;/strong&gt;. Podemos crearla con las siguientes dos sentencias SQL:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;CREATE TABLE android_metadata (locale TEXT DEFAULT &amp;#39;en_US&amp;#39;);
+INSERT INTO android_metadata VALUES (&amp;#39;en_US&amp;#39;);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Una vez hecho esto creamos las tablas de nuestra aplicación e insertamos los datos necesarios.&lt;/p&gt;
+
+&lt;h6&gt;Paso 2 - Copiar la base de datos en el directorio assets&lt;/h6&gt;
+
+&lt;p&gt;Este paso, a priori sencillo, puede darnos más de un problema. El motivo es que si nuestra base de datos ocupa más de 1MB, al crear el APK la base de datos estará en el directorio &lt;em&gt;assets&lt;/em&gt; pero comprimida y al leerla nos dará un error.&lt;/p&gt;
+
+&lt;p&gt;La herramienta &lt;em&gt;aapt&lt;/em&gt; ignora para su compresión algunos recursos en base a su extensión, como por ejemplo mp3 o avi, porque se supone que estos ficheros ya están comprimidos. Por tanto, tenemos dos formas de evitar que la herramienta &lt;em&gt;aapt&lt;/em&gt; comprima nuestro fichero de base de datos al crear el APK:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;  &lt;span style=&quot;line-height: 12px&quot;&gt;&lt;strong&gt;Forma fácil&lt;/strong&gt;: Le cambiamos la extensión a .mp3&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;  &lt;strong&gt;Forma correcta&lt;/strong&gt;: Le pasamos el parámetro &amp;#39;-0&amp;#39; (cero) seguido de la extensión &amp;#39;db&amp;#39; (o la extensión del fichero de nuestra base de datos si es otra) a la herramienta cuando vayamos a crear el APK&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h6&gt;Paso 3 - Inicializar la base de datos y copiar la nuestra&lt;/h6&gt;
+
+&lt;p&gt;El último paso consiste en modificar nuestra clase &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt; para que realice los siguientes pasos:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt; &lt;span style=&quot;line-height: 12px&quot;&gt;Compruebe si la base de datos está inicializada&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt; Si no lo está, inicialice y la sobrescriba con la base de datos del directorio assets&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Como dijimos antes, existen varias páginas que explican cómo realizar esta tarea. A continuación podemos ver una posible implementación del &lt;strong&gt;SQLiteOpenHelper&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+
+public class DBHelper extends SQLiteOpenHelper {
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = &quot;basededatos.db&quot;;
+
+    private Context mContext;
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
+
+    public void createDataBase() throws IOException {
+        File pathFile = mContext.getDatabasePath(DATABASE_NAME);
+        boolean dbExist = checkDataBase(pathFile.getAbsolutePath());
+        if(!dbExist) {
+            this.getReadableDatabase();
+            try {
+                copyDataBase(pathFile);
+            } catch (IOException e) {
+                // Error copying database
+            }
+        }
+    }
+
+    private boolean checkDataBase(String path) {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+        } catch(Exception e){
+             // Database doesn't exist
+        }
+        if(checkDB != null) {
+            checkDB.close();
+        }
+        return checkDB != null;
+    }
+
+    private void copyDataBase(File pathFile) throws IOException {
+        InputStream myInput = mContext.getAssets().open(&quot;basededatos.db&quot;);
+        OutputStream myOutput = new FileOutputStream(pathFile);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = myInput.read(buffer)) &amp;gt; 0) {
+            myOutput.write(buffer, 0, length);
+        }
+        myOutput.flush();
+        myOutput.close();
+        myInput.close();
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+}
+&lt;/pre&gt;
+
+&lt;p&gt;Siempre que queramos hacer uso de los métodos &lt;strong&gt;getReadableDatabase()&lt;/strong&gt; y &lt;strong&gt;getWritableDatabase()&lt;/strong&gt; tendríamos que llamar al método &lt;strong&gt;createDatabase()&lt;/strong&gt; que se encarga de crear la base de datos si ésta no existe (si ya existe no hace nada).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;¡Excepciones!&lt;/strong&gt;: Si vas a utilizar este código en tu aplicación ten en cuenta las capturas de excepciones, deberás actuar en consecuencia.&lt;/p&gt;
+
+&lt;h5&gt;Opción 3&amp;#39; - Utilizar android-sqlite-asset-helper&lt;/h5&gt;
+
+&lt;p&gt;La &lt;a href=&quot;https://github.com/jgilfelt/android-sqlite-asset-helper&quot;&gt;librería android-sqlite-asset-helper&lt;/a&gt; nos facilita la implementación mediante la opción 3 pero con la ventaja de que nos ahorra prácticamente todo el trabajo. Por contra, perderemos el control de qué está ocurriendo.&lt;/p&gt;
+
+&lt;p&gt;Para utilizarla debemos seguir los siguientes pasos:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt; &lt;span style=&quot;line-height: 12px&quot;&gt;Copiar &lt;a href=&quot;https://github.com/jgilfelt/android-sqlite-asset-helper/blob/master/lib/android-sqlite-asset-helper.jar?raw=true&quot;&gt;android-sqlite-asset-helper.jar&lt;/a&gt; en nuestro directorio libs&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt; Crear nuestro &lt;em&gt;helper&lt;/em&gt; extendiendo de &lt;strong&gt;SQLiteAssetHelper&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt; Llamar al &amp;quot;super constructor&amp;quot; pasándole el nombre de la base de datos.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Por ejemplo, si invocamos el super constructor de la siguiente forma:&lt;/p&gt;
+
+&lt;pre class=&quot;brush: java; gutter: true; first-line: 1&quot;&gt;super(context, &quot;mibasededatos&quot;, null, 1);&lt;/pre&gt;
+
+&lt;p&gt;Tendremos que poner nuestra base de datos comprimida en:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;assets/databases/mibasededatos.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Simplemente con esto, la librería gestionará la importación de la base de datos en el caso de que no existiera.&lt;/p&gt;
+
+&lt;h5&gt;Opción 4 - Estándar&lt;/h5&gt;
+
+&lt;p&gt;¿Pero qué ocurre si los datos tardan mucho en cargar?, o ¿y si los leo desde un servicio web externo?, o ¿y si me los pasan en XML o JSON?. Bueno, si estás en una de las situaciones anteriores una solución como esta es la más indicada. Es la opción más visual (de hecho es la única que cuenta con vistas) y podemos verla reflejada en el siguiente boceto:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/1.-Home_pj3dla.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/1.-Home_pj3dla.png&quot; alt=&quot;Mockup carga de datos&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;La idea es sencilla, al entrar en nuestra pantalla principal comprobamos si están los datos cargados. Si no lo están cargamos una vista como la del boceto e iniciamos una tarea de carga.&lt;/p&gt;
+
+&lt;p&gt;El código aquí no tiene sentido, pues existen muchísimas formas de conseguir este comportamiento y depende, entre otras cosas, de nuestra forma de conectarnos a la base de datos.&lt;/p&gt;
+
+&lt;p&gt;Esta forma de resolver la carga inicial está especialmente indicada cuando tenemos un volumen de datos bastante considerable y además los datos estén en un formato no impuesto por nosotros, como por ejemplo XML o fichero de texto.&lt;/p&gt;
+
+&lt;p&gt;La idea de esta aproximación es ejecutar la tarea en un segundo plano, por lo que si la importación tarda más de un par se segundos de ejecución esta puede ser una buena opción. Podría implementarse fácilmente con una &lt;a href=&quot;http://developer.android.com/reference/android/os/AsyncTask.html&quot;&gt;AsyncTask&lt;/a&gt;, aunque los detalles ya dependen de vuestro caso.&lt;/p&gt;
+
+&lt;p&gt;Las características de esta aproximación son:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt; Se adapta a cualquier cantidad de datos. Si la importación tarda más de un minuto no es problema, pues no estamos bloqueando el hilo principal de ejecución.&lt;/li&gt;
+&lt;li&gt; Tendremos que diseñar los layouts, gestionar la carga en segundo plano y actualizar la vista cuando sea necesario.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h5&gt;Conclusiones&lt;/h5&gt;
+
+&lt;p&gt;Como vemos es relativamente sencillo incorporar unos datos precargados a nuestras aplicaciones android.&lt;/p&gt;
+
+&lt;p&gt;En ese artículo se han presentado 4 +1 formas de realizar esta tarea. Y vosotros, ¿utilizáis otros mecanismos?, si habéis utilizado alguna de las propuestas, ¿cuál ha sido vuestra experiencia?.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Trabajando con Parcelables</title>
+   <link href="http://androcode.es/2012/12/17/trabajando-con-parcelables/"/>
+   <updated>2012-12-17T11:00:00+01:00</updated>
+   <id>http://androcode.es/2012/12/17/trabajando-con-parcelables</id>
+   <content type="html">&lt;p&gt;Hola a todos! hoy me estreno en androcode.es con un artículo sobre tipos parcelables, si no sabes lo que son, hoy aprenderás para qué sirven y cómo implementarlos.
+&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx-300x201.png&quot; alt=&quot;&quot; title=&quot;teach&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Normalmente cuando queremos pasar un objeto entre actividades tenemos varias opciones, unas más elegantes y otras menos.&lt;/p&gt;
+
+&lt;p&gt;Tal vez lo primero que se nos ocurra sea guardar el objeto en un campo static de una de nuestras clases, y recuperarlo en la nueva actividad, pero este tipo de prácticas no están muy bien vistas ya que puedes incurrir en problemas de concurrencia, leaks de memoria, etc.&lt;/p&gt;
+
+&lt;p&gt;Puede que lo siguiente que se te ocurra sea implementar en el objeto la interfaz serializable. Esta solución no es mala para objetos pequeños pero en la práctica es muy lenta y si vamos a serializar un objeto complejo y grande, no es la mejor solución. Por eso el equipo de android decidió inventarse los tipos parcelables, que en la práctica es como escribir los tipos en un &lt;a href=&quot;http://developer.android.com/reference/android/os/Bundle.html&quot;&gt;Bundle&lt;/a&gt; y recuperarlos después. De echo el objeto Bundle implementa la interfaz Parcelable y cuando haces intent.putExtra(&amp;quot;key&amp;quot;,&amp;quot;hello world&amp;quot;), estás escribiendo un Bundle asociado al intent, y cuando haces getIntent().getExtras() para leer, es un Bundle de donde lees.&lt;/p&gt;
+
+&lt;p&gt;Pero vamos a ver esto con más detalle y vamos a ver como podemos implementar la interfaz &lt;a href=&quot;http://developer.android.com/reference/android/os/Parcelable.html&quot;&gt;Parcelable&lt;/a&gt; en nuestros objetos para pasarlos entre actividades o servicios de una manera rápida.  &lt;/p&gt;
+
+&lt;p&gt;Puedes descargarte el &lt;a href=&quot;https://github.com/ferdy182/Android-parcelable-example&quot; title=&quot;ferdy182 en GitHub Android parcelable example&quot;&gt;código de ejemplo de github&lt;/a&gt; Lo primero es crearnos una clase que implemente la interfaz &lt;a href=&quot;http://developer.android.com/reference/android/os/Parcelable.html&quot;&gt;Parcelable&lt;/a&gt;
+```
+package com.example.parcelable;&lt;/p&gt;
+
+&lt;p&gt;import android.os.Parcel;
+import android.os.Parcelable;&lt;/p&gt;
+
+&lt;p&gt;public class Estudiante implements Parcelable {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;@Override
+public int describeContents() {
+    return 0;
+}
+
+@Override
+public void writeToParcel(Parcel dest, int flags) {
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+
+&lt;p&gt;Esto nos creará un par de métodos en la clase, describeContents, que en los ejemplos siempre ponen return 0; así que de momento no nos preocupamos, y el método writeToParcel que recibe un objeto Parcel de destino y un flag que puede ser 0 o &lt;a href=&quot;http://developer.android.com/reference/android/os/Parcelable.html#PARCELABLE_WRITE_RETURN_VALUE&quot;&gt;&lt;em&gt;PARCELABLE&lt;em&gt;WRITE&lt;/em&gt;RETURN_VALUE&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Yo recomiendo añadir otro constructor al objeto que reciba un Parcel para recrearlo a partir de ahí y un método readFromParcel(Parcel in) para rellenar los campos del objeto y tenerlo más ordenado.&lt;/p&gt;
+
+&lt;p&gt;Además vamos a añadirle unos campos a la clase, porque una clase sin campos no vale para mucho ¿no?&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;package com.example.parcelable;
+
+import java.util.List;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Estudiante implements Parcelable {
+    int fechaNacimiento;
+    String nombreCompleto;
+    boolean esHijoUnico;
+    float[] notas;
+    List&amp;amp;lt;Estudiante&amp;amp;gt; amigos;
+
+    public Estudiante() {
+        notas = new float[3];
+        amigos = new ArrayList&amp;amp;lt;Estudiante&amp;amp;gt;();
+    }
+
+    public Estudiante(Parcel in) {
+        notas = new float[3];
+        amigos = new ArrayList&amp;amp;lt;Estudiante&amp;amp;gt;();
+        readFromParcel(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
+    private void readFromParcel(Parcel in) {
+
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Cómo veis, he añadido unos campos de distintos tipos, incluidos un array de floats y una lista tipada (para que veáis que se pueden meter distintos tipos en un Parcel).&lt;/p&gt;
+
+&lt;p&gt;Ahora vamos a ver la chicha, cómo guardar el objeto en un Parcel y como recuperarlo después.&lt;/p&gt;
+
+&lt;p&gt;Básicamente el objeto Parcel nos expone unos métodos para escribir nuestros campos según su tipo para no equivocarnos, por lo que rellenamos nuestro método writeToParcel de la forma siguiente:
+&lt;code&gt;
+@Override
+public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(fechaNacimiento);
+    dest.writeString(nombreCompleto);
+    dest.writeBooleanArray(new boolean[]{esHijoUnico});
+    dest.writeFloatArray(notas);
+    dest.writeTypedList(amigos);
+}
+&lt;/code&gt;
+Mientras escribía esto he descubierto que &lt;a href=&quot;http://code.google.com/p/android/issues/detail?id=5973&quot;&gt;no hay un método Parcel.writeBoolean(boolean val)&lt;/a&gt; (gracias Google!) por lo que podéis o bien escribirlo en un array de booleans con un único valor, o escribir un byte y luego parsearlo como boolean.&lt;/p&gt;
+
+&lt;p&gt;Ahora vamos a ver como recuperaríamos nuestro objeto de un Parcel, así que rellenamos el método readFromParcel de esta manera:
+```
+private void readFromParcel(Parcel in) {
+    fechaNacimiento = in.readInt();
+    nombreCompleto = in.readString();&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;boolean[] temp = new boolean[1];
+in.readBooleanArray(temp);
+esHijoUnico = temp[0];
+
+in.readFloatArray(notas);
+in.readTypedList(amigos, CREATOR);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}
+&lt;code&gt;
+¡Ostras! Para leer una lista tipada necesito un objeto Parcelable.Creator, ¿qué es eso? Digamos que es un objeto que genera objetos del tipo que le digas a partir de un Parcel (vamos, lo que veníamos haciendo) pero es necesario para recrear los objetos en otros Parcelables. Es muy sencillo, sólo hay que añadir esto:
+&lt;/code&gt;
+public static final Parcelable.Creator&amp;lt;Estudiante&amp;gt; CREATOR
+    = new Parcelable.Creator&amp;lt;Estudiante&amp;gt;() {
+        public Estudiante createFromParcel(Parcel in) {
+            return new Estudiante(in);
+        }&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;    public Estudiante[] newArray(int size) {
+        return new Estudiante[size];
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Ahora veis como añadir un constructor que recibe un Parcel era buena idea para tener todo limpito. Además, nota importante, cuando leemos del Parcel no hay pares clave-valor, así que hay que **leerlo en el mismo orden en que lo escribimos**.
+
+¡Pues ya tenemos nuestro objeto implementado! Vamos a ver si funciona. Creamos un par de activities, en el primero creamos un par de estudiantes, uno amigo del otro (¡no es un amistad mutua así que sin referencias cruzadas por favor!) y lo metemos en los extras de un intent que viajarán a la segunda activity donde rescatamos nuestro estudiante y escribimos en el LogCat toda la info que hemos recibido de él y de su amigo no correspondido:
+
+**MainActivity.java**
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Estudiante otroEstudiante = new Estudiante();
+otroEstudiante.nombreCompleto = &amp;quot;Perico Palotes&amp;quot;;
+otroEstudiante.esHijoUnico = false;
+otroEstudiante.fechaNacimiento = 1990;
+otroEstudiante.notas = new float[]{7.8f, 4.9f, 10.0f};
+otroEstudiante.amigos = new ArrayList&amp;lt;Estudiante&amp;gt;();&lt;/p&gt;
+
+&lt;p&gt;Estudiante estudiante = new Estudiante();
+estudiante.nombreCompleto = &amp;quot;Fernando F. Gallego&amp;quot;;
+estudiante.esHijoUnico = true;
+estudiante.fechaNacimiento = 1983;
+estudiante.notas = new float[]{9.5f, 8.6f, 4.6f};
+estudiante.amigos = new ArrayList&amp;lt;Estudiante&amp;gt;();&lt;/p&gt;
+
+&lt;p&gt;estudiante.amigos.add(otroEstudiante);&lt;/p&gt;
+
+&lt;p&gt;Intent intent = new Intent(this, DestActivity.class);
+intent.putExtra(&amp;quot;estudiante&amp;quot;, estudiante);
+startActivity(intent);
+```&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DestActivity.java&lt;/strong&gt;
+```
+Estudiante estudiante = getIntent().getParcelableExtra(&amp;quot;estudiante&amp;quot;);&lt;/p&gt;
+
+&lt;p&gt;Log.i(&amp;quot;estudiante&amp;quot;, estudiante.nombreCompleto);
+Log.i(&amp;quot;estudiante&amp;quot;, String.valueOf(estudiante.esHijoUnico));
+Log.i(&amp;quot;estudiante&amp;quot;, String.valueOf(estudiante.fechaNacimiento));
+Log.i(&amp;quot;estudiante&amp;quot;, Arrays.toString(estudiante.notas));
+Estudiante amigo = estudiante.amigos.get(0);
+Log.i(&amp;quot;amigo&amp;quot;, amigo.nombreCompleto);
+Log.i(&amp;quot;amigo&amp;quot;, String.valueOf(amigo.esHijoUnico));
+Log.i(&amp;quot;amigo&amp;quot;, String.valueOf(amigo.fechaNacimiento));
+Log.i(&amp;quot;amigo&amp;quot;, Arrays.toString(amigo.notas));&lt;/pre&gt; Y esto es lo que veremos en nuestro querido LogCat &lt;pre class=&quot;brush: bash;&quot;&gt;I/estudiante(6739): Fernando F. Gallego
+I/estudiante(6739): true
+I/estudiante(6739): 1983
+I/estudiante(6739): [9.5, 8.6, 4.6]
+I/amigo(6739): Perico Palotes
+I/amigo(6739): false
+I/amigo(6739): 1990
+I/amigo(6739): [7.8, 4.9, 10.0]
+```&lt;/p&gt;
+
+&lt;p&gt;Puedes descargarte el &lt;a href=&quot;https://github.com/ferdy182/Android-parcelable-example&quot; title=&quot;ferdy182 en GitHub Android parcelable example&quot;&gt;código de ejemplo de github&lt;/a&gt;&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Primeros pasos con ORMLite</title>
+   <link href="http://androcode.es/2012/12/04/primeros-pasos-con-ormlite/"/>
+   <updated>2012-12-04T11:00:00+01:00</updated>
+   <id>http://androcode.es/2012/12/04/primeros-pasos-con-ormlite</id>
+   <content type="html">&lt;p&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/orm_cz4tqf.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+
+&lt;p&gt;En este blog ya os hemos hablado de cómo facilitar el trabajo con bases de datos &lt;a href=&quot;http://androcode.es/tag/sqlite/&quot;&gt;SQLite&lt;/a&gt;. En concreto hemos visto cómo trabajar con &lt;a href=&quot;http://androcode.es/tag/android-dataframework/&quot;&gt;Android DataFramework&lt;/a&gt; y &lt;a href=&quot;http://androcode.es/tag/ada-framework/&quot;&gt;ADA Framework&lt;/a&gt;. Hoy os traemos una pequeña joya, una librería que en mis proyectos se ha convertido en una fija, ya no sólo por su facilidad de uso sino también por su potencia. Os estoy hablando de &lt;a href=&quot;http://ormlite.com/&quot;&gt;ORMLite&lt;/a&gt;.   ORMLite es de esas librerías que al principio pueden resultar poco vistosas con una página poco cuidada y una documentación difícil de leer. Pero cuando trabajas con ella descubres lo fiable que es y la cantidad de posibilidades que ofrece. Sobra decir que ORMLite es una librería ORM clásica que nos permite mapear clases Java con tablas en la base de datos. En esta entrada veremos qué nos hace falta en nuestro proyecto para empezar a utilizar la librería, cómo modelar las clases, cómo crear nuestro &lt;em&gt;helper&lt;/em&gt; y por último algunos ejemplos sencillos.  &lt;/p&gt;
+
+&lt;h4&gt;Elementos necesarios&lt;/h4&gt;
+
+&lt;p&gt;Lo primero que tenemos que tener es un proyecto android. ORMLite se distribuye a partir de dos librerías JAR que debemos incluir en el directorio libs de nuestro proyecto: ormlite-core: Núcleo de la librería ormlite-android: Clases específicas de android Debemos incluir ambas en nuestro proyecto y para descargarlas tenemos varias opciones:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://ormlite.com/releases/&quot;&gt;Repositorio local&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://repo1.maven.org/maven2/com/j256/ormlite/&quot;&gt;Repositorio de maven&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sourceforge.net/projects/ormlite/files/releases/com/j256/ormlite/&quot;&gt;Sourceforge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;Modelar las clases&lt;/h4&gt;
+
+&lt;p&gt;El siguiente paso es elegir las clases del modelo que queremos mapear a tablas en nuestra base de datos. Cada clase será una tabla en nuestra base de datos y lo indicaremos a través de anotaciones sobre la clase. Lo mejor es verlo a través de un ejemplo, para ello supongamos que tenemos dos clases, Usuario y Grupo, que representan a usuarios y grupos respectivamente. Un usuario sólo puede estar en un grupo y el grupo puede tener más de un usuario. La clase Usuario tendría la siguiente forma:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;package es.androcode.androcode_ormlite;
+
+import java.util.Date;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable
+public class Usuario {
+
+    public static final String ID = &amp;quot;_id&amp;quot;;
+    public static final String NOMBRE = &amp;quot;nombre&amp;quot;;
+    public static final String FECHA_NACIMIENTO = &amp;quot;fecha_nacimiento&amp;quot;;
+    public static final String GRUPO = &amp;quot;grupo&amp;quot;;
+
+    @DatabaseField(generatedId = true, columnName = ID)
+    private int id;
+    @DatabaseField(columnName = NOMBRE)
+    private String nombre;
+    @DatabaseField(columnName = FECHA_NACIMIENTO)
+    private Date fechaNacimiento;
+    @DatabaseField(foreign = true, columnName = GRUPO)
+    private Grupo grupo;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Vamos a ir desgranando las principales partes importantes de este código.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Línea 8 - Anotación DatabaseTable:&lt;/strong&gt;
+Mediante esta anotación estamos indicando que esta clase tendrá su correspondiente tabla en la base de datos. Esta anotación acepta el atributo tableName que permite indicar un nombre concreto de la tabla.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 11 a 14:&lt;/strong&gt;
+Constantes para especificar los nombres de las columnas. Esta es una práctica que suelo utilizar a menudo y que recomiendo encarecidamente. Esto suele resultar muy útil porque más adelante necesitaremos el nombre de la columna para ordenar o realizar consultas y no es aconsejable poner las cadenas en cada uso.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Línea 16 - DatabaseField(generatedId = true, columnName = ID):&lt;/strong&gt;
+Esta anotación se sitúa sobre el campo que hace de clave primaria. El campo puede ser de cualquier tipo, pero se aconseja que sea de tipo int o tipo long. Hemos usado &lt;strong&gt;generatedId&lt;/strong&gt; para indicar que el id se genere automáticamente al crear objetos. Podríamos haber puesto &lt;strong&gt;generateIdSequence&lt;/strong&gt; para que se autogenere mediante secuencia de base de datos o &lt;strong&gt;id&lt;/strong&gt;, si quisiéramos indicar nosotros el id. El segundo parámetro es columnName que indica el nombre de la columna. Otra recomendación es utilizar como nombre de columna para el id &amp;quot;_id&amp;quot;, ya que es lo recomendado por android y nos facilitará compatibilidades con los CursorAdapter por ejemplo.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 18 a 21:&lt;/strong&gt;
+Definición del resto de propiedades y columnas.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Línea 22 - @DatabaseField(foreign = true, columnName = GRUPO):&lt;/strong&gt;
+Definimos la relación con la entidad Grupo, indicado mediante el atributo foreign. A través de este valor, estamos diciéndole al motor de ORMLite que la propiedad grupo hace referencia a otra entidad con su correspondiente id. La entidad Grupo es muy simple, ya que para este ejemplo no vamos a guardar relación con Usuario.  
+```
+package es.androcode.androcode_ormlite;&lt;/p&gt;
+
+&lt;p&gt;import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;&lt;/p&gt;
+
+&lt;p&gt;@DatabaseTable
+public class Grupo {&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;public static final String ID = &amp;quot;_id&amp;quot;;
+public static final String NOMBRE = &amp;quot;nombre&amp;quot;;
+
+@DatabaseField(generatedId = true, columnName = ID)
+private int id;
+@DatabaseField(columnName = NOMBRE)
+private String nombre;
+
+public int getId() {
+    return id;
+}
+
+public void setId(int id) {
+    this.id = id;
+}
+
+public String getNombre() {
+    return nombre;
+}
+
+public void setNombre(String nombre) {
+    this.nombre = nombre;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;}
+```&lt;/p&gt;
+
+&lt;h4&gt;Creando el helper&lt;/h4&gt;
+
+&lt;p&gt;Siempre que queramos trabajar con SQLite en Android tendremos que crear un &lt;em&gt;helper&lt;/em&gt;. Una clase helper se encarga de crear, actualizar y proporcionar acceso a la base de datos. En ORMLite tendremos que extender de &lt;strong&gt;OrmLiteSqliteOpenHelper&lt;/strong&gt;. También le añadiremos el acceso a los DAO para que podamos utilizarlos desde otras partes del código. Vamos a ver cómo quedaría nuestra clase &lt;em&gt;helper&lt;/em&gt; y luego explicaremos las partes más importantes.&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;package es.androcode.androcode_ormlite;
+
+import java.sql.SQLException;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+public class DBHelper extends OrmLiteSqliteOpenHelper {
+
+    private static final String DATABASE_NAME = &amp;quot;androcode_ormlite.db&amp;quot;;
+    private static final int DATABASE_VERSION = 1;
+
+    private Dao&amp;lt;Usuario, Integer&amp;gt; usuarioDao;
+    private Dao&amp;lt;Grupo, Integer&amp;gt; grupoDao;
+
+    public DBHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
+        try {
+            TableUtils.createTable(connectionSource, Usuario.class);
+            TableUtils.createTable(connectionSource, Grupo.class);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+        onCreate(db, connectionSource);
+    }
+
+    public Dao&amp;lt;Usuario, Integer&amp;gt; getUsuarioDao() throws SQLException {
+        if (usuarioDao == null) {
+            usuarioDao = getDao(Usuario.class);
+        }
+        return usuarioDao;
+    }
+
+    public Dao&amp;lt;Grupo, Integer&amp;gt; getGrupoDao() throws SQLException {
+        if (grupoDao == null) {
+            grupoDao = getDao(Grupo.class);
+        }
+        return grupoDao;
+    }
+
+    @Override
+    public void close() {
+        super.close();
+        usuarioDao = null;
+        grupoDao = null;
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Líneas 18 y 19:&lt;/strong&gt;
+Declaramos los DAO. A través de estos objetos realizaremos todas las operaciones de la base de datos. Cada objeto del modelo tiene su propio DAO asociado.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 21 a 23:&lt;/strong&gt;
+El constructor recibe la versión de la base de datos y el nombre de la base de datos. Esta parte es común al resto de &lt;em&gt;helpers&lt;/em&gt;. Existen formas de acelerar el proceso de creación de las tablas, pero es algo que veremos más adelante.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 25 a 33:&lt;/strong&gt;
+Es el método onCreate que se encarga de crear las tablas. En este caso hacemos del método TableUtils.createTable de la API de ORMLite. Recibe como parámetro la conexión y la clase del modelo para la que crear la tabla. Como vemos esto resulta muy cómodo, mucho más si lo comparamos con tener que crear las tablas a mano.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 35 a 38:&lt;/strong&gt;
+Método onUpgrade. En este caso al ser la primera versión de la base de datos no necesitamos actualizarla. Aquí tendríamos que poner el código encargado de actualizar la base de datos de una versión a otra tal y como lo hacemos con los helpers de android.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Líneas 40 a 52:&lt;/strong&gt;
+Son los métodos a través de los que podemos recuperar los DAO. Estos métodos crearán el DAO si no está inicializado o lo devolverán si ya está creado.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Línea 54 a 59:&lt;/strong&gt;
+Método close que se encarga de liberar los recursos.  &lt;/p&gt;
+
+&lt;h4&gt;Ejemplo de uso&lt;/h4&gt;
+
+&lt;p&gt;Lo primero que tenemos que plantearnos es, ¿cómo recupero el &lt;em&gt;helper&lt;/em&gt;?. Los &lt;em&gt;helpers&lt;/em&gt; suelen estar en el ámbito de las actividades, de forma que los fragments pueden tener acceso a través de la actividad que lo ha creado. También pueden utilizarse en servicios u otros elementos. La forma de crear el &lt;em&gt;helper&lt;/em&gt; es la siguiente:&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;DBHelper helper = OpenHelperManager.getHelper(context, DBHelper.class);
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Llamamos al método &lt;strong&gt;OpenHelperManager.getHelper&lt;/strong&gt; pasándole como argumentos el contexto y la clase antes definida. Es importante liberar recursos una vez que no vayamos a hacer operaciones con la base de datos. En el caso de las actividades podemos realizar esto en el método &lt;strong&gt;onDestroy&lt;/strong&gt;. En las actividades en las que vayamos a necesitar acceso al helper suelo utilizar el siguiente trozo de código (puedes moverlo a una clase abstracta y extender de ella si tienes más de una actividad con acceso a base de datos).  &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private DBHelper mDBHelper;
+
+    private DBHelper getHelper() {
+        if (mDBHelper == null) {
+            mDBHelper = OpenHelperManager.getHelper(this, DBHelper.class);
+        }
+        return mDBHelper;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDBHelper != null) {
+            OpenHelperManager.releaseHelper();
+            mDBHelper = null;
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Resumiendo, creamos una propiedad para almacenar la referencia a DBHelper y nos creamos un método de acceso para inicializar la clase sólo cuando haga falta. Observa que si nunca accedemos a dicho método, nunca inicializaremos la clase DBHelper. Por último se añade al método &lt;strong&gt;onDestroy&lt;/strong&gt; la liberación de recursos. Ahora vamos a ver algunos ejemplos sencillos de cómo interactuar con la base de datos. Como veremos a continuación, los métodos de los DAO pueden lanzar SQLException. ORMLite siempre nos ofrece mucha flexibilidad y en este caso no iba a ser menos. Si nos sentimos incómodos capturando en cada trozo de código en el que hagamos operaciones con base de datos simplemente cambiamos el uso de la clase Dao por RuntimeExceptionDao. Las excepciones que lanza RuntimeExceptionDao son de tipo &lt;em&gt;runtime&lt;/em&gt;, por lo que no es necesario capturarlas. De todas formas no os aconsejo esto último, porque si falla una operación en la base de datos tendréis que actuar en consecuencia y no simplemente dejar que la aplicación de un &lt;em&gt;force close&lt;/em&gt; al usuario.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Crear un objeto&lt;/strong&gt;  
+&lt;code&gt;
+Dao dao;
+try {
+    dao = getHelper().getUsuarioDao();
+    Usuario usuario = new Usuario();
+    usuario.setFechaNacimiento(new Date());
+    usuario.setNombre(&amp;quot;Fede&amp;quot;);
+    dao.create(usuario);
+} catch (SQLException e) {
+    Log.e(TAG, &amp;quot;Error creando usuario&amp;quot;);
+}
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Recuperar objetos&lt;/strong&gt;  
+&lt;code&gt;
+Dao dao;
+try {
+    dao = getHelper().getUsuarioDao();
+    Usuario usuario = dao.queryForId(1);
+    if (usuario == null) {
+        Log.d(TAG, &amp;quot;Ningún usuario con id = 1&amp;quot;);
+    } else {
+        Log.d(TAG, &amp;quot;Recuperado usuario con id = 1: &amp;quot; + usuario.getNombre());
+    }
+    List usuarios = dao.queryForEq(Usuario.NOMBRE, &amp;quot;Fede&amp;quot;);
+    if (usuarios.isEmpty()) {
+        Log.d(TAG, &amp;quot;No se encontraron usuarios con nombre = Fede&amp;quot;);
+    } else {
+        Log.d(TAG, &amp;quot;Recuperado usuarios con nombre = Fede &amp;quot; + usuarios);
+    }
+} catch (SQLException e) {
+    Log.e(TAG, &amp;quot;Error creando usuario&amp;quot;);
+}
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;El objeto DAO permite realizar consultas simples. Para consultas más complejas tendremos utilizar un QueryBuilder. A continuación podemos ver un ejemplo sencillo. En una próxima entrada veremos usos más avanzados de consultas.  &lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;Dao dao;
+try {
+    dao = getHelper().getUsuarioDao();
+    QueryBuilder queryBuilder = dao.queryBuilder();
+    queryBuilder.setWhere(queryBuilder.where().eq(Usuario.NOMBRE, &amp;quot;Fede&amp;quot;));
+    List usuarios = dao.query(queryBuilder.prepare());
+    if (usuarios.isEmpty()) {
+        Log.d(TAG, &amp;quot;No se encontraron usuarios con nombre = Fede&amp;quot;);
+    } else {
+        Log.d(TAG, &amp;quot;Recuperado usuarios con nombre = Fede &amp;quot; + usuarios);
+    }
+} catch (SQLException e) {
+    Log.e(TAG, &amp;quot;Error creando usuario&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Actualizar y eliminar objetos&lt;/strong&gt;  
+&lt;code&gt;
+Dao dao;
+try {
+    dao = getHelper().getUsuarioDao();
+    usuario.setNombre(&amp;quot;Pedro&amp;quot;);
+    dao.update(usuario);
+    Log.d(TAG, &amp;quot;Usuario modificado: &amp;quot; + usuario.getNombre());
+    dao.delete(usuario);
+} catch (SQLException e) {
+    Log.e(TAG, &amp;quot;Error creando usuario&amp;quot;);
+}
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4&gt;Conclusiones&lt;/h4&gt;
+
+&lt;p&gt;Como podéis ver ORMLite es muy sencillo e intuitivo. En próximas entradas intentaremos profundizar en su uso. También os recomendaría que os dierais una vuelta por la &lt;a href=&quot;http://ormlite.com/javadoc/ormlite-core/doc-files/ormlite.html&quot;&gt;documentación oficial&lt;/a&gt; y por supuesto a las preguntas y respuestas sobre esta librería en &lt;a href=&quot;http://stackoverflow.com/questions/tagged/ormlite&quot;&gt;stackoverflow&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>

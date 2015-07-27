@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Un ‘stack’ productivo para el desarrollador android #1, Arquitectura &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Un ‘stack’ productivo para el desarrollador android #1, Arquitectura</h1>
+  <span class="post-date">03 Feb 2015</span>
+  <p>Este es el primero de una serie de artículos sobre como configurar un entorno para llevar a cabo un proyecto android escalable, <em>mantenible</em> y t<em>esteable</em>, una serie de patrones y librerías usadas de una cierta manera para no volverse loco en el día día de un desarrollador android.</p>
+
+<!--more-->
+
+<h2><span style="font-size: medium">Escenario</span></h2>
+
+<p>Como ejemplo, me voy a basar en el siguiente proyecto, es una prueba de concepto de un simple catálogo de películas, las cuales se pueden marcar como vistas o pendientes.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png"><img src="http://androcode.es/wp-content/uploads/2015/02/1_ntqfre.png" alt="1"></a></p>
+
+<p>La información sobre las películas es sacada de una API pública llamada: <a href="https://www.themoviedb.org/documentation/api" title="TheMovieDB">themoviedb</a>, se puede encontrar buena documentación sobre ésta en su sección de <a href="http://docs.themoviedb.apiary.io/#" title="Apiary">Apiary</a>.</p>
+
+<p>Este proyecto se apoya en el patrón <a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter" title="Model View Presenter">Model View Presenter</a>, además implementa varias <em>guidelines</em> de la nueva especificación de diseño: <a href="http://www.google.com/design/spec/material-design/introduction.html" title="Material Design">Material Design</a>, como transiciones, estructuras, animaciones, colores etc...</p>
+
+<p>Todo el código está publicado en <a href="https://github.com/saulmm/Material-Movies" title="Github">Github</a>, por si queréis echarle un ojo.</p>
+
+<h2>Arquitectura:</h2>
+
+<p>Para diseñar la arquitectura, me he basado en el patrón <a href="Model%20View%20Presenter" title="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter">Model View Presenter</a>, que es una variación del patrón de arquitectura<a href="http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller"> Model View Controller</a>.</p>
+
+<p>Este patrón busca abstraer la <strong>lógica de negocio</strong> de la capa de presentación, en android esto es importante, ya que el propio <em>framework</em> facilita el acople de estas dos partes junto a la capa de datos, un claro ejemplo son los <em>Adapters</em>.</p>
+
+<p>Esta arquitectura, facilita el intercambio de las vistas sin que sea necesario modificar la lógica de negocio ni la capa de datos, reutilizar la capa de dominio, o variar entre varias fuentes de datos como una base de datos o una API REST.</p>
+
+<h3>Idea general</h3>
+
+<p>La estructura se puede dividir en tres grandes capas: <strong>presentación,</strong> <strong>modelo</strong> y <strong>dominio</strong>.</p>
+
+<p><img src="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2eGczcWh3MERkRGc-e1422883852292_hfs4r6.png" alt="0B62SZ3WRM2R2eGczcWh3MERkRGc"></p>
+
+<h4>Presentación</h4>
+
+<p>La capa de <strong>presentación</strong> es la que se encargará, como su nombre indica de mostrar la interfaz gráfica y proveerla de datos.</p>
+
+<h4>Modelo</h4>
+
+<p>El <strong>modelo</strong>, será el encargado de proveer la información, esta capa no sabrá <strong>nada</strong> del dominio, tampoco de la presentación, podría implementar una conexión e interfaz con una base de datos, con una Api REST, o con cualquier otro medio de persistencia.</p>
+
+<p>En esta capa también se implementarán las entidades de nuestra aplicación, la clase que representa a una película, una categoría, etc...</p>
+
+<h4>Dominio</h4>
+
+<p>La capa de <strong>dominio</strong> es totalmente <strong>independiente</strong> de la capa de presentación, en ella residirá la lógica de negocio de nuestra aplicación.</p>
+
+<h3>Implementación</h3>
+
+<p>Las capas de <strong>dominio, presentación</strong> y <strong>modelo</strong> dentro del proyecto, se distribuyen en dos módulos java y otro correspondiente a la aplicación Android (capa de presentación), además, se comparte un módulo común con librerías y utilidades.</p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi.png"><img src="http://androcode.es/wp-content/uploads/2015/02/0B62SZ3WRM2R2elJfT0JiZnlTcE01_ospwxi-260x300.png" alt="0B62SZ3WRM2R2elJfT0JiZnlTcE0"></a></p>
+
+<h4>Modulo dominio</h4>
+
+<p>El módulo del dominio, albergará los casos de uso y sus implementaciones, es la lógica de negocio de nuestra aplicación.</p>
+
+<p>Este módulo es <strong>totalmente independiente</strong> del <em>framework</em> de Android y sus dependencias son el módulo del modelo y el módulo común.</p>
+
+<p>Un caso de uso podría ser obtener la valoración total de varias categorías de películas para ver que categoría es la más solicitada, para ello el caso de uso necesitaría obtener la información y luego hacer un cálculo sobre ella, esa información es pedida al <strong>modelo</strong>.</p>
+
+<p><em>Dependencias del dominio</em>
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile project (&#39;:common&#39;)
+    compile project (&#39;:model&#39;)
+}</pre></p>
+
+<h4>Módulo modelo</h4>
+
+<p>El módulo del modelo es el encargado de gestionar la información, solicitarla, guardarla, eliminarla etc... En una primera versión únicamente gestionará las operaciones sobre una API REST de información de películas,</p>
+
+<p>También implementa las entidades, como por ejemplo <em>TvMovie</em>, entidad encargada de representar una película.</p>
+
+<p>Sus dependencias únicamente será el módulo común y por ahora, la librería utilizada para gestionar las peticiones a la API REST, en este caso <a href="http://square.github.io/retrofit/">Retrofit</a> &quot;Retrofit&quot;), de <a href="http://square.github.io/" title="Square">Square</a>:</p>
+
+<p><em>Dependencias del modelo</em>
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile project(&#39;:common&#39;)
+    compile &#39;com.squareup.retrofit:retrofit:1.9.0&#39;
+}</pre></p>
+
+<h4>Modulo presentación</h4>
+
+<p>Este módulo como bien dice su nombre se encargará de la <strong>presentación</strong>, es la propia <strong>aplicación Android</strong>, con sus recursos, <em>assets</em>, etc...</p>
+
+<p>Además, interactuará con el dominio ejecutando los casos de uso, un ejemplo sería listar las películas actuales de un determinado momento, o solicitar datos específicos de una película.</p>
+
+<p>En este módulo tendremos <strong>presentadores</strong> y <strong>vistas</strong>, el término <em>vista</em> en este contexto puede resultar un poco confuso, ya que se podría confundir con tres término diferentes: una referencia a un elemento relativo a la clase de Android: <em><a href="http://developer.android.com/reference/android/view/View.html" title="View">View</a>,</em> elementos visuales de la aplicación, como un <em>Activity</em> o un <em>Fragment</em>, o a las propias vistas del patrón: <em>MVP</em>, por eso cuando haga alusión a las vistas del <em>MVP</em> me referiré a ellas como: <em>MVPView</em>.</p>
+
+<p>Cada <em>Activity</em>, <em>Fragment</em>, <em>etc...</em> implementará una interfaz correspondiente a una <em>MVPView</em>, ésta, especificará operaciones para mostrar pintar información de las que se tiene que encargar la vista.</p>
+
+<p>Por ejemplo, la <em>MVPView</em>, <em>PopularMoviesView</em>, especificará las operaciones para mostrar la lista de películas actuales, está será implementada por la vista, <em>MoviesActivity</em>.
+<pre class="brush: java; gutter: true; first-line: 1">public interface PopularMoviesView extends MVPView {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">void showMovies (List&amp;lt;TvMovie&amp;gt; movieList);
+
+void showLoading ();
+
+void hideLoading ();
+
+void showError (String error);
+
+void hideError ();
+</code></pre></div>
+<p>}</pre>
+El patrón: <em>MVP</em> incide en que las vistas sean <strong>lo más tontas posibles</strong>, es el presentador de cada vista quien decidirá su comportamiento.
+<pre class="brush: java; gutter: true; first-line: 1">public class MoviesActivity extends ActionBarActivity implements
+PopularMoviesView, ... {
+...
+    private PopularShowsPresenter popularShowsPresenter;
+    private RecyclerView popularMoviesRecycler;
+    private ProgressBar loadingProgressBar;
+    private MoviesAdapter moviesAdapter;
+    private TextView errorTextView;</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@Override
+protected void onCreate(Bundle savedInstanceState) {
+
+    ...
+    popularShowsPresenter = new PopularShowsPresenterImpl(this);
+    popularShowsPresenter.onCreate();
+}
+
+@Override
+protected void onStop() {
+
+    super.onStop();
+    popularShowsPresenter.onStop();
+}
+
+@Override
+public Context getContext() {
+
+    return this;
+}
+
+@Override
+public void showMovies(List&amp;lt;TvMovie&amp;gt; movieList) {
+
+    moviesAdapter = new MoviesAdapter(movieList);
+    popularMoviesRecycler.setAdapter(moviesAdapter);
+}
+
+@Override
+public void showLoading() {
+
+    loadingProgressBar.setVisibility(View.VISIBLE);
+}
+
+@Override
+public void hideLoading() {
+
+    loadingProgressBar.setVisibility(View.GONE);
+}
+
+@Override
+public void showError(String error) {
+
+    errorTextView.setVisibility(View.VISIBLE);
+    errorTextView.setText(error);
+}
+
+@Override
+public void hideError() {
+    errorTextView.setVisibility(View.GONE);
+}
+...
+</code></pre></div>
+<p>}</pre>
+Los casos de uso serán ejecutados desde los presentadores, estos recibirán la respuesta y gestionarán el comportamiento de las vistas.
+<pre class="brush: java; gutter: true; first-line: 1">public class PopularShowsPresenterImpl implements PopularShowsPresenter {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private final PopularMoviesView popularMoviesView;
+
+public PopularShowsPresenterImpl(PopularMoviesView popularMoviesView) {
+    this.popularMoviesView = popularMoviesView;
+}
+
+@Override
+public void onCreate() {
+
+    ...
+    popularMoviesView.showLoading();
+    Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+    getPopularShows.execute();
+}
+
+@Override
+public void onStop() {
+    ...
+}
+
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}
+</code></pre></div>
+<p>}</pre></p>
+
+<h3>Comunicación</h3>
+
+<p>Para este proyecto me he decidido por un sistema de <em>Message Buses</em>, este sistema es muy útil para hacer <em>Broadcast</em> de eventos, o para comunicarse entre componentes, este último caso se ajusta a la perfección.</p>
+
+<p>Básicamente se <strong>envían eventos</strong> mediante un <strong>Bus</strong>, quienes estén interesados en recibir un evento determinado, se <strong>suscriben</strong> al Bus.</p>
+
+<p>También se podría haber optado por la programación funcional o reactiva, pero eso lo vamos apartar para otro post :).</p>
+
+<p>Utilizando un sistema de este tipo permitimos que los módulos tengan un <strong>muy bajo acoplamiento</strong>.</p>
+
+<p>Para implementar el sistema de buses, he utilizado la librería <a href="http://square.github.io/otto/" title="Otto">Otto</a> de <a href="http://square.github.io/" title="Square">Square</a>, seguro que para los que nunca la hayan usado esta librería, el diagrama de un poco más arriba les ha llamado la atención :).</p>
+
+<p>Declaramos dos buses, uno para la comunicación de los casos de uso con el cliente API REST (<em>REST_BUS</em>) y el otro para mandar eventos hacia la capa de presentación. (<em>UI_BUS</em>)</p>
+
+<p><em>REST_BUS</em> utilizará cualquier hilo para gestionar los eventos, mientras que <em>UI_BUS</em> mandará los eventos en el hilo por defecto de la librería, el hilo de la interfaz de usuario.
+<pre class="brush: java; gutter: true; first-line: 1">public class BusProvider {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final Bus REST_BUS = new Bus(ThreadEnforcer.ANY);
+private static final Bus UI_BUS = new Bus();
+
+private BusProvider() {};
+
+public static Bus getRestBusInstance() {
+    return REST_BUS;
+}
+
+public static Bus getUIBusInstance () {
+    return UI_BUS;
+}
+</code></pre></div>
+<p>}</pre>
+Esta clase es gestionada por el módulo común, ya que todos los módulos han de tener acceso a ella para interactuar con los buses, este módulo no tendrá más dependencias que la propia librería de buses.
+<pre class="brush: java; gutter: true; first-line: 1">dependencies {
+    compile &#39;com.squareup:otto:1.3.5&#39;
+}</pre>
+Para finalizar, imaginaros el siguiente ejemplo, un usuario abre la aplicación y se muestran las películas más populares.</p>
+
+<p>El presentador, siempre que la vista llame al método <em>onCreate</em> se registra al bus de la interfaz gráfica para poder recibir los eventos. Éste se da de baja cuando se llama al método <em>onStop()</em>. Posteriormente, ejecuta el caso de uso <em>GetMoviesUseCase</em>.
+<pre class="brush: java; gutter: true; first-line: 1">@Override
+public void onCreate() {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">BusProvider.getUIBusInstance().register(this);
+Usecase getPopularShows = new GetMoviesUsecaseController(GetMoviesUsecase.TV_MOVIES);
+getPopularShows.execute();
+</code></pre></div>
+<p>}
+...
+@Override
+public void onStop() {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">BusProvider.getUIBusInstance().unregister(this);
+</code></pre></div>
+<p>}</pre>
+El caso de uso <em>GetMoviesUsecase</em>, al recibir las películas envía un evento por el bus de la interfaz gráfica:
+<pre class="brush: java; gutter: true; first-line: 1">@Override
+public void sendShowsToPresenter() {
+...
+    BusProvider.getUIBusInstance().post(moviesEvent);
+}</pre>
+Para que el presentador pueda recibir el evento, tiene que implementar un método que reciba por parámetro el <strong>mismo tipo de dato</strong> que se ha enviado por el Bus, además ha de llevar la anotación <em><strong>@Subscribe.</strong></em>
+<pre class="brush: java; gutter: true; first-line: 1">@Subscribe
+@Override
+public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
+    popularMoviesView.hideLoading();
+    popularMoviesView.showMovies(popularMovies.getResults());
+}</pre></p>
+
+<h6>Recursos interesantes:</h6>
+
+<p><a href="http://fernandocejas.com/2014/09/03/architecting-android-the-clean-way/">Architecting Android…The clean way?</a> - Fernando Cejas</p>
+
+<p><a href="https://github.com/pedrovgs/EffectiveAndroidUI">Effective Android UI</a> - Pedro Vicente Gómez Sanchez</p>
+
+<p><a href="http://csaba.palfi.me/reactive-and-buses-for-mobile/">Reactive programming and message buses for mobile</a> - Csaba Palfi</p>
+
+<p><a href="http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html">The clean architecture</a> - Uncle Bob</p>
+
+<p><a href="http://antonioleiva.com/mvp-android/">MVP Android</a> - Antonio Leiva</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/03/mejores-atajos-android-studio/">
+            Los mejores atajos de teclado para Android Studio
+            <small>03 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

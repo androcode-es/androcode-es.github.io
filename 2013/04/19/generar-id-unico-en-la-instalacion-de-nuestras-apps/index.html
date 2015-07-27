@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Generar ID único en la instalación de nuestras apps &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Generar ID único en la instalación de nuestras apps</h1>
+  <span class="post-date">19 Apr 2013</span>
+  <p>Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.</p>
+
+<p>Las distintas opciones que encontré <em>(y sus inconvenientes)</em> son estas:</p>
+
+<ul>
+<li><em>IMEI:</em> Sólo disponible en dispositivos con SIM disponible. Necesita declarar permiso en el manifest.</span></li>
+<li><em>Secure.ANDROID_ID:</em> Sólo existe desde Android 2.2 y con posibles valores duplicados entre dispositivos.</li>
+<li><em>MAC del WiFi/BT:</em> Sólo funciona si está activo el receptor. Necesitamos pedir permiso en el manifest.</li>
+<li><em>Build.SERIAL:</em> Disponible a partir de Android 2.3. Sólo obligatorio para dispositivos sin SIM.
+Como podéis ver no hay nada que directamente nos identifique el dispositivo o la instalación de forma única y, por tanto, que podamos usar como ID de la misma.</li>
+</ul>
+
+<p>Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.</p>
+
+<!--more-->
+
+<p>El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static String uniqueID = null;
+private static final String PREF_UNIQUE_ID = &quot;PREF_UNIQUE_ID&quot;;
+
+public synchronized static String id(Context context) {
+    if (uniqueID == null) {
+        SharedPreferences sharedPrefs = context.getSharedPreferences(PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+        if (uniqueID == null) {
+            uniqueID = UUID.randomUUID().toString();
+            Editor editor = sharedPrefs.edit();
+            editor.putString(PREF_UNIQUE_ID, uniqueID);
+            editor.commit();
+        }
+    }
+    return uniqueID;
+}
+</code></pre></div>
+<p>Y para obtener el código desde cualquier punto de nuestro proyecto tan solo debemos llamar al método <em>id()</em> pasándole un objeto de tipo <em>Context</em>, por ejemplo:
+<pre class="brush: java; gutter: true; first-line: 1">String deviceID = id(Activity.this);</pre>
+Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)</p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/">
+            Un vistazo rápido al nuevo RecyclerView
+            <small>09 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>

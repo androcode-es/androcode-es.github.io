@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Un vistazo rápido al nuevo RecyclerView &middot; Androcode
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface|Roboto+Condensed:bold">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-androcode">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/">
+          <img class="sidebar-logo" src="/public/logo_white_100w.png" />
+          Androcode
+        </a>
+      </h1>
+      <p class="lead">Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Inicio</a>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about/">¿Quiénes somos?</a>
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/androteca/">La Androteca</a>
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </nav>
+
+    <nav class="sidebar-social">
+      <ul class="navigation">
+
+        <li class="social-item twitter">
+          <a href="http://twitter.com/@androcode" title="@androcode on Twitter" target="_blank">
+            <i class="icon fa fa-twitter"></i>
+            <span class="label">Twitter</span>
+          </a>
+        </li>
+
+        <li class="social-item gplus">
+          <a href="https://plus.google.com/+AndrocodeEs/posts" title="+AndrocodeEs" target="_blank">
+            <i class="icon fa fa-google-plus-square"></i>
+            <span class="label">Google+</span>
+          </a>
+        </li>
+
+        <li class="social-item github">
+          <a href="http://github.com/androcode-es" title="@androcode-es on GitHub" target="_blank">
+            <i class="icon fa fa-github"></i>
+            <span class="label">GitHub</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <p class="sidebar-foot-note">&copy; 2015. All rights reserved.</p>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">Un vistazo rápido al nuevo RecyclerView</h1>
+  <span class="post-date">09 Oct 2014</span>
+  <p><a href="http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg"><img src="http://androcode.es/wp-content/uploads/2015/02/lpreview_smlprn.jpg" alt="lpreview"></a></p>
+
+<p>Con la versión preview de <em><a href="http://developer.android.com/preview/index.html" title="android L">android L</a>,</em> Google ha presentado dos nuevos <a href="https://developer.android.com/preview/material/ui-widgets.html"><em>Widgets</em></a>, <em>RecyclerView</em> y <em>CardView</em>, este artículo tratará el primero, el <em>RecyclerView</em>.</p>
+
+<p>Este nuevo <em>Widget</em> entra en juego cuando el propósito es mostrar gran número de <em>Views</em> repetidamente, listas, grids, etc..., tantas que no entran en la pantalla.</p>
+
+<p><em>RecyclerView</em> implementa un sistema para llevar a cabo esta tarea, de forma sencilla y eficiente.</p>
+
+<p><strong><span style="font-size: medium">Proyecto de ejemplo</span></strong></p>
+
+<p><a href="http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif"><img src="http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif" alt="rv_demo"></a></p>
+
+<p>Todos los ejemplos de código que se muestran en este artículo se pueden encontrar en este proyecto en GitHub de forma funcional:</p>
+
+<p><a href="https://github.com/saulmm/RecyclerView-demo.git">https://github.com/saulmm/RecyclerView-demo.git</a></p>
+
+<!--more-->
+
+<p><strong><span style="font-size: medium">La API de RecyclerView</span></strong></p>
+
+<p>A diferencia del <em>ListView,</em> <em>GridView,</em> etc... el <em>RecyclerView</em> se dedica únicamente a lo que su nombre indica, reciclar, reutilizar recursos y evitar el uso reiterado del costoso <a href="http://developer.android.com/reference/android/app/Activity.html#findViewById(int)"><em>findViewById</em></a>, no se preocupa del aspecto visual, para ello está el <em>LayoutManager.</em></p>
+
+<p>Una clase una tarea, esa es la filosofía que sigue la <em>API</em> del <em>RecyclerView,</em> un paquete de clases  internas cada una con una responsabilidad:</p>
+
+<ul>
+<li>  <strong><em>Adapter</em></strong></li>
+<li>  <em><strong>ViewHolder</strong></em></li>
+<li>  <em><strong>LayoutManager</strong></em></li>
+<li>  <em><strong>ItemDecoration</strong></em></li>
+<li>  <strong><em>ItemAnimator</em></strong>
+<strong><span style="font-size: medium">Adapter</span></strong></li>
+</ul>
+
+<p>Esta clase se encarga de crear las <em>Views</em> necesarias para cada elemento del <em>RecyclerView</em>, además, está muy unida al <em>ViewHolder</em>, teniendo que ser indicado en la declaración de la clase, muchos pensaréis que esto no es nuevo, que Google ya aconsejara este <a href="http://developer.android.com/training/improving-layouts/smooth-scrolling.html" title="patrón">patrón</a> tiempo atrás, esta vez fuerza a utilizarlo, teniendo que ser indicado en la implementación del <em>Adapter</em>, un paso adelante, sin duda.</p>
+
+<p>El método <em>OnCreateViewHolder</em> inicializa el <em>ViewHolder</em>
+<pre class="brush: java; gutter: true; first-line: 17">    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parentViewGroup, int i) {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    View rowView = LayoutInflater.from (parentViewGroup.getContext())
+        .inflate(R.layout.list_basic_item, parentViewGroup, false);
+
+    return new ViewHolder (rowView);
+}&lt;/pre&gt;
+</code></pre></div>
+<p>El método <em>onBindViewHolder(ViewHolder viewholder, int position)</em> se usa para configurar el contenido de las <em>Views</em>
+<pre class="brush: java; gutter: true; first-line: 25">    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    final SampleModel rowData = sampleData.get(position);
+    viewHolder.textViewSample.setText(rowData.getSampleText());
+    viewHolder.itemView.setTag(rowData);
+}&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>ViewHolder</strong></span></p>
+
+<p>Como venía diciendo, el patrón <em>ViewHolder</em> no es nada nuevo, de hecho Google, lo lleva recomendando desde hace tiempo, se puede pensar en el como un <em>cache</em> de las vistas, pudiendo reutilizarlas en vez de crearlas nuevamente.
+<pre class="brush: java; gutter: true; first-line: 39">
+   @Override
+   public static class ViewHolder extends RecyclerView.ViewHolder {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    private final TextView textViewSample;
+
+    public ViewHolder(View itemView) {
+        super(itemView);
+
+        textViewSample = (TextView) itemView.findViewById(
+            R.id.textViewSample);
+    }
+}&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>LayoutManager</strong></span></p>
+
+<p>El <em>LayoutManager</em> se encarga del layout de todas las vistas dentro del <em>RecyclerView</em>, concretando con el <em>LinearLayoutManager</em>, permite entre otros acceder a elementos mostrados en la pantalla como el primer elemento, último, o por ejemplo, el último completamente visible, esto de forma horizontal o vertical, en el ejemplo se ha utilizado la disposición en vertical.
+<pre class="brush: java; gutter: true; first-line: 19"></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">    LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(mLayoutManager);&lt;/pre&gt;
+</code></pre></div>
+<p><span style="font-size: medium"><strong>ItemDecorator</strong></span></p>
+
+<p>Otro eslabón importante, son los llamados <em>ItemDecorator</em>, estos permiten modificar los elementos del RecycleView, este además, ofrece además ofrece un elemento llamado insets (márgenes) que pueden aplicarse a las vistas sin necesidad de modificar los parámetros del layout.</p>
+
+<p>En el ejemplo, se muestra como se usan los <em>ItemDecorators</em> para dibujar un pequeño <em>Divider</em> entre los elementos del <em>RecyclerView</em>:
+<pre class="brush: java; gutter: true; first-line: 19">
+package saulmm.com.recyclerviewproject;</p>
+
+<p>import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;</p>
+
+<p>public class SampleDivider extends RecyclerView.ItemDecoration {</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">private static final int[] ATTRS = { android.R.attr.listDivider };
+
+private Drawable mDivider;
+
+public SampleDivider(Context context) {
+    TypedArray a = context.obtainStyledAttributes(ATTRS);
+    mDivider = a.getDrawable(0);
+    a.recycle();
+
+}
+
+@Override
+public void onDrawOver(Canvas c, RecyclerView parent) {
+
+    int left = parent.getPaddingLeft();
+    int right = parent.getWidth() - parent.getPaddingRight();
+
+    int childCount = parent.getChildCount();
+
+    for (int i = 0; i &amp;lt; childCount; i++) {
+
+        View child = parent.getChildAt(i);
+
+        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child
+                .getLayoutParams();
+
+        int top = child.getBottom() + params.bottomMargin;
+        int bottom = top + mDivider.getIntrinsicHeight();
+
+        mDivider.setBounds(left, top, right, bottom);
+        mDivider.draw(c);
+    }
+}
+</code></pre></div>
+<p>}</pre>
+<strong>ItemAnimator</strong></p>
+
+<p>La clase <em>ItemAnimator</em> como su nombre indica, anima el <em>RecyclerView</em> cuando se añade y se elimina un elemento, el <em>RecyclerView</em> utiliza un <em>ItemAnimator</em> por defecto.</p>
+
+<p>El <em>RecyclerView</em> ha de saber cuando se inserta un elemento o se elimina, con elementos como <em>ListViews</em>, <em>GridViews</em>, etc... esto se conseguía llamando al método <em>notifyDataSetChanged()</em>, a nivel de performance, es bastante costoso, ya que redibuja todos los items en el <em>layout</em>, lo propio con el <em>RecyclerView</em> es usar el método <em>notifyItemInserted()</em> para añadir, y <em>notifyItemRemoved()</em> para eliminar, actualizando solo la parte apropiada.</p>
+
+<p><strong>Referencias:</strong></p>
+
+<p><a href="http://www.grokkingandroid.com/first-glance-androids-recyclerview/">Wolfram RittMeyer - A first Glance at Android&#39;s RecyclerView</a></p>
+
+<p><a href="http://wiresareobsolete.com/2014/09/recyclerview-layoutmanager-2/">Wires are obsolete - Building a RecyclerView</a></p>
+
+<p><a href="http://developer.android.com/preview/reference.html">Android L - Reference</a></p>
+
+</div>
+
+<div class="related">
+  <h2>Entradas relacionadas</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/">
+            Un ‘stack’ productivo para el desarrollador android #1, Arquitectura
+            <small>03 Feb 2015</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/11/29/entendiendo-material-design/">
+            Entendiendo Material Design
+            <small>29 Nov 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/10/03/mejores-atajos-android-studio/">
+            Los mejores atajos de teclado para Android Studio
+            <small>03 Oct 2014</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>
