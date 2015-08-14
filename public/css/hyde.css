@@ -24,6 +24,24 @@
  * Themes
  */
 
+.author {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.author-avatar {
+  height: 35px;
+  width: 35px;
+  margin: 0 0.3rem 0 0;
+  border-radius: 50%;
+  vertical-align: middle;
+  display: inline;
+}
+
+.author-name {
+  vertical-align: middle;
+  display: inline;
+}
 
 /*
  * Global resets
