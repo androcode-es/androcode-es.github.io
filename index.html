@@ -12,7 +12,10 @@ title: Inicio
       </a>
     </h1>
 
-    <span class="post-date">{{ post.date | date_to_string }}</span>
+    <a class="author" href="http://twitter.com/sloydev" target="_blank">
+      <img class="author-avatar" src="https://pbs.twimg.com/profile_images/2576254530/xrq3ziszvvt90xf54579_bigger.png"/>
+      <span class="post-date author-name">Rafa Vazquez, {{ post.date | date_to_string }}</span>
+    </a>
     {% if post.content contains '<!--more-->' %}
     	{{ post.content | split:'<!--more-->' | first }}
     {% else %}
