@@ -14,6 +14,8 @@ Este nuevo _Widget_ entra en juego cuando el propósito es mostrar gran número 
 
 _RecyclerView_ implementa un sistema para llevar a cabo esta tarea, de forma sencilla y eficiente.
 
+<!--more-->
+
 **<span style="font-size: medium">Proyecto de ejemplo</span>**
 
 [![rv_demo](http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif)](http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif)

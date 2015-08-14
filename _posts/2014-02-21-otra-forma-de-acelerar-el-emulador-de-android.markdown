@@ -8,10 +8,12 @@ tags:
 
 Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar [android-x86 y virtualbox para virtualizar un dispositivo android ](http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/ "Aumenta la velocidad del emulador de Android en un 400%")como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.
 
+<!--more-->
+
 ###### Requisitos:
 
 - Procesador con Intel que soporte Intel VT-x, EM64T y Execute Disable(XD) Bit habilitado en la BIOS.
-- Tener instalado el [SDK de Android.<!--more-->](https://developer.android.com/sdk/index.html "Android SDK")
+- Tener instalado el [SDK de Android.](https://developer.android.com/sdk/index.html "Android SDK")
 
 ###### Instalación en Windows
 

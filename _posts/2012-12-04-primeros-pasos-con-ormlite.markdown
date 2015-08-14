@@ -10,6 +10,8 @@ tags:
 
 En este blog ya os hemos hablado de cómo facilitar el trabajo con bases de datos [SQLite](http://androcode.es/tag/sqlite/). En concreto hemos visto cómo trabajar con [Android DataFramework](http://androcode.es/tag/android-dataframework/) y [ADA Framework](http://androcode.es/tag/ada-framework/). Hoy os traemos una pequeña joya, una librería que en mis proyectos se ha convertido en una fija, ya no sólo por su facilidad de uso sino también por su potencia. Os estoy hablando de [ORMLite](http://ormlite.com/).   ORMLite es de esas librerías que al principio pueden resultar poco vistosas con una página poco cuidada y una documentación difícil de leer. Pero cuando trabajas con ella descubres lo fiable que es y la cantidad de posibilidades que ofrece. Sobra decir que ORMLite es una librería ORM clásica que nos permite mapear clases Java con tablas en la base de datos. En esta entrada veremos qué nos hace falta en nuestro proyecto para empezar a utilizar la librería, cómo modelar las clases, cómo crear nuestro _helper_ y por último algunos ejemplos sencillos.  
 
+<!--more-->
+
 #### Elementos necesarios
 
 Lo primero que tenemos que tener es un proyecto android. ORMLite se distribuye a partir de dos librerías JAR que debemos incluir en el directorio libs de nuestro proyecto: ormlite-core: Núcleo de la librería ormlite-android: Clases específicas de android Debemos incluir ambas en nuestro proyecto y para descargarlas tenemos varias opciones:

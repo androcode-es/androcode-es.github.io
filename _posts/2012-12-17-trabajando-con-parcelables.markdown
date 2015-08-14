@@ -9,6 +9,8 @@ tags:
 Hola a todos! hoy me estreno en androcode.es con un artículo sobre tipos parcelables, si no sabes lo que son, hoy aprenderás para qué sirven y cómo implementarlos.
 [![](http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx-300x201.png "teach")](http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx.png)
 
+<!--more-->
+
 Normalmente cuando queremos pasar un objeto entre actividades tenemos varias opciones, unas más elegantes y otras menos.
 
 Tal vez lo primero que se nos ocurra sea guardar el objeto en un campo static de una de nuestras clases, y recuperarlo en la nueva actividad, pero este tipo de prácticas no están muy bien vistas ya que puedes incurrir en problemas de concurrencia, leaks de memoria, etc.

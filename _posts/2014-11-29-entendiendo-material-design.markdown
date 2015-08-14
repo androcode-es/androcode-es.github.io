@@ -10,6 +10,7 @@ tags:
 
 _"Material design es un lenguaje visual creado para nuestros usuarios que sintetiza los principios clásicos del buen diseño con la innovación y posibilidad de la tecnología y la ciencia, [material design."](http://www.google.com/design/spec/material-design/introduction.html#)_
 
+<!--more-->
 ###### Material como una metáfora
 
 Material design está motivado por el estudio del comportamiento de las superficies, papel y tinta.
@@ -25,7 +26,6 @@ Determinadas opciones de color, tipografías y espacios en blanco puestos de for
 
 [![intentional](http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi-1024x1024.png)](http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi.png)
 
-<!--more-->
 
 ## Movimiento
 

@@ -11,6 +11,8 @@ Sin lugar a duda, [android studio](https://developer.android.com/sdk/installing/
 
 Una de ellas, son los atajos de teclado, android studio ofrece una gran catálogo que pueden aumentar vuestra productividad considerablemente.
 
+<!--more-->
+
 El trabajo que ha hecho [Philippe Breault](https://plus.google.com/u/0/+PhilippeBreault "Philippe Breault"), ha sido impoluto, quién nos ha permitido usar sus imágenes para hacer recopilación de algunos de los atajos de teclado más interesantes que éste IDE ofrece.
 
 <span style="font-size: medium">**Moverse entre métodos y clases internas**</span>

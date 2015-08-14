@@ -10,13 +10,14 @@ tags:
 
 Estoy seguro de que todos habréis usado alguna vez un "código secreto" en vuestro móvil. Son los códigos que al introducirlos en el teclado del "teléfono" (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI _(*#06#)_ o información del teléfono _(*#*#4636#*#*)_. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.
 
+<!--more-->
+
 ###### ¿De dónde viene esto?
 
 [![protips_original_recorte](http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png)](http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png)
 
 Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el [código fuente](https://android.googlesource.com/platform/packages/apps/Protips/+/master) (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:
 
-<!--more-->
 <pre class="brush: xml; gutter: true; first-line: 1">&lt;receiver android:name=".ProtipWidget" android:label="@string/widget_name"&gt;
             &lt;intent-filter&gt;
                 &lt;action android:name="android.appwidget.action.APPWIDGET_UPDATE" /&gt;

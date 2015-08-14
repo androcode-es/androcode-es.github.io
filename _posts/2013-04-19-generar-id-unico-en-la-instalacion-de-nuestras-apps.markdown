@@ -8,6 +8,8 @@ tags:
 
 Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.
 
+<!--more-->
+
 Las distintas opciones que encontré _(y sus inconvenientes)_ son estas:
 
 - _IMEI:_ Sólo disponible en dispositivos con SIM disponible. Necesita declarar permiso en el manifest.</span>
@@ -18,7 +20,6 @@ Como podéis ver no hay nada que directamente nos identifique el dispositivo o
 
 Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.
 
-<!--more-->
 
 El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...
 
