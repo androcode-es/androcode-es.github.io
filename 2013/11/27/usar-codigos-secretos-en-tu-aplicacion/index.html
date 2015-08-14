@@ -125,13 +125,13 @@
 
 <p>Estoy seguro de que todos habréis usado alguna vez un &quot;código secreto&quot; en vuestro móvil. Son los códigos que al introducirlos en el teclado del &quot;teléfono&quot; (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI <em>(*#06#)</em> o información del teléfono <em>(<em>#</em>#4636#<em>#</em>)</em>. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.</p>
 
+<!--more-->
+
 <h6>¿De dónde viene esto?</h6>
 
 <p><a href="http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png"><img src="http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png" alt="protips_original_recorte"></a></p>
 
 <p>Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el <a href="https://android.googlesource.com/platform/packages/apps/Protips/+/master">código fuente</a> (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:</p>
-
-<!--more-->
 
 <pre class="brush: xml; gutter: true; first-line: 1">&lt;receiver android:name=".ProtipWidget" android:label="@string/widget_name"&gt;
             &lt;intent-filter&gt;

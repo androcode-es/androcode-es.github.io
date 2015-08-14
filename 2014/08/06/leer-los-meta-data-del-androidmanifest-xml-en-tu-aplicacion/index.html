@@ -123,9 +123,9 @@
   <span class="post-date">06 Aug 2014</span>
   <p>¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?</p>
 
-<p>Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento <strong>&lt;meta-data&gt;</strong> se hará de una forma u otra.</p>
-
 <!--more-->
+
+<p>Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento <strong>&lt;meta-data&gt;</strong> se hará de una forma u otra.</p>
 
 <p>Estos meta datos pueden ser constantes, claves de api, cadenas con parámetros opcionales, etc. Los definimos en el AndroidManifest.xml y pueden tener distintos ámbitos. Cuando una librería nos pide meter una API key suele hacerse en un elemento <strong>&lt;meta-data&gt;</strong> dentro del <strong>&lt;application&gt;</strong> pero se puede hacer a nivel de <strong>&lt;activity&gt;, &lt;provider&gt;, &lt;receiver&gt; **o</strong> &lt;activity-alias&gt;** y dependiendo de dónde esté, se hará llamando a unos métodos u otros.</p>
 

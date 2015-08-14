@@ -123,6 +123,8 @@
   <span class="post-date">19 Apr 2013</span>
   <p>Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.</p>
 
+<!--more-->
+
 <p>Las distintas opciones que encontré <em>(y sus inconvenientes)</em> son estas:</p>
 
 <ul>
@@ -134,8 +136,6 @@ Como podéis ver no hay nada que directamente nos identifique el dispositivo o
 </ul>
 
 <p>Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.</p>
-
-<!--more-->
 
 <p>El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">private static String uniqueID = null;

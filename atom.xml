@@ -4,7 +4,7 @@
  <title>Androcode</title>
  <link href="http://androcode.es/atom.xml" rel="self"/>
  <link href="http://androcode.es/"/>
- <updated>2015-08-14T20:07:13+00:00</updated>
+ <updated>2015-08-14T20:18:18+00:00</updated>
  <id>http://androcode.es</id>
  <author>
    <name></name>
@@ -298,6 +298,8 @@ public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
 
 &lt;p&gt;&lt;em&gt;&amp;quot;Material design es un lenguaje visual creado para nuestros usuarios que sintetiza los principios clásicos del buen diseño con la innovación y posibilidad de la tecnología y la ciencia, &lt;a href=&quot;http://www.google.com/design/spec/material-design/introduction.html#&quot;&gt;material design.&amp;quot;&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;h6&gt;Material como una metáfora&lt;/h6&gt;
 
 &lt;p&gt;Material design está motivado por el estudio del comportamiento de las superficies, papel y tinta.&lt;/p&gt;
@@ -311,8 +313,6 @@ public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
 &lt;p&gt;Determinadas opciones de color, tipografías y espacios en blanco puestos de forma intencionada, ayudan a enfatizar las funcionalidades principales de forma evidente además de proporcionar puntos de referencia para el usuario.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/intentional_qgerzi-1024x1024.png&quot; alt=&quot;intentional&quot;&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;!--more--&gt;
 
 &lt;h2&gt;Movimiento&lt;/h2&gt;
 
@@ -558,6 +558,8 @@ Todo esto se ilustra de la siguiente forma:&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;RecyclerView&lt;/em&gt; implementa un sistema para llevar a cabo esta tarea, de forma sencilla y eficiente.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;p&gt;&lt;strong&gt;&lt;span style=&quot;font-size: medium&quot;&gt;Proyecto de ejemplo&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/rv_demo_b2udsp.gif&quot; alt=&quot;rv_demo&quot;&gt;&lt;/a&gt;&lt;/p&gt;
@@ -701,6 +703,8 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
 
 &lt;p&gt;Una de ellas, son los atajos de teclado, android studio ofrece una gran catálogo que pueden aumentar vuestra productividad considerablemente.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;p&gt;El trabajo que ha hecho &lt;a href=&quot;https://plus.google.com/u/0/+PhilippeBreault&quot; title=&quot;Philippe Breault&quot;&gt;Philippe Breault&lt;/a&gt;, ha sido impoluto, quién nos ha permitido usar sus imágenes para hacer recopilación de algunos de los atajos de teclado más interesantes que éste IDE ofrece.&lt;/p&gt;
 
 &lt;p&gt;&lt;span style=&quot;font-size: medium&quot;&gt;&lt;strong&gt;Moverse entre métodos y clases internas&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;
@@ -819,9 +823,9 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
    <id>http://androcode.es/2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion</id>
    <content type="html">&lt;p&gt;¿Os habéis preguntado alguna vez cómo se pueden pasar datos a tu activity que estén definidos directamente en el AndroidManifest.xml? ¿U os habéis preguntado como se leen esas API keys definidas en los meta datos de la aplicación en el manifest?&lt;/p&gt;
 
-&lt;p&gt;Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; se hará de una forma u otra.&lt;/p&gt;
-
 &lt;!--more--&gt;
+
+&lt;p&gt;Pues en realidad es muy sencillo y dependiendo de donde pongamos el elemento &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; se hará de una forma u otra.&lt;/p&gt;
 
 &lt;p&gt;Estos meta datos pueden ser constantes, claves de api, cadenas con parámetros opcionales, etc. Los definimos en el AndroidManifest.xml y pueden tener distintos ámbitos. Cuando una librería nos pide meter una API key suele hacerse en un elemento &lt;strong&gt;&amp;lt;meta-data&amp;gt;&lt;/strong&gt; dentro del &lt;strong&gt;&amp;lt;application&amp;gt;&lt;/strong&gt; pero se puede hacer a nivel de &lt;strong&gt;&amp;lt;activity&amp;gt;, &amp;lt;provider&amp;gt;, &amp;lt;receiver&amp;gt; **o&lt;/strong&gt; &amp;lt;activity-alias&amp;gt;** y dependiendo de dónde esté, se hará llamando a unos métodos u otros.&lt;/p&gt;
 
@@ -884,11 +888,13 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
    <id>http://androcode.es/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android</id>
    <content type="html">&lt;p&gt;Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar &lt;a href=&quot;http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/&quot; title=&quot;Aumenta la velocidad del emulador de Android en un 400%&quot;&gt;android-x86 y virtualbox para virtualizar un dispositivo android &lt;/a&gt;como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;h6&gt;Requisitos:&lt;/h6&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Procesador con Intel que soporte Intel VT-x, EM64T y Execute Disable(XD) Bit habilitado en la BIOS.&lt;/li&gt;
-&lt;li&gt;Tener instalado el &lt;a href=&quot;https://developer.android.com/sdk/index.html&quot; title=&quot;Android SDK&quot;&gt;SDK de Android.&amp;lt;!--more--&amp;gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Tener instalado el &lt;a href=&quot;https://developer.android.com/sdk/index.html&quot; title=&quot;Android SDK&quot;&gt;SDK de Android.&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h6&gt;Instalación en Windows&lt;/h6&gt;
@@ -928,13 +934,13 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
 
 &lt;p&gt;Estoy seguro de que todos habréis usado alguna vez un &amp;quot;código secreto&amp;quot; en vuestro móvil. Son los códigos que al introducirlos en el teclado del &amp;quot;teléfono&amp;quot; (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI &lt;em&gt;(*#06#)&lt;/em&gt; o información del teléfono &lt;em&gt;(&lt;em&gt;#&lt;/em&gt;#4636#&lt;em&gt;#&lt;/em&gt;)&lt;/em&gt;. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;h6&gt;¿De dónde viene esto?&lt;/h6&gt;
 
 &lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/protips_original_recorte_bg3m30.png&quot; alt=&quot;protips_original_recorte&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el &lt;a href=&quot;https://android.googlesource.com/platform/packages/apps/Protips/+/master&quot;&gt;código fuente&lt;/a&gt; (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:&lt;/p&gt;
-
-&lt;!--more--&gt;
 
 &lt;pre class=&quot;brush: xml; gutter: true; first-line: 1&quot;&gt;&amp;lt;receiver android:name=&quot;.ProtipWidget&quot; android:label=&quot;@string/widget_name&quot;&amp;gt;
             &amp;lt;intent-filter&amp;gt;
@@ -986,6 +992,8 @@ Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátil
    <id>http://androcode.es/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps</id>
    <content type="html">&lt;p&gt;Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;p&gt;Las distintas opciones que encontré &lt;em&gt;(y sus inconvenientes)&lt;/em&gt; son estas:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -997,8 +1005,6 @@ Como podéis ver no hay nada que directamente nos identifique el dispositivo o
 &lt;/ul&gt;
 
 &lt;p&gt;Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.&lt;/p&gt;
-
-&lt;!--more--&gt;
 
 &lt;p&gt;El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;private static String uniqueID = null;
@@ -1031,9 +1037,11 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&g
    <id>http://androcode.es/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse</id>
    <content type="html">&lt;p&gt;Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;p&gt;&lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png&quot; alt=&quot;eclipse_indigo&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;El post de hoy no es tan exclusivo para el desarrollo Android, pero como también nos afecta a nosotros me ha parecido bien tratarlo. Vamos a ver algunos trucos y consejos para escribir código aún más fácilmente, si estamos usando Eclipse.&amp;lt;!--more--&amp;gt;&lt;/p&gt;
+&lt;p&gt;El post de hoy no es tan exclusivo para el desarrollo Android, pero como también nos afecta a nosotros me ha parecido bien tratarlo. Vamos a ver algunos trucos y consejos para escribir código aún más fácilmente, si estamos usando Eclipse.&lt;/p&gt;
 
 &lt;p&gt;Todo lo que se comenta en esta entrada son opiniones a título personal y como orientación Para gustos colores, si no te parecen buenos consejos o tienes otros mejores, cuéntanoslo en los comentarios ;)&lt;/p&gt;
 
@@ -1191,6 +1199,8 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&g
    <content type="html">&lt;p&gt;Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.&lt;/p&gt;
 
 &lt;p&gt;En el siguiente artículo os plantearemos una serie de alternativas sobre cómo partir de una base de datos con datos existentes. No existe una opción única o mejor que todas, ya que cada una de las soluciones aquí presentadas se adaptan a distintas situaciones.&lt;/p&gt;
+
+&lt;!--more--&gt;
 
 &lt;h5&gt;Opción 1 - Carga manual al crear la base de datos&lt;/h5&gt;
 
@@ -1445,6 +1455,8 @@ public class DBHelper extends SQLiteOpenHelper {
    <content type="html">&lt;p&gt;Hola a todos! hoy me estreno en androcode.es con un artículo sobre tipos parcelables, si no sabes lo que son, hoy aprenderás para qué sirven y cómo implementarlos.
 &lt;a href=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx.png&quot;&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/decibels_zesjsx-300x201.png&quot; alt=&quot;&quot; title=&quot;teach&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
+&lt;!--more--&gt;
+
 &lt;p&gt;Normalmente cuando queremos pasar un objeto entre actividades tenemos varias opciones, unas más elegantes y otras menos.&lt;/p&gt;
 
 &lt;p&gt;Tal vez lo primero que se nos ocurra sea guardar el objeto en un campo static de una de nuestras clases, y recuperarlo en la nueva actividad, pero este tipo de prácticas no están muy bien vistas ya que puedes incurrir en problemas de concurrencia, leaks de memoria, etc.&lt;/p&gt;
@@ -1623,6 +1635,8 @@ I/amigo(6739): [7.8, 4.9, 10.0]
    <content type="html">&lt;p&gt;&lt;img src=&quot;http://androcode.es/wp-content/uploads/2015/02/orm_cz4tqf.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
 
 &lt;p&gt;En este blog ya os hemos hablado de cómo facilitar el trabajo con bases de datos &lt;a href=&quot;http://androcode.es/tag/sqlite/&quot;&gt;SQLite&lt;/a&gt;. En concreto hemos visto cómo trabajar con &lt;a href=&quot;http://androcode.es/tag/android-dataframework/&quot;&gt;Android DataFramework&lt;/a&gt; y &lt;a href=&quot;http://androcode.es/tag/ada-framework/&quot;&gt;ADA Framework&lt;/a&gt;. Hoy os traemos una pequeña joya, una librería que en mis proyectos se ha convertido en una fija, ya no sólo por su facilidad de uso sino también por su potencia. Os estoy hablando de &lt;a href=&quot;http://ormlite.com/&quot;&gt;ORMLite&lt;/a&gt;.   ORMLite es de esas librerías que al principio pueden resultar poco vistosas con una página poco cuidada y una documentación difícil de leer. Pero cuando trabajas con ella descubres lo fiable que es y la cantidad de posibilidades que ofrece. Sobra decir que ORMLite es una librería ORM clásica que nos permite mapear clases Java con tablas en la base de datos. En esta entrada veremos qué nos hace falta en nuestro proyecto para empezar a utilizar la librería, cómo modelar las clases, cómo crear nuestro &lt;em&gt;helper&lt;/em&gt; y por último algunos ejemplos sencillos.  &lt;/p&gt;
+
+&lt;!--more--&gt;
 
 &lt;h4&gt;Elementos necesarios&lt;/h4&gt;
 
