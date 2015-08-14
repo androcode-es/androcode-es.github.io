@@ -128,42 +128,18 @@
     </h1>
 
     <span class="post-date">21 Feb 2014</span>
-
-    <p>Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar <a href="http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/" title="Aumenta la velocidad del emulador de Android en un 400%">android-x86 y virtualbox para virtualizar un dispositivo android </a>como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.</p>
+    
+    	<p>Por muchos es sabido que el emulador de android que viene con el SDK deja mucho que desear. Afortunadamente existen alternativas como usar <a href="http://androcode.es/2011/10/aumenta-la-velocidad-del-emulador-de-android-en-un-400/" title="Aumenta la velocidad del emulador de Android en un 400%">android-x86 y virtualbox para virtualizar un dispositivo android </a>como vimos anteriormente. Pero hoy voy a contaros otra forma, disponible desde hace un tiempo, que también está basado en virtualización pero está mejor integrado con el entorno de desarrollo como puede ser Eclipse. En este caso vamos a usar la virtualización existente en los procesadores Intel, y una imagen de disco de android para x86, también provista por intel a través del SDK Manager de Android, de forma que convierte este proceso en algo fácil y rápido.</p>
 
 <h6>Requisitos:</h6>
 
 <ul>
 <li>Procesador con Intel que soporte Intel VT-x, EM64T y Execute Disable(XD) Bit habilitado en la BIOS.</li>
-<li>Tener instalado el <a href="https://developer.android.com/sdk/index.html" title="Android SDK">SDK de Android.&lt;!--more--&gt;</a></li>
+<li>Tener instalado el [SDK de Android.</li>
 </ul>
 
-<h6>Instalación en Windows</h6>
-
-<p>Una vez instalado el SDK de Android, abrimos el SDK Manager que usamos para descargarnos las diferentes versiones de Android y marcamos para descargar el Intel HAXM dentro de la pestaña de &quot;extras&quot;. Aunque lo instalemos desde el SDK Manager en realidad sólo nos copia un instalador a la carpeta &quot;extras&quot; donde está instalado el SDK de Android, así que vamos a ésa carpeta de nuestro disco duro e instalamos IntelHaxm.exe. Otra cosa que debemos marcar para instalar es la Intel x86 Atom System Image de la versión de Android que deseemos, de esta manera podremos crear AVDs con esta imagen del sistema.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png"><img src="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_1_nufouv.png" alt="intel_haxm_1"></a><a href="http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png"><img src="http://androcode.es/wp-content/uploads/2015/02/ScreenShot017_ho8kzb.png" alt="Intel HAXM.exe"></a></p>
-
-<p>Ejecutamos el instalador y seguimos los pasos. En caso de que nuestra BIOS no tenga configurada la opción de VT-x deberemos arrancar la BIOS, para activarla más o menos así, y luego volver a instalar el Intel HAXM:</p>
-
-<p><a href="http://software.intel.com/sites/default/files/haxm07.jpg"><img src="http://software.intel.com/sites/default/files/haxm07.jpg" alt=""></a></p>
-
-<h6>Crear el AVD</h6>
-
-<p>Una vez instalado el SDK y el Intel HAXM, procederemos a crear un dispositivo android virtual, para ello abrimos el AVD Manager y creamos un AVD nuevo.</p>
-
-<p>Deberemos elegir un target del que nos hayamos bajado su imagen Intel x86 como hemos hecho en el paso anterior con el SDK Manager, así podremos elegir, en CPU/ABI, la opción Intel Atom (x86).</p>
-
-<p>Ponemos un nombre y elegimos un dispositivo cualquiera.</p>
-
-<p>Importante seleccionar &quot;Use Host GPU&quot; para que utilice OpenGL para el renderizado, de esta manera la parte gráfica irá más rápida. Una vez hecho todo esto, hacemos click en OK, para generar el AVD y luego una vez creado, pulsamos en Start y arrancamos el emulador. Debería tardar sólo 15 segundos y debemos ver un mensaje de que está arrancando en &quot;fast virtual mode&quot;</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png"><img src="http://androcode.es/wp-content/uploads/2015/02/intel_haxm_3_ywl9tw.png" alt="intel_haxm_3"></a></p>
-
-<p>Una vez hecho esto, podemos instalar y probar nuestra aplicación en el emulador e incluso controlar algunos aspectos como la ubicación GPS, simular recibir llamadas o mensajes, etc. desde la pestaña &quot;Emulator control&quot; de la perspectiva &quot;DDMS&quot; (En Eclipse: Window &gt; Open perspective &gt; DDMS).</p>
-
-<p>Para más información, resolución de problemas y cómo instalarlo en Linux, podéis leer <a href="http://software.intel.com/en-us/android/articles/speeding-up-the-android-emulator-on-intel-architecture#_Toc358213274" title="Intel HAXM">este artículo de la página de Intel</a> que lo explica con más detalle.</p>
-
+    
+    <strong><a href="/2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/">Leer más...</a></strong>
   </div>
   
   <div class="post">
@@ -174,8 +150,8 @@
     </h1>
 
     <span class="post-date">27 Nov 2013</span>
-
-    <p><a href="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png"><img src="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png" alt="androcode_secret_code"></a></p>
+    
+    	<p><a href="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png"><img src="http://androcode.es/wp-content/uploads/2015/02/androcode_secret_code_rmtwnf.png" alt="androcode_secret_code"></a></p>
 
 <p>Estoy seguro de que todos habréis usado alguna vez un &quot;código secreto&quot; en vuestro móvil. Son los códigos que al introducirlos en el teclado del &quot;teléfono&quot; (el de llamar, que los smartphones también hacen eso, eh) permiten acceder a alguna función especial, como ver el IMEI <em>(*#06#)</em> o información del teléfono <em>(<em>#</em>#4636#<em>#</em>)</em>. Pero no queda ahí la cosa, porque podemos crear nuestros propios códigos, y vamos a ver cómo.</p>
 
@@ -185,49 +161,9 @@
 
 <p>Bueno, de dónde viene realmente no lo sé, pero sí os diré cómo me enteré yo de su existencia. Hace unos (muchos) meses estaba preparando un teléfono viejo para dárselo a alguien, ya sabéis, configurar algunas cosas e instalar aplicaciones básicas. Como tenía versión 2.3, sin duda le puse en la pantalla principal el widget de bienvenida que traía Android por aquel entonces, ¿lo recordáis? Pero tuve una mejor idea: modificar el widget para poner consejos y mensajes más personales. Así de detallista soy :p. Así que me bajé el <a href="https://android.googlesource.com/platform/packages/apps/Protips/+/master">código fuente</a> (gracias, Open Source), me creé un proyecto con él y empecé a cambiar cosas. Sorpresa la mía al ver en el AndroidManifest.xml un Intent-Filter que no había visto antes:</p>
 
-<!--more-->
 
-<pre class="brush: xml; gutter: true; first-line: 1">&lt;receiver android:name=".ProtipWidget" android:label="@string/widget_name"&gt;
-            &lt;intent-filter&gt;
-                &lt;action android:name="android.appwidget.action.APPWIDGET_UPDATE" /&gt;
-                &lt;action android:name="com.android.protips.NEXT_TIP" /&gt;
-                &lt;action android:name="com.android.protips.HEE_HEE" /&gt;
-            &lt;/intent-filter&gt;
-            &lt;intent-filter&gt;
-                &lt;action android:name="android.provider.Telephony.SECRET_CODE" /&gt;
-                &lt;data android:scheme="android_secret_code" android:host="8477" /&gt;
-            &lt;/intent-filter&gt;
-            &lt;meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_build" /&gt;
-        &lt;/receiver&gt;</pre>
-
-<p>Ese <em>android.provider.Telephony.SECRET</em>CODE_ es bastante llamativo, ¿no? Con el número 8477 (que corresponde al <a href="http://es.wikipedia.org/wiki/Phonewords"><em>Phoneword</em></a> de &quot;TIPS&quot;) en los datos y la acción perteneciente al paquete Telephony, no hay que ser un genio para deducir que ese código se introduce en el marcador del teléfono. Lo hice y... Voilà! Los consejos del widget cambiaron por completo:</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png"><img src="http://androcode.es/wp-content/uploads/2015/02/protips__secret_vyez3e.png" alt="protips__secret" title="Gracias por las capturas, mi viejo HTC Legend :)"></a></p>
-
-<p>¡Toma huevo de pascua! Como veis, al introducir el código los consejos originales cambian por unos en tono más de humor. Y como de costumbre en Android, si el widget puede nosotros también.</p>
-
-<p>¿Por qué os cuento esto? Pues para que sirva de moraleja: <strong>leyendo código fuente</strong>, tanto de Android como de otros proyectos, <strong>se aprende mucho</strong>.</p>
-
-<h6>Déjate de rollos, cómo se hace</h6>
-
-<p>El funcionamiento de los códigos secretos propios no tiene misterio. En el anterior extracto de manifiesto tenéis la mitad del trabajo hecho. Sólo hay que añadir un Intent-Filter a nuestro AndroidManifest.xml con la acción android.provider.Telephony.SECRET<em>CODE, y con la especificación de esquema &quot;android</em>secret_code&quot; y nuestro número secreto como host. Hay que tener en cuenta que estos códigos se introducen en el dialer en formato <em>#</em>#código#<em>#</em>, pero nosotros aquí sólo especificamos el número.</p>
-
-<p>La segunda parte es añadir el elemento que recibe ese Intent. Podría ser cualquiera, por ejemplo una Activity o un Broadcast Receiver que active cierta función en la aplicación. Una implementación básica podría ser:
-<pre class="brush: java; gutter: true; first-line: 1">public class SecretCodeReceiver extends BroadcastReceiver {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(&quot;android.provider.Telephony.SECRET<em>CODE&quot;)) {
-            String numero = intent.getData().getHost();
-            if (numero.equals(&quot;732738&quot;)) {
-                Toast.makeText(context, &quot;¡Función chachipiruli altamente secreta desbloqueada!&quot;, Toast.LENGTH</em>SHORT).show();
-            } else {
-                // Podemos usar el mismo receiver para otros códigos distintos
-            }
-        }
-    }
-}</pre>
-Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátiles que son los Intents, así que posibilidades de explotar esta pequeña función hay infinitas. A mí se me ocurren varias aparte de los huevos de pascua y pantallas ocultas. ¿Y a vosotros? ¿Para qué usaríais los códigos secretos? ¿Los conocíais ya?</p>
-
+    
+    <strong><a href="/2013/11/27/usar-codigos-secretos-en-tu-aplicacion/">Leer más...</a></strong>
   </div>
   
   <div class="post">
@@ -238,8 +174,8 @@ Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátil
     </h1>
 
     <span class="post-date">19 Apr 2013</span>
-
-    <p>Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.</p>
+    
+    	<p>Hace poco tuve que pelearme con la generación de un ID único para el dispositivo o la instalación que estoy ejecutando de mi aplicación y tras buscar mucho por Internet encontré varias opciones pero siempre con algún inconveniente que hacía imposible su uso real.</p>
 
 <p>Las distintas opciones que encontré <em>(y sus inconvenientes)</em> son estas:</p>
 
@@ -253,30 +189,9 @@ Como podéis ver no hay nada que directamente nos identifique el dispositivo o
 
 <p>Tras mucho pelearme me crucé con un snippet de código que Reto Meier indicó en el Google I/O de 2011 como mejor aproximación para obtener dicha identificación y que no tiene ninguno de los inconvenientes que sí veíamos en las opciones anteriores.</p>
 
-<!--more-->
 
-<p>El snippet en concreto es este que os copio aquí debajo y que podéis pegar en cualquier clase de vuestro proyecto directamente ya que no necesita ningún permiso especial a declarar en el manifest y es compatible incluso con Android 1.0...</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">private static String uniqueID = null;
-private static final String PREF_UNIQUE_ID = &quot;PREF_UNIQUE_ID&quot;;
-
-public synchronized static String id(Context context) {
-    if (uniqueID == null) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(PREF_UNIQUE_ID, Context.MODE_PRIVATE);
-        uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
-        if (uniqueID == null) {
-            uniqueID = UUID.randomUUID().toString();
-            Editor editor = sharedPrefs.edit();
-            editor.putString(PREF_UNIQUE_ID, uniqueID);
-            editor.commit();
-        }
-    }
-    return uniqueID;
-}
-</code></pre></div>
-<p>Y para obtener el código desde cualquier punto de nuestro proyecto tan solo debemos llamar al método <em>id()</em> pasándole un objeto de tipo <em>Context</em>, por ejemplo:
-<pre class="brush: java; gutter: true; first-line: 1">String deviceID = id(Activity.this);</pre>
-Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)</p>
-
+    
+    <strong><a href="/2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/">Leer más...</a></strong>
   </div>
   
   <div class="post">
@@ -287,159 +202,15 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)</p>
     </h1>
 
     <span class="post-date">14 Feb 2013</span>
-
-    <p>Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.</p>
+    
+    	<p>Lo parezca o no, trabajar cómodo con nuestro entorno de desarrollo es muy importante de cara a la productividad. Es por eso que nos cuesta tanto cambiarnos a otro IDE cuando estamos acostumbrados a uno concreto. Nos sentimos perdidos, todo lo que es diferente nos parece peor. Porque no hay nada como escribir código cómodamente.</p>
 
 <p><a href="http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png"><img src="http://androcode.es/wp-content/uploads/2015/02/eclipse_indigo_sf5siq.png" alt="eclipse_indigo"></a></p>
 
-<p>El post de hoy no es tan exclusivo para el desarrollo Android, pero como también nos afecta a nosotros me ha parecido bien tratarlo. Vamos a ver algunos trucos y consejos para escribir código aún más fácilmente, si estamos usando Eclipse.&lt;!--more--&gt;</p>
+<p>El post de hoy no es tan exclusivo para el desarrollo Android, pero como también nos afecta a nosotros me ha parecido bien tratarlo. Vamos a ver algunos trucos y consejos para escribir código aún más fácilmente, si estamos usando Eclipse.</p>
 
-<p>Todo lo que se comenta en esta entrada son opiniones a título personal y como orientación Para gustos colores, si no te parecen buenos consejos o tienes otros mejores, cuéntanoslo en los comentarios ;)</p>
-
-<blockquote>
-<p>Utilizaré como base el ADT Bundle para Windows que tenemos disponible en la página de desarrolladores, que contiene el SDK y una versión modificada de Eclipse 3.6 con la configuración básica para empezar a desarrollar aplicaciones Android.</p>
-</blockquote>
-
-<h6>Preparación del entorno</h6>
-
-<p>Lo primero que vamos a ver son algunos cambios en la configuración de Eclipse que podemos hacer para facilitarnos el trabajo. Aunque opciones hay muchas, éstas son las que me han parecido más útiles. Mi <em>&quot;must have&quot;</em> personal, lo primero que tengo que cambiar si hago una instalación nueva.</p>
-
-<h6>Cambiar la codificación de caracteres</h6>
-
-<p>Es un tema por el que me he echado las manos a la cabeza más de una vez. Y más de dos, y de trés... Trabajar con diferentes codificaciones es un infierno, sólo causará problemas. Eclipse por defecto en Windows utiliza una codificación, en Linux otra, y en OSX otra distinta. Si trabajas siempre en la misma máquina el problema puede pasar desapercibido, pero en cuanto migras un proyecto de sistema, se lo pasas a alguien, etc. verás como los caracteres especiales se han convertido en símbolos extraños.</p>
-
-<p>Los angloparlantes no suelen tener graves problemas con esto, pues la mayoría de codificaciones <em>respetan</em> sus símbolos. Pero nosotros, con tanta tilde y símbolo raro, vamos a encontrarnos en apuros. Lo mejor es curarse en salud y cambiar desde un principio la codificación de todo el workspace, en el menú bajo Window &gt; Preferences,  a una universal como UTF-8. </p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/codificacion_twaypa.png"><img src="http://androcode.es/wp-content/uploads/2015/02/codificacion_twaypa-300x258.png" alt="codificacion"></a></p>
-
-<p>Si lo hacéis no me lo agradeceréis porque no os daréis cuenta de que os ha servido. Pero si no, ya os arrepentiréis.  ;-)</p>
-
-<h6>Desactivar <em>compilado automático</em> y <em>compilar todo</em></h6>
-
-<p>Por defecto Eclipse tiene activada la opción de compilar automáticamente nuestro proyecto cuando guardamos algún archivo modificado. Esto es especialmente problemático en Android cuando tenemos proyectos relativamente complejos, con varias librerías externas vinculadas y demás compilar puede llevar varios segundos o peor en ordenadores con pocos recursos (¿he oído minutos?). Y no es agradable que nos interrumpan el trabajo sólo por guardar los cambios. Por ello es de lo primero que desactivo cuando abro Eclipse por primera vez. Sólo hay que desmarcar la opción en Project &gt; Build Automatically.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/build_s0orgi.png"><img src="http://androcode.es/wp-content/uploads/2015/02/build_s0orgi-300x153.png" alt="build"></a></p>
-
-<p>Aunque desactivando dicha opción tenemos el <del>problema</del> inconveniente de tener que compilar manualmente cuando lo necesitemos. Por suerte tenemos el atajo de teclado <strong>Ctrl+B</strong> para hacerlo a golpe de tecla, pero este atajo corresponde al comando <em>Build All</em>, es decir que nos compilará todos los proyectos de nuestro workspace. ¡Aún peor que lo anterior! Don&#39;t panic, es tan fácil como cambiar el atajo para que ejecute el comando <em>Build Project</em> en su lugar, de esa forma la combinación te teclas sólo compilará el proyecto en el que nos encontremos en ese momento. En el apartado Keys de las preferencias buscamos el comando <em>Build All</em> y le anulamos el atajo de teclado con <strong>Unbind Command</strong>, luego seleccionamos <em>Build Project</em> y en Binding pulsamos la combinación Ctrl+B (u otra) para establecérsela.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/build3_asmolf.png"><img src="http://androcode.es/wp-content/uploads/2015/02/build3_asmolf-300x215.png" alt="build3"></a></p>
-
-<p>Aunque para ejecutar no suele hacer falta compilar porque ya lo hace solo, ya sabemos cómo se pone de tonto a veces Eclipse. Es uno de los comandos que yo más utilizo.</p>
-
-<h6>Desactivar corrección ortográfica</h6>
-
-<p>Curiosamente Eclipse tiene corrector ortográfico para los comentarios y documentación. Pero a los hispanohablantes no nos sirve de mucho si escribimos en español porque sólo está en inglés. Podríamos descargar e instalar un diccionario en español, pero yo prefiero optar por desactivarlo por completo y quitarme las molestas líneas rojas que salen por todas partes.</p>
-
-<p><a href="http://res.cloudinary.com/dttcwxrjo/image/upload/v1422989312/spelling_dsdejb.png"><img src="http://res.cloudinary.com/dttcwxrjo/image/upload/h_235,w_300/v1422989312/spelling_dsdejb.png" alt="spelling"></a></p>
-
-<h6>Explorador de paquetes en vista jerárquica</h6>
-
-<p>El explorador de paquetes nos permite 2 formas básicas de visualizarlos: <strong>plana</strong> y** jerárquica**. Por defecto nos los muestra de forma plana, pero cuando tenemos muchos paquetes anidados la jerárquica permite verlos más claramente con su estructura de árbol. ¿No os parece?</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/package_xzre6q.png"><img src="http://androcode.es/wp-content/uploads/2015/02/package_xzre6q.png" alt="package"></a></p>
-
-<p>Podéis usar la que más os guste, en cualquier caso el cambio es sencillo.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/package3_nr4kyw.png"><img src="http://androcode.es/wp-content/uploads/2015/02/package3_nr4kyw-300x182.png" alt="package3"></a></p>
-
-<h6>Ayuda para escribir código</h6>
-
-<p>Ahora veremos alguno ajustes orientados a facilitarnos la escritura de código. Eclipse permite un alto nivel de personalización, pero sólo veremos unos que me parecen muy interesantes. Como antes, recomiendo echar un ojo a todas las opciones y adaptarlo todo a nuestras necesidades.</p>
-
-<h6>Punto y coma siempre al final</h6>
-
-<p>En java las sentencias llevan un punto y coma al final. Parece una tontería, pero son incontables las veces que he tenido que desplazarme al final de la línea para poner un punto y coma. Con este cambio Eclipse colocará la puntuación correctamente al final de la línea aunque estemos editando en mitad, ahorrándonos un par de pulsaciones de tecla.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/semicolon_d3j7on.png"><img src="http://androcode.es/wp-content/uploads/2015/02/semicolon_d3j7on-300x275.png" alt="semicolon"></a></p>
-
-<h6>Autocompletado de métodos mejorado</h6>
-
-<p>El autocompletado de Eclipse es magnífico. <strong>Ctrl+Espacio</strong> es la combinación que más uso con diferencia, nos ahorra escribir una barbaridad de código. Pero algo que siempre me ha reventado es cómo al completar una variable o un método desde en medio inserta el texto en vez de modificarlo.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/overwrite12_zdjdag.png"><img src="http://androcode.es/wp-content/uploads/2015/02/overwrite12_zdjdag.png" alt="overwrite12"></a></p>
-
-<p>Pues hace poco descubrí que se podía cambiar para que sustituyera el resto del texto. De esa forma en el ejemplo anterior obtendríamos lo siguiente:</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/overwrite34_ndqvjq.png"><img src="http://androcode.es/wp-content/uploads/2015/02/overwrite34_ndqvjq.png" alt="overwrite34"></a></p>
-
-<p>A mi me resulta muchísimo más útil la segunda transformación, y sólo hay que cambiar una opción:</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/overwrite_dhqc8k.png"><img src="http://androcode.es/wp-content/uploads/2015/02/overwrite_dhqc8k-300x275.png" alt="overwrite"></a></p>
-
-<h6>Escapar Strings al pegar texto</h6>
-
-<p>Copiar y pegar es el recurso más utilizado. ¿Cuántas veces hemos pegado en una cadena un texto copiado de otra parte que contiene comillas y otros caracteres que necesitan ser escapados (como las comillas en un código html)? Activando esta opción no tendremos que hacerlo más, pues el texto se transformará automáticamente cuando lo peguemos para escapar dichos caracteres.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/strings_mrdpqp.png"><img src="http://androcode.es/wp-content/uploads/2015/02/strings_mrdpqp-300x276.png" alt="strings"></a></p>
-
-<p>Aquí vemos cómo quedaría al pegar una cadena con comillas antes y después de activar esta opción:</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/strings2_tqfznv.png"><img src="http://androcode.es/wp-content/uploads/2015/02/strings2_tqfznv.png" alt="strings2"></a></p>
-
-<h6>Acciones al guardar</h6>
-
-<p>Nos puede venir bien que Eclipse haga determinadas cosas automáticamente cuando guardamos un archivo. Por ejemplo, que reorganice las importaciones de paquetes, o que formatee el código según las reglas que le digamos. Debo confesar que yo personalmente lo tengo desactivado, porque tengo la manía de guardar los cambios constantemente, y al procesar el archivo cada vez puedo notar el retraso en contadas ocasiones si el ordenador está pasando un mal rato y no lo soporto. Pero aun así, si no sois tan maníacos como yo seguro que agradecéis esta función.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/save_dqpzw9.png"><img src="http://androcode.es/wp-content/uploads/2015/02/save_dqpzw9-300x276.png" alt="save"></a></p>
-
-<h6>Formateo de código</h6>
-
-<p>Otra de las funciones más útiles de Eclipse es el formateo de código automático, mediante la combinación de teclas <strong>Ctrl+Shift+F</strong>. Nosotros escribimos (o pegamos) un churro, con las identaciones mal puestas, espacios sobrantes, etc., y Eclipse nos deja un código limpio, claro y ordenado. Pero es importante para estar cómodos con nuestro IDE que nos produzca código que nos guste. Para ello viene bien echar unos minutos en revisar las opciones de personalización del formateo de código, que no son pocas. Podemos tener varios perfiles, e incluso configurar un perfil distinto para cada proyecto (modificando las preferencias del proyecto concreto, y no las globales). Para personalizarlos creamos uno nuevo o editamos el existente (habrá que guardarlo con otro nombre).</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/format1_kficmo.png"><img src="http://androcode.es/wp-content/uploads/2015/02/format1_kficmo-300x274.png" alt="format1"></a></p>
-
-<p>Aquí entran muy en juego los gustos de cada uno. Aconsejo mirar todas las opciones, elegir las que nos parezcan mejores, y volver a mirarlas tras llevar un tiempo con ellas para asegurarnos de que estamos cómodos con todas.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/format2_bhouhm.png"><img src="http://androcode.es/wp-content/uploads/2015/02/format2_bhouhm-300x257.png" alt="format2"></a></p>
-
-<p>Os comento como ejemplo las que yo suelo cambiar, que son realmente pocas: En <em>Identation</em> pongo Tab Policy a <em>Tabs Only</em>, y activo <em>Statements within switch body</em>; en <em>Line Wrapping</em> pongo el <em>Maximun line width</em> a un valor alto como 200 para que no me divida las líneas, y activo <em>Never join already wrapped lines</em> por si quiero dividirlas  manualmente; y por último en <em>Comments</em> activo <em>Never join lines</em> para decidir yo los saltos de línea, y pongo el <em>Maximun line width</em> también a un valor como 200. </p>
-
-<p>Mucho ojo a esta función si trabajamos en grupo con repositorios, o si contribuímos a proyectos de software libre. Debemos adaptarnos a las normas comunes, así que si pensamos dejar que Eclipse formatee nuestro código debemos asegurarnos de respetar dichas normas. No queremos que Git nos marque todo el archivo &quot;en rojo&quot; cuando sólo hemos cambiado una línea, ¿verdad?</p>
-
-<h6>Etiquetas</h6>
-
-<p>No muy usadas, pero están ahí para ayudar a organizarnos si las necesitamos. Las etiquetas son comentarios especiales que podemos poner para marcar nuestro código. La más famosa es la etiqueta <strong>TODO</strong>, para dejar anotado algo que tenemos que hacer o cambiar en un futuro. Pero nosotros mismos podemos crear nuestras etiquetas personalizadas. Por ejemplo DEBUG para indicar algo que debemos quitar antes de sacar la aplicación a producción,  asignar tareas a determinadas personas en un grupo, etc. </p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/tags_uh9kru.png"><img src="http://androcode.es/wp-content/uploads/2015/02/tags_uh9kru-300x278.png" alt="tags"></a></p>
-
-<p>Luego podemos ver la lista de etiquetas usadas en la vista Tasks (Si no la tenemos se activa en Window &gt; Show View &gt; Tasks)</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/tags2_neqlws.png"><img src="http://androcode.es/wp-content/uploads/2015/02/tags2_neqlws.png" alt="tags2"></a></p>
-
-<h6>Plantillas de código</h6>
-
-<p>Eclipse nos permite usar palabras clave para generar automáticamente determinadas estructuras de código, y más aún, crearlas a nuestro gusto. Por ejemplo, uno de los métodos más utilizados en Java es System.out.println() para imprimir texto en la consola; pues nos basta con escribir en el editor &quot;sysout&quot; y pulsar el autocompletado (ctrl+espacio) para que nos inserte la línea completa y nos ponga el cursor en la posición del argumento. Lo mismo ocurre con &quot;try&quot; para insertar un bloque try-catch.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/codtemplate12_kuk5re.png"><img src="http://androcode.es/wp-content/uploads/2015/02/codtemplate12_kuk5re.png" alt="codtemplate12"></a></p>
-
-<p>La lista completa podemos verla en las preferencias, y ahí mismo podemos añadir nuestras propias plantillas. Por ejemplo, podríamos crear una plantilla así para inicializar el método getView() típico del BaseAdapter: </p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/codetemplates3_jgadxe.png"><img src="http://androcode.es/wp-content/uploads/2015/02/codetemplates3_jgadxe-300x261.png" alt="codetemplates3"></a></p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/codetemplates4_anikbo.png"><img src="http://androcode.es/wp-content/uploads/2015/02/codetemplates4_anikbo-1024x355.png" alt="codetemplates4"></a></p>
-
-<p>Copiar código</p>
-
-<p>Y en el editor de código, poniendo la palabra clave con autocompletado, nos genera el código por el que podemos movernos mediante el tabulador. ¡Magia!</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/codetemplates56_jp3ca5.png"><img src="http://androcode.es/wp-content/uploads/2015/02/codetemplates56_jp3ca5.png" alt="codetemplates56"></a></p>
-
-<h6>Plantillas de ADT</h6>
-
-<p>No hace mucho añadieron al plugin ADT la posibilidad de crear componentes de Android como Actividades para nuestras aplicaciones mediante un <strong>asistente</strong>, que podemos encontrar en el menú <em>File &gt; New</em> bajo la categoría de Android, el cual nos genera el código y recursos que podemos editar fácilmente. Por ejemplo, en el caso de las Actividades nos creará un <strong>layout</strong> y <strong>menú</strong> básicos en xml, la <strong>clase Java</strong> correspondiente con el código para mostrar el layout y el menú, y la entrada necesaria en el <strong>AndroidManifest.xml</strong>. E incluso podemos decirle que nos añada elementos extra de navegación como pestañas, ViewPager y más.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/templatesadt2_ogac3e.png"><img src="http://androcode.es/wp-content/uploads/2015/02/templatesadt2_ogac3e-300x284.png" alt="templatesadt2"></a></p>
-
-<p>Por si fuera poco, un tiempo después añadieron la posibilidad de instalar plantillas personalizadas creadas por nosotros mismos. Yo os recomiendo <a href="https://github.com/jgilfelt/android-adt-templates">estas plantillas </a>creadas por Jeff Gilfelt para crear Actividades compatibles con la magnífica librería <strong><a href="http://androcode.es/2012/03/introduccion-a-actionbarsherlock/" title="Introducción a ActionBarSherlock">ActionBar Sherlock</a></strong>, entre otras. En el repositorio tenéis más información sobre para qué es cada uno de los elementos que añade. Además, instalar las plantillas es tan sencillo como pegarlas en la carpeta <strong>/extras/templates/</strong> del SDK.</p>
-
-<p><a href="http://androcode.es/wp-content/uploads/2015/02/templatesadt4_qkhxyb.png"><img src="http://androcode.es/wp-content/uploads/2015/02/templatesadt4_qkhxyb-198x300.png" alt="templatesadt4"></a></p>
-
-<p>Tenéis más información sobre cómo crear plantillas en <a href="https://plus.google.com/113735310430199015092/posts/XTKTamk4As8">este post de Google+</a>. ¿Se os ocurren más plantillas útiles? ¿Os animáis a hacerlas y compartirlas? ;)</p>
-
-<p>Y hasta aquí los cambios que os sugerimos para vuestro IDE, espero que algunos os resulten tan útiles como a mi. En futuras entregas intentaremos contar otros trucos a la hora de usar Eclipse. Si tenéis más sugerencias relacionadas son bienvenidas en los comentarios  ;-)</p>
-
-<p>Fuentes: <a href="http://www.vogella.com/articles/Eclipse/article.html#preferences">Vogella</a> y cosecha propia</p>
-
+    
+    <strong><a href="/2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/">Leer más...</a></strong>
   </div>
   
   <div class="post">
@@ -450,8 +221,8 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)</p>
     </h1>
 
     <span class="post-date">23 Jan 2013</span>
-
-    <p>Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.</p>
+    
+    	<p>Hay ocasiones en las que por alguna razón necesitamos incluir una serie de datos precargados en nuestra aplicación android, de forma que cuando el usuario instale la aplicación pueda empezar a disfrutar de contenido sin necesidad de tener que depender de un servicio externo.</p>
 
 <p>En el siguiente artículo os plantearemos una serie de alternativas sobre cómo partir de una base de datos con datos existentes. No existe una opción única o mejor que todas, ya que cada una de las soluciones aquí presentadas se adaptan a distintas situaciones.</p>
 
@@ -698,18 +469,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
 <p>En ese artículo se han presentado 4 +1 formas de realizar esta tarea. Y vosotros, ¿utilizáis otros mecanismos?, si habéis utilizado alguna de las propuestas, ¿cuál ha sido vuestra experiencia?.</p>
 
+    
+    <strong><a href="/2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/">Leer más...</a></strong>
   </div>
   
 </div>
 
 <div class="pagination">
   
-    <a class="pagination-item older" href="/page3">Más antiguas</a>
-  
-  
     
       <a class="pagination-item newer" href="/">Más nuevas</a>
     
+  
+
+  
+    <a class="pagination-item older" href="/page3">Más antiguas</a>
   
 </div>
 
