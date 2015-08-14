@@ -2,6 +2,7 @@
 layout: post
 title: Generar ID único en la instalación de nuestras apps
 date: '2013-04-19 10:00:00'
+author: kix
 tags:
 - Snippets
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: Primeros pasos con ORMLite
 date: '2012-12-04 11:00:00'
+author: fede
 tags:
 - Tutoriales
 ---

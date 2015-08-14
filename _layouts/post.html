@@ -1,12 +1,12 @@
 ---
 layout: default
 ---
-
+{% assign author = site.data.authors[page.author] %}
 <div class="post">
   <h1 class="post-title">{{ page.title }}</h1>
-  <a class="author" href="http://twitter.com/sloydev" target="_blank">
-    <img class="author-avatar" src="https://pbs.twimg.com/profile_images/2576254530/xrq3ziszvvt90xf54579_bigger.png"/>
-    <span class="post-date author-name">Rafa Vazquez, {{ page.date | date_to_string }}</span>
+  <a class="author" href="{{ author.web }}" target="_blank">
+    <img class="author-avatar" src="{{ author.avatar }}"/>
+    <span class="post-date author-name">{{ author.name }}, {{ page.date | date_to_string }}</span>
   </a>
   {{ content }}
 </div>

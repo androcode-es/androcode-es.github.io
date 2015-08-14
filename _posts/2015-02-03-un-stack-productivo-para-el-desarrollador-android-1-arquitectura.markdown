@@ -2,6 +2,7 @@
 layout: post
 title: ! 'Un ‘stack’ productivo para el desarrollador android #1, Arquitectura'
 date: '2015-02-03 11:00:00'
+author: saulmm
 tags:
 - Artículos
 ---

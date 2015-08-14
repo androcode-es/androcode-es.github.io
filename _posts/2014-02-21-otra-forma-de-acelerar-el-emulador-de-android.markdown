@@ -2,6 +2,7 @@
 layout: post
 title: Otra forma de acelerar el emulador de Android
 date: '2014-02-21 11:00:00'
+author: ferdy
 tags:
 - Tutoriales
 ---

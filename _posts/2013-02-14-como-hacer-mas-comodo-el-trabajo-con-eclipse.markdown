@@ -2,6 +2,7 @@
 layout: post
 title: Hacer más cómodo el trabajo con Eclipse
 date: '2013-02-14 11:00:00'
+author: rafa
 tags:
 - Tutoriales
 ---

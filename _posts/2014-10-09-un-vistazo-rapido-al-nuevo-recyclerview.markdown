@@ -2,6 +2,7 @@
 layout: post
 title: Un vistazo rápido al nuevo RecyclerView
 date: '2014-10-09 10:00:00'
+author: saulmm
 tags:
 - Artículos
 ---

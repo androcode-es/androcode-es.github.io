@@ -2,6 +2,7 @@
 layout: post
 title: Añadir datos precargados en tus aplicaciones
 date: '2013-01-23 11:00:00'
+author: fede
 tags:
 - Artículos
 ---

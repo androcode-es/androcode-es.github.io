@@ -2,6 +2,7 @@
 layout: post
 title: Leer los meta-data del AndroidManifest.xml en tu aplicación
 date: '2014-08-06 10:00:00'
+author: ferdy
 tags:
 - Snippets
 ---

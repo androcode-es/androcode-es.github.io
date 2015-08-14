@@ -2,6 +2,7 @@
 layout: post
 title: Trabajando con Parcelables
 date: '2012-12-17 11:00:00'
+author: ferdy
 tags:
 - Tutoriales
 ---
