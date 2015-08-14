@@ -13,8 +13,12 @@ title: Inicio
     </h1>
 
     <span class="post-date">{{ post.date | date_to_string }}</span>
-
-    {{ post.content }}
+    {% if post.content contains '<!--more-->' %}
+    	{{ post.content | split:'<!--more-->' | first }}
+    {% else %}
+    	{{ post.excerpt }}
+    {% endif %}
+    <strong><a href="{{ post.url }}">Leer más...</a></strong>
   </div>
   {% endfor %}
 </div>

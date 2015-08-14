@@ -14,3 +14,5 @@ url:              http://androcode.es
 baseurl:          /
 
 paginate:         5
+
+excerpt_separator: <!--more-->
