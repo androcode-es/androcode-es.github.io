@@ -3,10 +3,10 @@
   <channel>
     <title>Androcode</title>
     <description>Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.</description>
-    <link>http://androcode.es//</link>
-    <atom:link href="http://androcode.es//feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 14 Aug 2015 22:22:39 +0000</pubDate>
-    <lastBuildDate>Fri, 14 Aug 2015 22:22:39 +0000</lastBuildDate>
+    <link>http://androcode.es.//</link>
+    <atom:link href="http://androcode.es.//feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Mon, 17 Aug 2015 20:52:08 +0000</pubDate>
+    <lastBuildDate>Mon, 17 Aug 2015 20:52:08 +0000</lastBuildDate>
     <generator>Jekyll v2.5.3</generator>
     
       <item>
@@ -282,8 +282,8 @@ public void onPopularMoviesReceived(PopularMoviesApiResponse popularMovies) {
 &lt;p&gt;&lt;a href=&quot;http://antonioleiva.com/mvp-android/&quot;&gt;MVP Android&lt;/a&gt; - Antonio Leiva&lt;/p&gt;
 </description>
         <pubDate>Tue, 03 Feb 2015 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/</link>
-        <guid isPermaLink="true">http://androcode.es//2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/</guid>
+        <link>http://androcode.es.//2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/</link>
+        <guid isPermaLink="true">http://androcode.es.//2015/02/03/un-stack-productivo-para-el-desarrollador-android-1-arquitectura/</guid>
         
         <category>Artículos</category>
         
@@ -542,8 +542,8 @@ Todo esto se ilustra de la siguiente forma:&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;http://developer.android.com/training/material/index.html&quot;&gt;Creating apps with material design&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 Nov 2014 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2014/11/29/entendiendo-material-design/</link>
-        <guid isPermaLink="true">http://androcode.es//2014/11/29/entendiendo-material-design/</guid>
+        <link>http://androcode.es.//2014/11/29/entendiendo-material-design/</link>
+        <guid isPermaLink="true">http://androcode.es.//2014/11/29/entendiendo-material-design/</guid>
         
         <category>Artículos</category>
         
@@ -695,8 +695,8 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
 &lt;p&gt;&lt;a href=&quot;http://developer.android.com/preview/reference.html&quot;&gt;Android L - Reference&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 09 Oct 2014 10:00:00 +0000</pubDate>
-        <link>http://androcode.es//2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/</link>
-        <guid isPermaLink="true">http://androcode.es//2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/</guid>
+        <link>http://androcode.es.//2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/</link>
+        <guid isPermaLink="true">http://androcode.es.//2014/10/09/un-vistazo-rapido-al-nuevo-recyclerview/</guid>
         
         <category>Artículos</category>
         
@@ -821,8 +821,8 @@ public void onDrawOver(Canvas c, RecyclerView parent) {
 &lt;p&gt;Todos estos atajos y algunos más los podéis encontrar en el blog de &lt;a href=&quot;http://www.developerphil.com/&quot;&gt;Phillippe Breault&lt;/a&gt;, además, podéis consultar todas las acciones en el apartado de opciones del entorno de desarrollo bajo &lt;em&gt;keymap.&lt;/em&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 03 Oct 2014 10:00:00 +0000</pubDate>
-        <link>http://androcode.es//2014/10/03/mejores-atajos-android-studio/</link>
-        <guid isPermaLink="true">http://androcode.es//2014/10/03/mejores-atajos-android-studio/</guid>
+        <link>http://androcode.es.//2014/10/03/mejores-atajos-android-studio/</link>
+        <guid isPermaLink="true">http://androcode.es.//2014/10/03/mejores-atajos-android-studio/</guid>
         
         <category>Artículos</category>
         
@@ -892,8 +892,8 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
 &lt;p&gt;Espero que os haya gustado este mini tutorial y si tenéis preguntas os intentaré contestar aquí, y si no, a &lt;a href=&quot;http://www.stackoverflow.com&quot;&gt;StackOverflow&lt;/a&gt;!&lt;/p&gt;
 </description>
         <pubDate>Wed, 06 Aug 2014 10:00:00 +0000</pubDate>
-        <link>http://androcode.es//2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/</link>
-        <guid isPermaLink="true">http://androcode.es//2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/</guid>
+        <link>http://androcode.es.//2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/</link>
+        <guid isPermaLink="true">http://androcode.es.//2014/08/06/leer-los-meta-data-del-androidmanifest-xml-en-tu-aplicacion/</guid>
         
         <category>Snippets</category>
         
@@ -940,8 +940,8 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
 &lt;p&gt;Para más información, resolución de problemas y cómo instalarlo en Linux, podéis leer &lt;a href=&quot;http://software.intel.com/en-us/android/articles/speeding-up-the-android-emulator-on-intel-architecture#_Toc358213274&quot; title=&quot;Intel HAXM&quot;&gt;este artículo de la página de Intel&lt;/a&gt; que lo explica con más detalle.&lt;/p&gt;
 </description>
         <pubDate>Fri, 21 Feb 2014 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/</link>
-        <guid isPermaLink="true">http://androcode.es//2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/</guid>
+        <link>http://androcode.es.//2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/</link>
+        <guid isPermaLink="true">http://androcode.es.//2014/02/21/otra-forma-de-acelerar-el-emulador-de-android/</guid>
         
         <category>Tutoriales</category>
         
@@ -1004,8 +1004,8 @@ Y luego en el onCreate o donde quieras del MainActivity.java, leer si existe est
 Y listo. Por supuesto las posibilidades no acaban aquí. Ya sabéis lo versátiles que son los Intents, así que posibilidades de explotar esta pequeña función hay infinitas. A mí se me ocurren varias aparte de los huevos de pascua y pantallas ocultas. ¿Y a vosotros? ¿Para qué usaríais los códigos secretos? ¿Los conocíais ya?&lt;/p&gt;
 </description>
         <pubDate>Wed, 27 Nov 2013 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2013/11/27/usar-codigos-secretos-en-tu-aplicacion/</link>
-        <guid isPermaLink="true">http://androcode.es//2013/11/27/usar-codigos-secretos-en-tu-aplicacion/</guid>
+        <link>http://androcode.es.//2013/11/27/usar-codigos-secretos-en-tu-aplicacion/</link>
+        <guid isPermaLink="true">http://androcode.es.//2013/11/27/usar-codigos-secretos-en-tu-aplicacion/</guid>
         
         <category>Snippets</category>
         
@@ -1053,8 +1053,8 @@ public synchronized static String id(Context context) {
 Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&gt;
 </description>
         <pubDate>Fri, 19 Apr 2013 10:00:00 +0000</pubDate>
-        <link>http://androcode.es//2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/</link>
-        <guid isPermaLink="true">http://androcode.es//2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/</guid>
+        <link>http://androcode.es.//2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/</link>
+        <guid isPermaLink="true">http://androcode.es.//2013/04/19/generar-id-unico-en-la-instalacion-de-nuestras-apps/</guid>
         
         <category>Snippets</category>
         
@@ -1218,8 +1218,8 @@ Y hasta aquí este pequeño snippet que seguro le dais un buen uso... ;)&lt;/p&g
 &lt;p&gt;Fuentes: &lt;a href=&quot;http://www.vogella.com/articles/Eclipse/article.html#preferences&quot;&gt;Vogella&lt;/a&gt; y cosecha propia&lt;/p&gt;
 </description>
         <pubDate>Thu, 14 Feb 2013 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/</link>
-        <guid isPermaLink="true">http://androcode.es//2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/</guid>
+        <link>http://androcode.es.//2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/</link>
+        <guid isPermaLink="true">http://androcode.es.//2013/02/14/como-hacer-mas-comodo-el-trabajo-con-eclipse/</guid>
         
         <category>Tutoriales</category>
         
@@ -1478,8 +1478,8 @@ public class DBHelper extends SQLiteOpenHelper {
 &lt;p&gt;En ese artículo se han presentado 4 +1 formas de realizar esta tarea. Y vosotros, ¿utilizáis otros mecanismos?, si habéis utilizado alguna de las propuestas, ¿cuál ha sido vuestra experiencia?.&lt;/p&gt;
 </description>
         <pubDate>Wed, 23 Jan 2013 11:00:00 +0000</pubDate>
-        <link>http://androcode.es//2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/</link>
-        <guid isPermaLink="true">http://androcode.es//2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/</guid>
+        <link>http://androcode.es.//2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/</link>
+        <guid isPermaLink="true">http://androcode.es.//2013/01/23/como-anadir-datos-precargados-en-tus-aplicaciones/</guid>
         
         <category>Artículos</category>
         
