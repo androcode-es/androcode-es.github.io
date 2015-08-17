@@ -11,7 +11,7 @@ title:            Androcode
 tagline:          'Desarrollo Android en español y tal'
 description:      'Androcode es programación, Androcode es tecnología, Androcode necesita una descripción nueva.'
 url:              http://androcode.es
-baseurl:          /
+baseurl:          ./
 
 paginate:         5
 
