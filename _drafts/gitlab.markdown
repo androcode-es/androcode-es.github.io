@@ -24,12 +24,41 @@ Gitlab CI se basa en el concepto de Runners. No se trata de gente que escribe en
 Hasta hace poco era algo tedioso configurar los runners para compilar según tus necesidades, pero gracias al nuevo Multi Runner oficial y su soporte para Docker es facilísimo.
 
 # Cómo hacerlo
+El proceso es realmente sencillo. Lo describo brevemente por facilitar la búsqueda de información. 
 
 ## Repositorio de Gitlab
 
-//TODO crear un repo
+Lo primero es obviamente alojar el código en un repositorio de Gitlab. Bien sea en una instalación propia o en la nube de Gitlab.com, ya sea público o privado. No hay mucho que explicar aquí.
 
 ## Instalar Gitlab Multi Runner
-Lo primero es instalar el runner de gitlab en la máquina que queramos usar para compilar 
+Lo siguiente es instalar el runner de gitlab en la máquina que queramos usar para compilar. La elección es cosa vuestra, se puede instalar en Linux, Windows, OSX o como un servicio Doker. Yo he probado a instalarlo directamente en mi Mac personal, un pc Ubuntu de la oficina y un servidor dedicado de DigitalOcean. 
 
-## Asociar
+El proceso es **muy fácil**, tenéis las instrucciones en la página del repositorio del multi runner:
+
+- [Linux](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/linux-repository.md)
+- [OSX](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/osx.md)
+- [Windows](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/blob/master/docs/install/windows.md)
+- [Más opciones](https://gitlab.com/gitlab-org/gitlab-ci-multi-runner#installation)
+
+## Asociar el runner
+Tal como se explica en las instrucciones, lo que queda es registrar el runner con nuestro Gitlab CI. Se hace con el comando `gitlab-ci-multi-runner register`, y nos pedirá una serie de datos.
+
+- **gitlab-ci coordinator URL**: Si estamos usando el servicio en la nube de Gitlab.com será *https://ci.gitlab.com/*
+
+- **gitlab-ci token**: Este token es el que asocia el runner con nuestro proyecto. Lo encontramos en la sección Runners del panel de control de Gitlab CI.
+
+![runners-section](./gitlab-runners.png)
+
+- **Descripción**: No necesitas un tutorial para esto. Identifica el runner con nombre.
+
+- **Executor**: Aquí hay que decidir si queremos que las builds se ejecuten en la máquina tal cual o dentro de un contenedor Docker (entre otras). Yo prefiero la segunda opción, de esa forma la build no dependerá de la configuración de la máquina. Nos preguntará por el nombre de la imagen de docker. Yo utilizo `sloydev/android-env`, una imagen configurada por mí publicada en Docker Hub. Podéis usar esa misma u otra propia.
+
+Las demás opciones las podemos ignorar (intro). Podemos ver en la sección de Runners que aparece el nuestro.
+
+![runners-section](./gitlab-runners2.png)
+
+
+## Configuración del proyecto
+Con esto debería estar todo preparado en la parte de servidor. Sólo falta añadir el archivo de configuración al proyecto para decirle a Gitlab CI qué hacer. Se hace añadiendo un archivo de YAML a la raíz, muy similar a como se hace con Travis CI.
+
+//TODO
