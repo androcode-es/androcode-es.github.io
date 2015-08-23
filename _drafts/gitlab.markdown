@@ -24,14 +24,14 @@ Gitlab CI se basa en el concepto de Runners. No se trata de gente que escribe en
 Hasta hace poco era algo tedioso configurar los runners para compilar según tus necesidades, pero gracias al nuevo Multi Runner oficial y su soporte para Docker es facilísimo.
 
 # Cómo hacerlo
-El proceso es realmente sencillo. Lo describo brevemente por facilitar la búsqueda de información. 
+El proceso es realmente sencillo. Lo describo brevemente por facilitar la búsqueda de información.
 
 ## Repositorio de Gitlab
 
 Lo primero es obviamente alojar el código en un repositorio de Gitlab. Bien sea en una instalación propia o en la nube de Gitlab.com, ya sea público o privado. No hay mucho que explicar aquí.
 
 ## Instalar Gitlab Multi Runner
-Lo siguiente es instalar el runner de gitlab en la máquina que queramos usar para compilar. La elección es cosa vuestra, se puede instalar en Linux, Windows, OSX o como un servicio Doker. Yo he probado a instalarlo directamente en mi Mac personal, un pc Ubuntu de la oficina y un servidor dedicado de DigitalOcean. 
+Lo siguiente es instalar el runner de gitlab en la máquina que queramos usar para compilar. La elección es cosa vuestra, se puede instalar en Linux, Windows, OSX o como un servicio Doker. Yo he probado a instalarlo directamente en mi Mac personal, un pc Ubuntu de la oficina y un servidor dedicado de DigitalOcean.
 
 El proceso es **muy fácil**, tenéis las instrucciones en la página del repositorio del multi runner:
 
@@ -47,7 +47,7 @@ Tal como se explica en las instrucciones, lo que queda es registrar el runner co
 
 - **gitlab-ci token**: Este token es el que asocia el runner con nuestro proyecto. Lo encontramos en la sección Runners del panel de control de Gitlab CI.
 
-![runners-section](./gitlab-runners.png)
+![runners-section]({{site.baseurl}}public/images/gitlab-runners.png)
 
 - **Descripción**: No necesitas un tutorial para esto. Identifica el runner con nombre.
 
@@ -55,7 +55,7 @@ Tal como se explica en las instrucciones, lo que queda es registrar el runner co
 
 Las demás opciones las podemos ignorar (intro). Podemos ver en la sección de Runners que aparece el nuestro.
 
-![runners-section](./gitlab-runners2.png)
+![runners-section2]({{site.baseurl}}public/images/gitlab-runners2.png)
 
 
 ## Configuración del proyecto
